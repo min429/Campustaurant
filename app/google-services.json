@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "260257123326",
+    "project_id": "campustaurant",
+    "storage_bucket": "campustaurant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260257123326:android:45ce0b762bedfb1324ceaf",
+        "android_client_info": {
+          "package_name": "com.example.campustaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260257123326-287ns33ojdc2aianlff5coqgak8bkd2u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdl3xwcsCZWFBAUSYjuUTT_f8fHK7OSKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260257123326-287ns33ojdc2aianlff5coqgak8bkd2u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
