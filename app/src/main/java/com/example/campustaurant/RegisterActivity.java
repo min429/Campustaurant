@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     account.setUserId(firebaseUser.getEmail()); // email은 firebaseUser 객체로부터 가져와야 함
                                     account.setPassword(strPwd); // pwd는 사용자가 입력했던 것을 이용해서 그대로 가져와야 함
 
-                                    // setValue : database에 insert (삽입) 행위 // child : 자식(meelmeet의 하위개념)
+                                    // setValue : database에 insert (삽입) 행위 // child : 자식(User의 하위개념)
                                     mDatabaseRef.child(firebaseUser.getUid()).setValue(account); // database의 idToken 하위에 유저 객체 set
 
                                     // Toast메세지

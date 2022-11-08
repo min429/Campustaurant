@@ -124,13 +124,12 @@ public class ChatActivity extends AppCompatActivity {
                 Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
                 SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
                 String datetime = dateformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
-                System.out.println(datetime);
 
                 DatabaseReference myRef = database.getReference("message").child(datetime); // message하위에 datetime이 저장되도록 함
 
                 Hashtable<String, String> numbers // DB테이블에 데이터 입력
                         = new Hashtable<String, String>();
-                numbers.put("userId", stUserId); // DB의 email란에 stUserId 값
+                numbers.put("userId", stUserId); // DB의 userId란에 stUserId 값
                 numbers.put("text", stText); // DB의 text란에 stText 값
                 // Chat클래스의 멤버변수의 명칭과 똑같은 이름으로 DB에 입력해야 Chat객체에 값을 읽어올 수 있음
 
