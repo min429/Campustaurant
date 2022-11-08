@@ -19,7 +19,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG = "MainActivity";
 
     private FirebaseAuth mFirebaseAuth;
@@ -56,15 +55,6 @@ public class MainActivity extends AppCompatActivity {
         btnMatch = findViewById(R.id.btn_match);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
 
-        Log.d(TAG, "stUserId: " + stUserId);
-
-//        for(Match user : matchArrayList){ // 자기가 선택한 음식점 정보를 가져옴
-//            if(user.userId == stUserId){
-//                stRestaurant = user.restaurant;
-//                break;
-//            }
-//        }
-
         btnMatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     if(user.userId != stUserId && user.restaurant == stRestaurant){ // 자신이외의 유저중에 자신과 같은 음식점을 선택한 사람이 있는 경우
                         Toast.makeText(MainActivity.this, "user matched", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                        intent.putExtra("email", stUserId); // stUserId값을 ChatActivity에 넘겨줌
                         startActivity(intent);
                         break;
                     }
@@ -88,12 +79,9 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) { // user1,2,3... 하나씩 가져옴
                     Match user = postSnapshot.getValue(Match.class);
                     matchArrayList.add(user);
-                    Log.d(TAG, user.userId + ", " + user.restaurant);
                     if(user.userId.equals(stUserId)){
-                        Log.d(TAG, "same!!!!!!!!!!!!!");
                         stRestaurant = user.getRestaurant();
                     }
-                    Log.d(TAG, stUserId + ", " + stRestaurant);
                 }
             }
 

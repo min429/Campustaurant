@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="false">
+            android:exported="true"> <!--false로 설정되어있으면 앱이 실행이 안됨-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
