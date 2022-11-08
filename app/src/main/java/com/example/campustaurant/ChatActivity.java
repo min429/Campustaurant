@@ -27,7 +27,7 @@ import java.util.Hashtable;
 public class ChatActivity extends AppCompatActivity {
     private static final String TAG = "ChatActivity";
     private RecyclerView recyclerView;
-    MyAdapter mAdapter;
+    ChatAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     EditText etText;
     Button btnSend;
@@ -56,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this); // layoutManager를 생성 // LinearLayoutManager: 리스트를 상/하로 보여주는 타입(뷰가 수직으로 쌓임)
         recyclerView.setLayoutManager(layoutManager); // 리사이클러뷰의 LayoutManager를 위에서 생성한 layoutManager로 세팅
 
-        mAdapter = new MyAdapter(chatArrayList, stUserId); // chat객체 배열, email값을 어댑터에 넣어줌
+        mAdapter = new ChatAdapter(chatArrayList, stUserId); // chat객체 배열, email값을 어댑터에 넣어줌
         recyclerView.setAdapter(mAdapter);
 
         DatabaseReference ref = database.getReference("message"); // message하위에 데이터 저장하기 위해

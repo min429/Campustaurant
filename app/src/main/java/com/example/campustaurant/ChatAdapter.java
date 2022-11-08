@@ -1,6 +1,5 @@
 package com.example.campustaurant;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private static final String TAG = "MyAdapter";
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
+    private static final String TAG = "ChatAdapter";
 
     private ArrayList<Chat> mDataset;
     String stUserId = "";
@@ -47,14 +46,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
      * @param mydataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public MyAdapter(ArrayList<Chat> mydataSet, String stEmail) {
+    public ChatAdapter(ArrayList<Chat> mydataSet, String stEmail) {
         mDataset = mydataSet;
         this.stUserId = stEmail;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) { // vieeType: 메서드 getItemViewType의 리턴값
+    public ChatAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) { // vieeType: 메서드 getItemViewType의 리턴값
         // Create a new view, which defines the UI of the list item
 
         View v;

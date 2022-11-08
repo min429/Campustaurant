@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnLogout;
     Button btnMatch;
     Button btnEnter;
+    Button btnSelect;
     EditText etRestaurant;
     String stUserId;
     String stRestaurant;
@@ -52,11 +53,19 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btn_logout);
         btnMatch = findViewById(R.id.btn_match);
         btnEnter = findViewById(R.id.btn_enter);
+        btnSelect = findViewById(R.id.btn_select);
 
         etRestaurant = findViewById(R.id.et_restaurant);
 
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
 
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MenuSelectActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
