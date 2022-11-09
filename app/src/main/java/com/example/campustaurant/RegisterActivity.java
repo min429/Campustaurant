@@ -3,6 +3,7 @@ package com.example.campustaurant;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -60,6 +61,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                                     // Toast메세지
                                     Toast.makeText(RegisterActivity.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    finish(); // 회원가입 이후에는 회원가입 화면으로 다시 돌아올 일이 없으므로 현재 액티비티를 파기시킴
                                 }
                                 else{
                                     Toast.makeText(RegisterActivity.this, "회원가입에 실패하셨습니다..", Toast.LENGTH_SHORT).show();

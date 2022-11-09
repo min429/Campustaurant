@@ -7,21 +7,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Hashtable;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -33,12 +28,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Match> matchArrayList = new ArrayList<>();
     Button btnLogout;
     Button btnMatch;
-    Button btnEnter;
     Button btnSelect;
-    EditText etRestaurant;
     String stUserId;
     String stRestaurant;
-    String inputRestaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,23 +38,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main); // activity_main 레이아웃 표출
 
         mFirebaseAuth = FirebaseAuth.getInstance();
-
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Match");
 
         btnLogout = findViewById(R.id.btn_logout);
         btnMatch = findViewById(R.id.btn_match);
-        btnEnter = findViewById(R.id.btn_enter);
         btnSelect = findViewById(R.id.btn_select);
-
-        etRestaurant = findViewById(R.id.et_restaurant);
-
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
 
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MenuSelectActivity.class);
+                intent.putExtra("email", stUserId); // stUserId값을 MenuSelectActivity에 넘겨줌
                 startActivity(intent);
             }
         });
@@ -75,24 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-                // finish(); // 앱 종료
-            }
-        });
-
-        btnEnter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                inputRestaurant = etRestaurant.getText().toString();
-
-                Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
-                SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
-                String datetime = dateformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
-
-                Hashtable<String, String> Data // DB테이블에 데이터 입력
-                        = new Hashtable<String, String>();
-                Data.put("userId", stUserId); // DB의 restaurant란에 inputRestaurant 값
-                Data.put("restaurant", inputRestaurant); // DB의 restaurant란에 inputRestaurant 값
-                myRef.child(datetime).setValue(Data); // 입력
             }
         });
 
