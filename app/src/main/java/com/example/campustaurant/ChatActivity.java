@@ -26,11 +26,13 @@ import java.util.Hashtable;
 
 public class ChatActivity extends AppCompatActivity {
     private static final String TAG = "ChatActivity";
+
     private RecyclerView recyclerView;
     ChatAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     EditText etText;
     Button btnSend;
+    Button btnFinish;
     String stUserId; // DB에 넣을 email값
     FirebaseDatabase database;
     ArrayList<Chat> chatArrayList; // Chat 객체 배열
@@ -39,17 +41,16 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        database = FirebaseDatabase.getInstance();
 
+        database = FirebaseDatabase.getInstance();
         chatArrayList = new ArrayList<>();
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
-        Log.d(TAG, "stUserId: " + stUserId);
-        Button btnFinish = findViewById(R.id.btnFinish);
-        btnFinish.setOnClickListener((v) -> {finish(); }); // ChatActivity를 종료하면 다시 MainActivity로 돌아감
+        btnFinish = findViewById(R.id.btnFinish);
         btnSend = (Button)findViewById(R.id.btnSend);
         etText = (EditText) findViewById(R.id.etText);
-
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        btnFinish.setOnClickListener((v) -> {finish(); }); // ChatActivity를 종료하면 다시 MainActivity로 돌아감
 
         recyclerView.setHasFixedSize(true); // recyclerView의 레이아웃 사이즈를 고정시킴
 

@@ -1,49 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".MenuSelectActivity2"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_korean"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="한식"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--recyclerview: 많은 수의 데이터 집합을, 제한된 영역 내에서 유연하게(flexible) 표시할 수 있도록 만들어주는 위젯-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarFadeDuration="0"
+        android:scrollbarSize="5dp"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbars="vertical"
+        android:layout_weight="1">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <Button
-        android:id="@+id/btn_western"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="양식"
-        app:layout_constraintEnd_toEndOf="@+id/btn_korean"
-        app:layout_constraintStart_toStartOf="@+id/btn_korean"
-        app:layout_constraintTop_toBottomOf="@+id/btn_korean" />
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="8"
+        android:text="추가"/>
 
-    <Button
-        android:id="@+id/btn_chinese"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="중식"
-        app:layout_constraintEnd_toEndOf="@+id/btn_western"
-        app:layout_constraintStart_toStartOf="@+id/btn_western"
-        app:layout_constraintTop_toBottomOf="@+id/btn_western" />
 
-    <Button
-        android:id="@+id/btn_japanese"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="일식"
-        app:layout_constraintEnd_toEndOf="@+id/btn_chinese"
-        app:layout_constraintStart_toStartOf="@+id/btn_chinese"
-        app:layout_constraintTop_toBottomOf="@+id/btn_chinese" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
