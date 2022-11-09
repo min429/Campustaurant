@@ -53,7 +53,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ChatAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) { // vieeType: 메서드 getItemViewType의 리턴값
+    public ChatAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) { // viewType: 메서드 getItemViewType의 리턴값
         // Create a new view, which defines the UI of the list item
 
         View v;
