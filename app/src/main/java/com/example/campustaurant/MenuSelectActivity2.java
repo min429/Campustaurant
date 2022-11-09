@@ -56,6 +56,7 @@ public class MenuSelectActivity2 extends AppCompatActivity {
                 // A new comment has been added, add it to the displayed list
                 Menu menu = dataSnapshot.getValue(Menu.class); // DB에 있는 값들을 menu 객체에 가져옴
                 menuArrayList.add(menu); // 객체배열에 menu 객체를 추가
+                Log.d(TAG, "food: "+menu.getFood());
                 menuSelectAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
             }
 
