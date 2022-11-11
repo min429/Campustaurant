@@ -7,26 +7,15 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btn_select"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:text="메뉴선택"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintStart_toStartOf="@+id/btn_logout"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_match"
-        app:layout_constraintEnd_toStartOf="@+id/btn_match"
-        app:layout_constraintTop_toTopOf="@+id/btn_match" />
-
-    <Button
         android:id="@+id/btn_match"
         android:layout_width="120dp"
         android:layout_height="50dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="200dp"
         android:text="matching"
-        android:layout_marginStart="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btn_logout"
-        app:layout_constraintStart_toEndOf="@+id/btn_select"
+        app:layout_constraintStart_toStartOf="@+id/btn_logout"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -37,5 +26,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_match" />
+
+    <Button
+        android:id="@+id/btn_room"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:text="대기열 생성/목록"
+        android:textSize="25dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Match> matchArrayList = new ArrayList<>();
     Button btnLogout;
     Button btnMatch;
-    Button btnSelect;
+    Button btnRoom;
     String stUserId;
     String stRestaurant;
 
@@ -43,14 +43,14 @@ public class MainActivity extends AppCompatActivity {
 
         btnLogout = findViewById(R.id.btn_logout);
         btnMatch = findViewById(R.id.btn_match);
-        btnSelect = findViewById(R.id.btn_select);
+        btnRoom = findViewById(R.id.btn_room);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
 
-        btnSelect.setOnClickListener(new View.OnClickListener() {
+        btnRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MenuSelectActivity.class);
-                intent.putExtra("email", stUserId); // stUserId값을 MenuSelectActivity에 넘겨줌
+                Intent intent = new Intent(MainActivity.this, RoomListActivity.class);
+                intent.putExtra("email", stUserId); // stUserId값을 RoomListActivity에 넘겨줌
                 startActivity(intent);
             }
         });

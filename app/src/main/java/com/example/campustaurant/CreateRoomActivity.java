@@ -1,10 +1,12 @@
 package com.example.campustaurant;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,25 +24,28 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 
-public class MenuSelectActivity extends AppCompatActivity {
+public class CreateRoomActivity extends AppCompatActivity {
+    private static final String TAG = "CreateRoomActivity";
+    
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
+    EditText etRoomName;
+    String stRoomName;
     String stUserId;
+    String stFood;
     String stRestaurant;
     Button btnRegister;
-    private FirebaseAuth mFirebaseAuth;
     FirebaseDatabase database;
     private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_select);
+        setContentView(R.layout.activity_create_room);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Match");
-
-        stUserId = getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
+        etRoomName = findViewById(R.id.et_roomName);
+        stUserId = getIntent().getStringExtra("email"); // intent를 호출한 RoomListActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         btnRegister = (Button)findViewById(R.id.btn_register);
         final Spinner spin1 = (Spinner)findViewById(R.id.spinner1);
         final Spinner spin2 = (Spinner)findViewById(R.id.spinner2);
@@ -56,7 +61,7 @@ public class MenuSelectActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (adspin1.getItem(i).equals("한식")) {
-                    adspin2 = ArrayAdapter.createFromResource(MenuSelectActivity.this, R.array.spinner_korean, android.R.layout.simple_spinner_dropdown_item);
+                    adspin2 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.spinner_korean, android.R.layout.simple_spinner_dropdown_item);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spin2.setAdapter(adspin2);
 
@@ -64,7 +69,9 @@ public class MenuSelectActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             if(adspin2.getItem(i).equals("보쌈")){
-                                adspin3 = ArrayAdapter.createFromResource(MenuSelectActivity.this, R.array.spinner_bossam, android.R.layout.simple_spinner_dropdown_item);
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.spinner_bossam, android.R.layout.simple_spinner_dropdown_item);
                                 adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spin3.setAdapter(adspin3);
 
@@ -83,7 +90,7 @@ public class MenuSelectActivity extends AppCompatActivity {
                         }
                     });
                 } else if (adspin1.getItem(i).equals("양식")) {
-                    adspin2 = ArrayAdapter.createFromResource(MenuSelectActivity.this, R.array.spinner_western, android.R.layout.simple_spinner_dropdown_item);
+                    adspin2 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.spinner_western, android.R.layout.simple_spinner_dropdown_item);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spin2.setAdapter(adspin2);
 
@@ -91,7 +98,9 @@ public class MenuSelectActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             if(adspin2.getItem(i).equals("파스타")){
-                                adspin3 = ArrayAdapter.createFromResource(MenuSelectActivity.this, R.array.spinner_pasta, android.R.layout.simple_spinner_dropdown_item);
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.spinner_pasta, android.R.layout.simple_spinner_dropdown_item);
                                 adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spin3.setAdapter(adspin3);
 
@@ -110,7 +119,7 @@ public class MenuSelectActivity extends AppCompatActivity {
                         }
                     });
                 }else if (adspin1.getItem(i).equals("중식")) {
-                    adspin2 = ArrayAdapter.createFromResource(MenuSelectActivity.this, R.array.spinner_chinese, android.R.layout.simple_spinner_dropdown_item);
+                    adspin2 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.spinner_chinese, android.R.layout.simple_spinner_dropdown_item);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spin2.setAdapter(adspin2);
 
@@ -118,7 +127,9 @@ public class MenuSelectActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             if(adspin2.getItem(i).equals("짜장면")){
-                                adspin3 = ArrayAdapter.createFromResource(MenuSelectActivity.this, R.array.spinner_jajangmyeon, android.R.layout.simple_spinner_dropdown_item);
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.spinner_jajangmyeon, android.R.layout.simple_spinner_dropdown_item);
                                 adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spin3.setAdapter(adspin3);
 
@@ -137,7 +148,7 @@ public class MenuSelectActivity extends AppCompatActivity {
                         }
                     });
                 }else if (adspin1.getItem(i).equals("일식")) {
-                    adspin2 = ArrayAdapter.createFromResource(MenuSelectActivity.this, R.array.spinner_japanese, android.R.layout.simple_spinner_dropdown_item);
+                    adspin2 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.spinner_japanese, android.R.layout.simple_spinner_dropdown_item);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spin2.setAdapter(adspin2);
 
@@ -145,7 +156,9 @@ public class MenuSelectActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             if(adspin2.getItem(i).equals("돈까스")){
-                                adspin3 = ArrayAdapter.createFromResource(MenuSelectActivity.this, R.array.spinner_donkkaseu, android.R.layout.simple_spinner_dropdown_item);
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.spinner_donkkaseu, android.R.layout.simple_spinner_dropdown_item);
                                 adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spin3.setAdapter(adspin3);
 
@@ -165,7 +178,7 @@ public class MenuSelectActivity extends AppCompatActivity {
                     });
                 }
             }
-//************************************************************************************************************************************************************************************************
+            //************************************************************************************************************************************************************************************************
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -174,7 +187,13 @@ public class MenuSelectActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MenuSelectActivity.this, stRestaurant, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CreateRoomActivity.this, stRoomName, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "roomName: "+stRoomName);
+                Log.d(TAG, "userId: "+stUserId);
+                Log.d(TAG, "food: "+stFood);
+                Log.d(TAG, "restaurant: "+stRestaurant);
+
+                stRoomName = etRoomName.getText().toString();
 
                 Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
                 SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
@@ -182,9 +201,13 @@ public class MenuSelectActivity extends AppCompatActivity {
 
                 Hashtable<String, String> Data // DB테이블에 데이터 입력
                         = new Hashtable<String, String>();
-                Data.put("userId", stUserId); // DB의 restaurant란에 inputRestaurant 값
-                Data.put("restaurant", stRestaurant); // DB의 restaurant란에 inputRestaurant 값
+                Data.put("roomName", stRoomName); // DB의 roomName란에 stRoomName 값
+                Data.put("userId", stUserId);
+                Data.put("food", stFood);
+                Data.put("restaurant", stRestaurant);
                 myRef.child(datetime).setValue(Data); // 입력
+
+                finish();
             }
         });
     }

@@ -60,7 +60,7 @@ public class ChatActivity extends AppCompatActivity {
         mAdapter = new ChatAdapter(chatArrayList, stUserId); // chat객체 배열, email값을 어댑터에 넣어줌
         recyclerView.setAdapter(mAdapter);
 
-        DatabaseReference ref = database.getReference("message"); // message하위에 데이터 저장하기 위해
+        DatabaseReference ref = database.getReference("Chat"); // Chat하위에 데이터 저장하기 위해
 
         // 파이어베이스가 수정이 될 때마다 실행되는 것들 (시작)
         ref.addChildEventListener(new ChildEventListener() {
@@ -126,7 +126,7 @@ public class ChatActivity extends AppCompatActivity {
                 SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
                 String datetime = dateformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
 
-                DatabaseReference myRef = database.getReference("message").child(datetime); // message하위에 datetime이 저장되도록 함
+                DatabaseReference myRef = database.getReference("Chat").child(datetime); // Chat하위에 datetime이 저장되도록 함
 
                 Hashtable<String, String> numbers // DB테이블에 데이터 입력
                         = new Hashtable<String, String>();

@@ -1,19 +1,19 @@
 <resources>
     <string name="app_name">Campustaurant</string>
-    <string-array name = "spinner_nation">
+    <string-array name="spinner_nation">
         <item>한식</item>
         <item>양식</item>
         <item>중식</item>
         <item>일식</item>
     </string-array>
-    <string-array name = "spinner_korean">
+    <string-array name="spinner_korean">
         <item>보쌈</item>
         <item>비빔밥</item>
         <item>냉면</item>
         <item>볶음밥</item>
         <item>삼겹살</item>
     </string-array>
-    <string-array name = "spinner_western">
+    <string-array name="spinner_western">
         <item>파스타</item>
         <item>스테이크</item>
         <item>필라프</item>
@@ -21,42 +21,42 @@
         <item>치킨</item>
         <item>샐러드</item>
     </string-array>
-    <string-array name = "spinner_chinese">
+    <string-array name="spinner_chinese">
         <item>짜장면</item>
         <item>짬뽕</item>
         <item>탕수육</item>
         <item>깐풍기</item>
         <item>마라탕</item>
     </string-array>
-    <string-array name = "spinner_japanese">
+    <string-array name="spinner_japanese">
         <item>돈까스</item>
         <item>초밥</item>
         <item>회</item>
         <item>라멘</item>
         <item>우동</item>
     </string-array>
-    <string-array name = "spinner_bossam">
+    <string-array name="spinner_bossam">
         <item>소주신랑보쌈부인</item>
         <item>소주</item>
         <item>신랑</item>
         <item>보쌈</item>
         <item>부인</item>
     </string-array>
-    <string-array name = "spinner_pasta">
+    <string-array name="spinner_pasta">
         <item>요녀석파스타필라프</item>
         <item>요</item>
         <item>녀석</item>
         <item>파스타</item>
         <item>필라프</item>
     </string-array>
-    <string-array name = "spinner_jajangmyeon">
+    <string-array name="spinner_jajangmyeon">
         <item>홍등</item>
         <item>홍콩반점</item>
         <item>한가네짬뽕</item>
         <item>홍콩</item>
         <item>반점</item>
     </string-array>
-    <string-array name = "spinner_donkkaseu">
+    <string-array name="spinner_donkkaseu">
         <item>자연을담은돈까스</item>
         <item>자연</item>
         <item>을</item>
