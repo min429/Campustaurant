@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database;
     private DatabaseReference myRef;
     //FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser(); // 회원가입된 유저 객체를 가져온다.
-    ArrayList<Match> matchArrayList = new ArrayList<>();
+    ArrayList<Room> roomArrayList = new ArrayList<>();
     Button btnLogout;
     Button btnMatch;
     Button btnRoom;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Match");
+        myRef = database.getReference("Room");
 
         btnLogout = findViewById(R.id.btn_logout);
         btnMatch = findViewById(R.id.btn_match);
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         btnMatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for(Match user : matchArrayList){
+                for(Room user : roomArrayList){
                     Log.d(TAG, "user.userId: "+user.userId+", stUserId: "+stUserId+", user.restaurant: "+user.restaurant+", stRestaurant: "+stRestaurant);
                     if(!user.userId.equals(stUserId) && user.restaurant.equals(stRestaurant)){ // 자신이외의 유저중에 자신과 같은 음식점을 선택한 사람이 있는 경우
                         Toast.makeText(MainActivity.this, "user matched", Toast.LENGTH_SHORT).show();
@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) { // user1,2,3... 하나씩 가져옴
-                    Match user = postSnapshot.getValue(Match.class);
-                    matchArrayList.add(user);
+                    Room user = postSnapshot.getValue(Room.class);
+                    roomArrayList.add(user);
                     if(user.userId.equals(stUserId)){
                         stRestaurant = user.getRestaurant();
                     }

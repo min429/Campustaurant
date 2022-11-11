@@ -13,10 +13,10 @@ import java.util.ArrayList;
 
 public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.CustomViewHoler> { // CustomViewHolder는 직접 만들어줘야함
 
-    private ArrayList<Match> matchArrayList;
+    private ArrayList<Room> roomArrayList;
 
-    public RoomListAdapter(ArrayList<Match> matchArrayList) { // Constructer(생성자)
-        this.matchArrayList = matchArrayList; // MenuSelectActivity2에서 생성된 matchArrayList로 초기화
+    public RoomListAdapter(ArrayList<Room> roomArrayList) { // Constructer(생성자)
+        this.roomArrayList = roomArrayList; // RoomListActivity에서 생성된 roomArrayList로 초기화
     }
 
     @NonNull
@@ -33,11 +33,11 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
 
     @Override
     public void onBindViewHolder(@NonNull RoomListAdapter.CustomViewHoler holder, int position) { // RoomListAdapter.CustomViewHoler에서 생성된 holder를 받아옴
-        holder.tvRoomName.setText(matchArrayList.get(position).getRoomName());
-        holder.tvUserId.setText(matchArrayList.get(position).getUserId());
-        holder.tvFood.setText(matchArrayList.get(position).getFood());
-        holder.tvRestaurant.setText(matchArrayList.get(position).getRestaurant());
-        // Match에 저장된 멤버변수들 값으로 text를 세팅
+        holder.tvRoomName.setText(roomArrayList.get(position).getRoomName());
+        holder.tvUserId.setText(roomArrayList.get(position).getUserId());
+        holder.tvFood.setText(roomArrayList.get(position).getFood());
+        holder.tvRestaurant.setText(roomArrayList.get(position).getRestaurant());
+        // Room에 저장된 멤버변수들 값으로 text를 세팅
         holder.itemView.setTag(position); // itemView의 position(위치)값을 가져옴
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +51,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
 
     @Override
     public int getItemCount() {
-        return (null != matchArrayList ? matchArrayList.size() : 0);
+        return (null != roomArrayList ? roomArrayList.size() : 0);
     }
 
     public class CustomViewHoler extends RecyclerView.ViewHolder {

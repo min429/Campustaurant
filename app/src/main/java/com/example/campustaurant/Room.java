@@ -1,14 +1,14 @@
 package com.example.campustaurant;
 
-public class Match {
+public class Room {
     public String roomName;
     public String userId;
     public String food;
     public String restaurant;
 
-    public Match() {}
+    public Room() {}
 
-    public Match(String roomName, String userId, String food, String restaurant) {
+    public Room(String roomName, String userId, String food, String restaurant) {
         this.roomName = roomName;
         this.userId = userId;
         this.food = food;

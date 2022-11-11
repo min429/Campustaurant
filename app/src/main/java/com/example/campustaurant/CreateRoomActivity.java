@@ -43,7 +43,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_room);
 
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Match");
+        myRef = database.getReference("Room");
         etRoomName = findViewById(R.id.et_roomName);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 RoomListActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         btnRegister = (Button)findViewById(R.id.btn_register);

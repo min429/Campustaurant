@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class RoomListActivity extends AppCompatActivity {
     private static final String TAG = "RoomListActivity";
 
-    private ArrayList<Match> matchArrayList;
+    private ArrayList<Room> roomArrayList;
     private RoomListAdapter roomListAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -41,8 +41,8 @@ public class RoomListActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         // LayoutManager 설정
-        matchArrayList = new ArrayList<>();
-        roomListAdapter = new RoomListAdapter(matchArrayList); // matchArrayList에 담긴 것들을 어댑터에 담아줌
+        roomArrayList = new ArrayList<>();
+        roomListAdapter = new RoomListAdapter(roomArrayList); // roomArrayList에 담긴 것들을 어댑터에 담아줌
         recyclerView.setAdapter(roomListAdapter); // recyclerView에 roomListAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
 
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
@@ -57,7 +57,7 @@ public class RoomListActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference ref = database.getReference("Match"); // Match하위에서 데이터를 읽기 위해
+        DatabaseReference ref = database.getReference("Room"); // Room하위에서 데이터를 읽기 위해
 
         // 파이어베이스가 수정이 될 때마다 실행되는 것들 (시작)
         ref.addChildEventListener(new ChildEventListener() {
@@ -66,8 +66,8 @@ public class RoomListActivity extends AppCompatActivity {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
 
                 // A new comment has been added, add it to the displayed list
-                Match match = dataSnapshot.getValue(Match.class); // DB에 있는 값들을 match 객체에 가져옴
-                matchArrayList.add(match); // 객체배열에 match 객체를 추가
+                Room room = dataSnapshot.getValue(Room.class); // DB에 있는 값들을 room 객체에 가져옴
+                roomArrayList.add(room); // 객체배열에 room 객체를 추가
                 roomListAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
             }
 
