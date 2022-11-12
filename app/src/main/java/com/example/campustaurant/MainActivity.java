@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     Button btnLogout;
     Button btnMatch;
     Button btnRoom;
+    Button btnEnter;
+    EditText etFood;
+    String inputFood;
     String stUserId;
 
     @Override
@@ -38,7 +42,21 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btn_logout);
         btnMatch = findViewById(R.id.btn_match);
         btnRoom = findViewById(R.id.btn_room);
+        btnEnter = findViewById(R.id.btn_enter);
+        etFood = findViewById(R.id.et_food);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
+
+        btnEnter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                inputFood = etFood.getText().toString();
+
+                Intent intent = new Intent(MainActivity.this, RestaurantActivity.class);
+                intent.putExtra("email", stUserId); // stUserId값을 RestaurantActivity에 넘겨줌
+                intent.putExtra("inputFood", inputFood);
+                startActivity(intent);
+            }
+        });
 
         btnRoom.setOnClickListener(new View.OnClickListener() {
             @Override

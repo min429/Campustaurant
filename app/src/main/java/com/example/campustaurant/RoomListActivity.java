@@ -62,7 +62,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
 
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
 
-        etRestaurant = findViewById(R.id.et_text);
+        etRestaurant = findViewById(R.id.et_restaurant);
 
         btnEnter = findViewById(R.id.btn_enter);
         btnEnter.setOnClickListener(new View.OnClickListener() {

@@ -39,7 +39,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
         holder.tvUserId.setText(roomArrayList.get(position).getUserId());
         holder.tvFood.setText(roomArrayList.get(position).getFood());
         holder.tvRestaurant.setText(roomArrayList.get(position).getRestaurant());
-        // Room에 저장된 멤버변수들 값으로 text를 세팅
+        // 클릭한 View의 position에 해당하는 index에 대해 roomArrayList(index)에 해당하는 Room객체의 변수들로 text를 세팅
         holder.itemView.setTag(position); // itemView의 position(위치)값을 가져옴
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

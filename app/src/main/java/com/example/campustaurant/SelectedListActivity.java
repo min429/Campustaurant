@@ -27,7 +27,7 @@ public class SelectedListActivity extends AppCompatActivity implements ClickCall
     private static final String TAG = "SelectedListActivity";
 
     private ArrayList<Room> roomArrayList;
-    private RoomListAdapter roomListAdapter;
+    private SelectedListAdapter selectedListAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseUser mFirebaseUser;
@@ -56,13 +56,13 @@ public class SelectedListActivity extends AppCompatActivity implements ClickCall
         recyclerView.setLayoutManager(linearLayoutManager);
         // LayoutManager 설정
         roomArrayList = new ArrayList<>();
-        roomListAdapter = new RoomListAdapter(roomArrayList, this); // roomArrayList에 담긴 것들을 어댑터에 담아줌
+        selectedListAdapter = new SelectedListAdapter(roomArrayList, this); // roomArrayList에 담긴 것들을 어댑터에 담아줌
         // this -> SelectedListActivity 객체
-        recyclerView.setAdapter(roomListAdapter); // recyclerView에 roomListAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
+        recyclerView.setAdapter(selectedListAdapter); // recyclerView에 selectedListAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
 
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
 
-        etRestaurant = findViewById(R.id.et_text);
+        etRestaurant = findViewById(R.id.et_restaurant);
         inputRestaurant = getIntent().getStringExtra("inputRestaurant");
         etRestaurant.setText(inputRestaurant);
 
@@ -107,7 +107,7 @@ public class SelectedListActivity extends AppCompatActivity implements ClickCall
                         stRestaurant = room.getRestaurant();
                     }
                 }
-                roomListAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
+                selectedListAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
             }
 
             @Override
@@ -118,7 +118,7 @@ public class SelectedListActivity extends AppCompatActivity implements ClickCall
     }
 
     @Override
-    public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> RoomListAdapter에서 사용
+    public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> SelectedListAdapter에서 사용
         Room room = roomArrayList.get(position);
         if(!room.userId.equals(stUserId) && room.restaurant.equals(stRestaurant)){ // 자신이외의 유저중에 자신과 같은 음식점을 선택한 사람이 있는 경우
             ref.child(stUserToken).setValue(null); // 현재 유저가 생성한 방을 폭파함
