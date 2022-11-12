@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class RoomListActivity extends AppCompatActivity {
+public class RoomListActivity extends AppCompatActivity implements ClickCallbackListener{
     private static final String TAG = "RoomListActivity";
 
     private ArrayList<Room> roomArrayList;
@@ -42,7 +42,8 @@ public class RoomListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         // LayoutManager 설정
         roomArrayList = new ArrayList<>();
-        roomListAdapter = new RoomListAdapter(roomArrayList); // roomArrayList에 담긴 것들을 어댑터에 담아줌
+        roomListAdapter = new RoomListAdapter(roomArrayList, this); // roomArrayList에 담긴 것들을 어댑터에 담아줌
+        // this -> RoomListActivity 객체
         recyclerView.setAdapter(roomListAdapter); // recyclerView에 roomListAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
 
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
@@ -110,5 +111,11 @@ public class RoomListActivity extends AppCompatActivity {
             }
         });
         // (끝)
+    }
+
+    @Override
+    public void onClick() { // ClickCallbackListener 인터페이스의 메서드 -> RoomListAdapter에서 사용
+        Intent intent = new Intent(RoomListActivity.this, CreateRoomActivity.class);
+        startActivity(intent);
     }
 }

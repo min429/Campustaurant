@@ -14,9 +14,11 @@ import java.util.ArrayList;
 public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.CustomViewHoler> { // CustomViewHolder는 직접 만들어줘야함
 
     private ArrayList<Room> roomArrayList;
+    private ClickCallbackListener mListener;
 
-    public RoomListAdapter(ArrayList<Room> roomArrayList) { // Constructer(생성자)
+    public RoomListAdapter(ArrayList<Room> roomArrayList, ClickCallbackListener mListener) { // Constructer(생성자)
         this.roomArrayList = roomArrayList; // RoomListActivity에서 생성된 roomArrayList로 초기화
+        this.mListener = mListener;
     }
 
     @NonNull
@@ -45,6 +47,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
             public void onClick(View view) { // room_list의 각 LinearLayout을 짧게 누르면 발생
                 String curName = holder.tvFood.getText().toString(); // holder의 tvFood으로부터 text를 가져옴
                 Toast.makeText(view.getContext(), curName, Toast.LENGTH_SHORT).show();
+                mListener.onClick(); // 콜백함수
             }
         });
     }
