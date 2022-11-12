@@ -50,7 +50,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         myRef = database.getReference("Room");
         etRoomName = findViewById(R.id.et_roomName);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 RoomListActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
-        stUserToken = getIntent().getStringExtra("usertoken");
+        stUserToken = getIntent().getStringExtra("userToken");
         btnRegister = (Button)findViewById(R.id.btn_register);
         final Spinner spin1 = (Spinner)findViewById(R.id.spinner1);
         final Spinner spin2 = (Spinner)findViewById(R.id.spinner2);
@@ -58,7 +58,7 @@ public class CreateRoomActivity extends AppCompatActivity {
 //xml과 class에 변수들을 연결해줍니다. final를 사용한 이유는 spin2가 함수안에서 사용되기 때문에 코딩전체로 선언한 것입니다.
         adspin1 = ArrayAdapter.createFromResource(this, R.array.spinner_nation, android.R.layout.simple_spinner_dropdown_item);
 //처번째 어댑터에 값을 넣습니다. this=는 현재class를 의미합니다. R.array.spinner_nation는 이곳에 도시를 다 쓸 경우 코딩이 길어지기 때문에 value->string.xml에 따로 String값들을 선언해두었습니다.
-//R.layout.simple_~~~는 안드로이드에서 기본제공하는 spinner 모양입니다. 다른것도 있는데 비슷합니다.
+//R.layout.simple_spinner_dropdown_item은 안드로이드에서 기본제공하는 spinner 모양입니다. 다른것도 있는데 비슷합니다.
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spin1.setAdapter(adspin1);

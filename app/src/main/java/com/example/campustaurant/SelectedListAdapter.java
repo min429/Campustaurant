@@ -11,19 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.CustomViewHolder> { // CustomViewHolder는 직접 만들어줘야함
+public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapter.CustomViewHolder> { // CustomViewHolder는 직접 만들어줘야함
 
     private ArrayList<Room> roomArrayList;
     private ClickCallbackListener mListener;
 
-    public RoomListAdapter(ArrayList<Room> roomArrayList, ClickCallbackListener mListener) { // Constructer(생성자)
+    public SelectedListAdapter(ArrayList<Room> roomArrayList, ClickCallbackListener mListener) { // Constructer(생성자)
         this.roomArrayList = roomArrayList; // RoomListActivity에서 생성된 roomArrayList로 초기화
         this.mListener = mListener;
     }
 
     @NonNull
     @Override
-    public RoomListAdapter.CustomViewHolder
+    public SelectedListAdapter.CustomViewHolder
     onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { // 생명주기 생성단계에서 한번 실행되는 메서드
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_list, parent, false); // room_list 레이아웃을 inflate해서 view 객체로 가져옴
@@ -34,7 +34,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RoomListAdapter.CustomViewHolder holder, int position) { // RoomListAdapter.CustomViewHolder에서 생성된 holder를 받아옴
+    public void onBindViewHolder(@NonNull SelectedListAdapter.CustomViewHolder holder, int position) { // SelectedListAdapter.CustomViewHolder에서 생성된 holder를 받아옴
         holder.tvRoomName.setText(roomArrayList.get(position).getRoomName());
         holder.tvUserId.setText(roomArrayList.get(position).getUserId());
         holder.tvFood.setText(roomArrayList.get(position).getFood());
