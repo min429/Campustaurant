@@ -39,8 +39,6 @@ public class CreateRoomActivity extends AppCompatActivity {
     String stRestaurant;
     Button btnRegister;
     FirebaseDatabase database;
-    FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
     private DatabaseReference myRef;
 
     @Override
@@ -48,14 +46,11 @@ public class CreateRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser(); // 현재 로그인한 유저 객체를 가져옴
-        stUserToken = mFirebaseUser.getUid(); // 가져온 유저 객체의 토큰정보를 가져옴
-
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Room");
         etRoomName = findViewById(R.id.et_roomName);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 RoomListActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
+        stUserToken = getIntent().getStringExtra("usertoken");
         btnRegister = (Button)findViewById(R.id.btn_register);
         final Spinner spin1 = (Spinner)findViewById(R.id.spinner1);
         final Spinner spin2 = (Spinner)findViewById(R.id.spinner2);
@@ -200,7 +195,8 @@ public class CreateRoomActivity extends AppCompatActivity {
 
                 Hashtable<String, String> Data // DB테이블에 데이터 입력
                         = new Hashtable<String, String>();
-                Data.put("roomName", stRoomName); // DB의 roomName란에 stRoomName 값
+                Data.put("userToken", stUserToken);  // DB의 userToken란에 stUserToken 값
+                Data.put("roomName", stRoomName);
                 Data.put("userId", stUserId);
                 Data.put("food", stFood);
                 Data.put("restaurant", stRestaurant);

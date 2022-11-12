@@ -64,6 +64,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
             public void onClick(View view) {
                 Intent intent = new Intent(RoomListActivity.this, CreateRoomActivity.class);
                 intent.putExtra("email", stUserId); // stUserId값을 CreateRoomActivity에 넘겨줌
+                intent.putExtra("usertoken", stUserToken);
                 startActivity(intent);
                 finish();
             }
@@ -75,7 +76,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
-                    Log.d(TAG, "key: "+postSnapshot.getKey());
                     Room room = postSnapshot.getValue(Room.class);
                     roomArrayList.add(room);
                     if(room.userId.equals(stUserId)){
@@ -97,8 +97,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         Room room = roomArrayList.get(position);
         if(!room.userId.equals(stUserId) && room.restaurant.equals(stRestaurant)){ // 자신이외의 유저중에 자신과 같은 음식점을 선택한 사람이 있는 경우
             ref.child(stUserToken).setValue(null); // 현재 유저가 생성한 방을 폭파함
-
-             // 매칭상대가 생성한 방을 폭파함
+            ref.child(room.userToken).setValue(null); // 매칭상대가 생성한 방을 폭파함
             Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
             intent.putExtra("email", stUserId); // stUserId값을 ChatActivity에 넘겨줌
             startActivity(intent);
