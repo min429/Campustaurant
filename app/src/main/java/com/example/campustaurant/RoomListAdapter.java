@@ -45,9 +45,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { // room_list의 각 LinearLayout을 짧게 누르면 발생
-                String curName = holder.tvFood.getText().toString(); // holder의 tvFood으로부터 text를 가져옴
-                Toast.makeText(view.getContext(), curName, Toast.LENGTH_SHORT).show();
-                mListener.onClick(); // 콜백함수
+                mListener.onClick(holder.getAdapterPosition()); // 콜백함수
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.example.campustaurant;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,18 +32,25 @@ public class CreateRoomActivity extends AppCompatActivity {
     
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     EditText etRoomName;
+    String stUserToken;
     String stRoomName;
     String stUserId;
     String stFood;
     String stRestaurant;
     Button btnRegister;
     FirebaseDatabase database;
+    FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
     private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser(); // 현재 로그인한 유저 객체를 가져옴
+        stUserToken = mFirebaseUser.getUid(); // 가져온 유저 객체의 토큰정보를 가져옴
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Room");
@@ -181,23 +191,12 @@ public class CreateRoomActivity extends AppCompatActivity {
             //************************************************************************************************************************************************************************************************
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(CreateRoomActivity.this, stRoomName, Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "roomName: "+stRoomName);
-                Log.d(TAG, "userId: "+stUserId);
-                Log.d(TAG, "food: "+stFood);
-                Log.d(TAG, "restaurant: "+stRestaurant);
-
                 stRoomName = etRoomName.getText().toString();
-
-                Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
-                SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
-                String datetime = dateformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
 
                 Hashtable<String, String> Data // DB테이블에 데이터 입력
                         = new Hashtable<String, String>();
@@ -205,8 +204,11 @@ public class CreateRoomActivity extends AppCompatActivity {
                 Data.put("userId", stUserId);
                 Data.put("food", stFood);
                 Data.put("restaurant", stRestaurant);
-                myRef.child(datetime).setValue(Data); // 입력
+                myRef.child(stUserToken).setValue(Data); // 입력
 
+                Intent intent = new Intent(CreateRoomActivity.this, RoomListActivity.class);
+                intent.putExtra("email", stUserId);
+                startActivity(intent);
                 finish();
             }
         });

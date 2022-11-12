@@ -11,11 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -26,9 +29,13 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     private RoomListAdapter roomListAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private FirebaseUser mFirebaseUser;
+    FirebaseAuth mFirebaseAuth;
     FirebaseDatabase database;
-
+    DatabaseReference ref;
+    String stUserToken;
     String stUserId;
+    String stRestaurant;
     Button btnCreate;
 
     @Override
@@ -36,6 +43,9 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_list);
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser(); // 현재 로그인한 유저 객체를 가져옴
+        stUserToken = mFirebaseUser.getUid(); // 가져온 유저 객체의 토큰정보를 가져옴
         database = FirebaseDatabase.getInstance();
         recyclerView = (RecyclerView)findViewById(R.id.rv);
         linearLayoutManager = new LinearLayoutManager(this);
@@ -53,69 +63,49 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RoomListActivity.this, CreateRoomActivity.class);
-                intent.putExtra("email", stUserId); // stUserId값을 ChatActivity에 넘겨줌
+                intent.putExtra("email", stUserId); // stUserId값을 CreateRoomActivity에 넘겨줌
                 startActivity(intent);
+                finish();
             }
         });
 
-        DatabaseReference ref = database.getReference("Room"); // Room하위에서 데이터를 읽기 위해
+        ref = database.getReference("Room"); // Room하위에서 데이터를 읽기 위해
 
-        // 파이어베이스가 수정이 될 때마다 실행되는 것들 (시작)
-        ref.addChildEventListener(new ChildEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) { // DB에 데이터가 추가되었을 때
-                Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
-
-                // A new comment has been added, add it to the displayed list
-                Room room = dataSnapshot.getValue(Room.class); // DB에 있는 값들을 room 객체에 가져옴
-                roomArrayList.add(room); // 객체배열에 room 객체를 추가
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
+                    Log.d(TAG, "key: "+postSnapshot.getKey());
+                    Room room = postSnapshot.getValue(Room.class);
+                    roomArrayList.add(room);
+                    if(room.userId.equals(stUserId)){
+                        stRestaurant = room.getRestaurant();
+                    }
+                }
                 roomListAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) { // DB에 데이터가 수정되었을 때
-                Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
-
-
-                // ...
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) { // DB에 데이터가 삭제되었을 때
-                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so remove it.
-                String commentKey = dataSnapshot.getKey();
-
-                // ...
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-                // A comment has changed position, use the key to determine if we are
-                // displaying this comment and if so move it.
-
-                // ...
-            }
-
-            @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(RoomListActivity.this, "Failed to load comments.",
-                        Toast.LENGTH_SHORT).show();
+                Log.e("RoomListActivity", String.valueOf(databaseError.toException())); // 에러문 출력
             }
         });
-        // (끝)
     }
 
     @Override
-    public void onClick() { // ClickCallbackListener 인터페이스의 메서드 -> RoomListAdapter에서 사용
-        Intent intent = new Intent(RoomListActivity.this, CreateRoomActivity.class);
-        startActivity(intent);
+    public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> RoomListAdapter에서 사용
+        Room room = roomArrayList.get(position);
+        if(!room.userId.equals(stUserId) && room.restaurant.equals(stRestaurant)){ // 자신이외의 유저중에 자신과 같은 음식점을 선택한 사람이 있는 경우
+            ref.child(stUserToken).setValue(null); // 현재 유저가 생성한 방을 폭파함
+
+             // 매칭상대가 생성한 방을 폭파함
+            Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
+            intent.putExtra("email", stUserId); // stUserId값을 ChatActivity에 넘겨줌
+            startActivity(intent);
+            finish();
+        }
+        else{
+            Toast.makeText(RoomListActivity.this, "다른 유저와 매칭해주세요.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

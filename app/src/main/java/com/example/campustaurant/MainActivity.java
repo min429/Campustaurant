@@ -19,18 +19,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
-
     private FirebaseAuth mFirebaseAuth;
     FirebaseDatabase database;
-    private DatabaseReference myRef;
     //FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser(); // 회원가입된 유저 객체를 가져온다.
-    ArrayList<Room> roomArrayList = new ArrayList<>();
     Button btnLogout;
     Button btnMatch;
     Button btnRoom;
     String stUserId;
-    String stRestaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Room");
 
         btnLogout = findViewById(R.id.btn_logout);
         btnMatch = findViewById(R.id.btn_match);
@@ -65,43 +59,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        btnMatch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for(Room user : roomArrayList){
-                    Log.d(TAG, "user.userId: "+user.userId+", stUserId: "+stUserId+", user.restaurant: "+user.restaurant+", stRestaurant: "+stRestaurant);
-                    if(!user.userId.equals(stUserId) && user.restaurant.equals(stRestaurant)){ // 자신이외의 유저중에 자신과 같은 음식점을 선택한 사람이 있는 경우
-                        Toast.makeText(MainActivity.this, "user matched", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                        intent.putExtra("email", stUserId); // stUserId값을 ChatActivity에 넘겨줌
-                        startActivity(intent);
-                        break;
-                    }
-                    else{
-                        Toast.makeText(MainActivity.this, "not matched", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) { // user1,2,3... 하나씩 가져옴
-                    Room user = postSnapshot.getValue(Room.class);
-                    roomArrayList.add(user);
-                    if(user.userId.equals(stUserId)){
-                        stRestaurant = user.getRestaurant();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
-            }
-        });
-
     }
 }
