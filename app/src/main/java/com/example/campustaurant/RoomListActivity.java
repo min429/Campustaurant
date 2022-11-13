@@ -118,7 +118,8 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
             ref.child(stUserToken).setValue(null); // 현재 유저가 생성한 방을 폭파함
             ref.child(room.userToken).setValue(null); // 매칭상대가 생성한 방을 폭파함
             Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
-            intent.putExtra("email", stUserId); // stUserId값을 ChatActivity에 넘겨줌
+            intent.putExtra("email", stUserId); // stUserId값(자신의 아이디)을 ChatActivity에 넘겨줌
+            intent.putExtra("other", room.userId); // room.userId값(상대방 아이디)을 ChatActivity에 넘겨줌
             startActivity(intent);
             finish();
         }
