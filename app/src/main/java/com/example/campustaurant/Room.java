@@ -1,6 +1,7 @@
 package com.example.campustaurant;
 
 public class Room {
+    public String userToken;
     public String roomName;
     public String userId;
     public String food;
@@ -8,11 +9,20 @@ public class Room {
 
     public Room() {}
 
-    public Room(String roomName, String userId, String food, String restaurant) {
+    public Room(String userToken, String roomName, String userId, String food, String restaurant) {
+        this.userToken = userToken;
         this.roomName = roomName;
         this.userId = userId;
         this.food = food;
         this.restaurant = restaurant;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public String getRoomName() {

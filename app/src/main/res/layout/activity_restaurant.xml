@@ -14,10 +14,10 @@
         android:weightSum="1">
 
         <EditText
-            android:id="@+id/et_restaurant"
+            android:id="@+id/et_food"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:hint="음식점을 입력하세요."
+            android:hint="음식을 입력하세요."
             android:layout_weight="0.9"/>
 
         <Button
@@ -46,13 +46,6 @@
             android:layout_weight="1">
 
         </androidx.recyclerview.widget.RecyclerView>
-
-        <Button
-            android:id="@+id/btn_create"
-            android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="생성"/>
 
     </LinearLayout>
 </LinearLayout>
