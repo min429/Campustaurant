@@ -72,6 +72,7 @@ public class SelectedListActivity extends AppCompatActivity implements ClickCall
             public void onClick(View view) {
                 inputRestaurant = etRestaurant.getText().toString();
 
+                // 새로고침
                 finish();//인텐트 종료
                 overridePendingTransition(0, 0);//인텐트 효과 없애기
                 Intent intent = getIntent(); //인텐트

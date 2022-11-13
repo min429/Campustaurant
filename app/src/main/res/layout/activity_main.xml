@@ -34,9 +34,21 @@
         android:id="@+id/iv_foodimg"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_logout"
-        app:layout_constraintEnd_toStartOf="@+id/btn_logout"
-        app:layout_constraintTop_toTopOf="@+id/btn_logout" />
+        android:layout_marginStart="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="새로고침"
+        android:textSize="20sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/iv_foodimg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <Button
         android:id="@+id/btn_logout"
@@ -44,9 +56,9 @@
         android:layout_height="wrap_content"
         android:text="로그아웃"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_room"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/btn_room" />
 
     <Button
         android:id="@+id/btn_room"

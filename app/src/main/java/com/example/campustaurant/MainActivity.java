@@ -25,25 +25,29 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private FirebaseAuth mFirebaseAuth;
-    FirebaseDatabase database;
     FirebaseStorage storage;
-    DatabaseReference ref;
     StorageReference stRef;
     ArrayList<String> foodArrayList;
     Button btnLogout;
     Button btnRoom;
     Button btnEnter;
+    Button btnRefresh;
     EditText etFood;
+    ImageView ivFood;
     String inputFood;
     String stUserId;
-    ImageView ivFood;
+    String fileName;
+    int idx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +55,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main); // activity_main 레이아웃 표출
 
         mFirebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
-        foodArrayList = new ArrayList<>();
         btnLogout = findViewById(R.id.btn_logout);
         btnRoom = findViewById(R.id.btn_room);
         btnEnter = findViewById(R.id.btn_enter);
+        btnRefresh = findViewById(R.id.btn_refresh);
         etFood = findViewById(R.id.et_food);
         ivFood = findViewById(R.id.iv_foodimg);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
+        foodArrayList = getIntent().getStringArrayListExtra("foodArrayList");
+        fileName = getIntent().getStringExtra("fileName");
+
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Random random = new Random();
+                idx = random.nextInt(foodArrayList.size());
+                fileName = foodArrayList.get(idx);
+
+                Log.d(TAG, "fileName: "+fileName);
+
+                // 새로고침
+                finish();//인텐트 종료
+                overridePendingTransition(0, 0);//인텐트 효과 없애기
+                Intent intent = getIntent(); //인텐트
+                intent.putExtra("email", stUserId);
+                intent.putExtra("fileName", fileName);
+                intent.putExtra("foodArrayList", foodArrayList);
+                startActivity(intent); //액티비티 열기
+                overridePendingTransition(0, 0);//인텐트 효과 없애기
+            }
+        });
 
         btnEnter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,28 +120,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ref = database.getReference("Food"); // Food하위에서 데이터를 읽기 위해
-
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                HashMap<String,String> map = (HashMap<String,String>)dataSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
-                for(String stFood : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 stFood에 저장
-                    foodArrayList.add(stFood); // map객체의 key값 리스트에서 값을 하나씩 가져와서 stFood에 저장
-                }
-                Log.d(TAG, "keySet: "+foodArrayList+", one: "+foodArrayList.get(0));
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
-            }
-        });
-
         stRef = storage.getReference();
 
-        Log.d(TAG, "stRef: "+stRef);
-
-        stRef.child("돈까스.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        stRef.child(fileName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(MainActivity.this).load(uri).into(ivFood);
