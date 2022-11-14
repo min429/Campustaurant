@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnRoom;
     Button btnEnter;
     Button btnRefresh;
+    Button btnRelate;
     EditText etFood;
     ImageView ivFood;
     String inputFood;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         btnRoom = findViewById(R.id.btn_room);
         btnEnter = findViewById(R.id.btn_enter);
         btnRefresh = findViewById(R.id.btn_refresh);
+        btnRelate = findViewById(R.id.btn_relate);
         etFood = findViewById(R.id.et_food);
         ivFood = findViewById(R.id.iv_foodimg);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
@@ -85,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("foodArrayList", foodArrayList);
                 startActivity(intent); //액티비티 열기
                 overridePendingTransition(0, 0);//인텐트 효과 없애기
+            }
+        });
+
+        btnRelate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RestaurantActivity.class);
+                intent.putExtra("email", stUserId); // stUserId값을 RestaurantActivity에 넘겨줌
+                intent.putExtra("inputFood", fileName);
+                startActivity(intent);
             }
         });
 

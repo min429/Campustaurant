@@ -42,8 +42,8 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
 
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         inputFood = getIntent().getStringExtra("inputFood");
+        Log.d(TAG, "inputFood: "+inputFood);
         etFood = findViewById(R.id.et_food);
-
         database = FirebaseDatabase.getInstance();
         recyclerView = (RecyclerView)findViewById(R.id.rv);
         linearLayoutManager = new LinearLayoutManager(this);
