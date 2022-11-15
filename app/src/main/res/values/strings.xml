@@ -15,7 +15,6 @@
     </string-array>
     <string-array name="western">
         <item>파스타</item>
-        <item>스테이크</item>
         <item>필라프</item>
         <item>피자</item>
         <item>치킨</item>
@@ -63,5 +62,7 @@
         <item>담은</item>
         <item>돈까스</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
 

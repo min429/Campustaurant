@@ -61,18 +61,26 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         recyclerView.setAdapter(roomListAdapter); // recyclerView에 roomListAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
 
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
-
         etRestaurant = findViewById(R.id.et_restaurant);
+        try {
+            inputRestaurant = getIntent().getStringExtra("inputRestaurant");
+            etRestaurant.setText(inputRestaurant);
+        }catch(NullPointerException e){}
 
         btnEnter = findViewById(R.id.btn_enter);
         btnEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 inputRestaurant = etRestaurant.getText().toString();
-                Intent intent = new Intent(RoomListActivity.this, SelectedListActivity.class);
+                
+                // 인텐트 새로고침
+                finish(); // 인텐트 종료
+                overridePendingTransition(0, 0); // 인텐트 효과 없애기
+                Intent intent = getIntent(); // 인텐트
+                intent.putExtra("email", stUserId);
                 intent.putExtra("inputRestaurant", inputRestaurant);
                 startActivity(intent);
-                finish();
+                overridePendingTransition(0, 0); // 인텐트 효과 없애기
             }
         });
 
@@ -83,8 +91,8 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                 Intent intent = new Intent(RoomListActivity.this, CreateRoomActivity.class);
                 intent.putExtra("email", stUserId); // stUserId값을 CreateRoomActivity에 넘겨줌
                 intent.putExtra("userToken", stUserToken);
+                intent.putExtra("inputRestaurant", inputRestaurant);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -93,11 +101,24 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
-                    Room room = postSnapshot.getValue(Room.class);
-                    roomArrayList.add(room);
-                    if(room.userId.equals(stUserId)){
-                        stRestaurant = room.getRestaurant();
+                if(inputRestaurant != null){
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
+                        Room room = postSnapshot.getValue(Room.class);
+                        if(room.restaurant.equals(inputRestaurant)){
+                            roomArrayList.add(room);
+                        }
+                        if(room.userId.equals(stUserId)){
+                            stRestaurant = room.getRestaurant();
+                        }
+                    }
+                }else{
+                    Log.d(TAG, "onDataChange: ");
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
+                        Room room = postSnapshot.getValue(Room.class);
+                        roomArrayList.add(room);
+                        if(room.userId.equals(stUserId)){
+                            stRestaurant = room.getRestaurant();
+                        }
                     }
                 }
                 roomListAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함

@@ -96,8 +96,8 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
     @Override
     public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> RestaurantAdapter에서 사용
         String inputRestaurant = restaurantList.get(position);
-        Intent intent = new Intent(RestaurantActivity.this, SelectedListActivity.class);
-        intent.putExtra("inputRestaurant", inputRestaurant); // inputRestaurant값을 SelectedListActivity에 넘겨줌
+        Intent intent = new Intent(RestaurantActivity.this, RoomListActivity.class);
+        intent.putExtra("inputRestaurant", inputRestaurant); // inputRestaurant값을 RoomListActivity에 넘겨줌
         intent.putExtra("email", stUserId);
         startActivity(intent);
     }

@@ -37,6 +37,7 @@ public class CreateRoomActivity extends AppCompatActivity {
     String stUserId;
     String stFood;
     String stRestaurant;
+    String inputRestaurant;
     Button btnRegister;
     FirebaseDatabase database;
     private DatabaseReference myRef;
@@ -51,6 +52,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         etRoomName = findViewById(R.id.et_roomName);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 RoomListActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         stUserToken = getIntent().getStringExtra("userToken");
+        inputRestaurant = getIntent().getStringExtra("inputRestaurant");
         btnRegister = (Button)findViewById(R.id.btn_register);
         final Spinner spin1 = (Spinner)findViewById(R.id.spinner1);
         final Spinner spin2 = (Spinner)findViewById(R.id.spinner2);
@@ -204,6 +206,7 @@ public class CreateRoomActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(CreateRoomActivity.this, RoomListActivity.class);
                 intent.putExtra("email", stUserId);
+                intent.putExtra("inputRestaurant", inputRestaurant);
                 startActivity(intent);
                 finish();
             }
