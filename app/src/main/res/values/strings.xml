@@ -34,35 +34,211 @@
         <item>라멘</item>
         <item>우동</item>
     </string-array>
-    <string-array name="bossam">
-        <item>소주신랑보쌈부인</item>
-        <item>소주</item>
-        <item>신랑</item>
-        <item>보쌈</item>
-        <item>부인</item>
-    </string-array>
-    <string-array name="pasta">
-        <item>요녀석파스타필라프</item>
-        <item>요</item>
-        <item>녀석</item>
-        <item>파스타</item>
-        <item>필라프</item>
-    </string-array>
-    <string-array name="jajangmyeon">
+    <string-array name="kkanpunggi">
+        <item>북경깐풍기</item>
+        <item>비룡각</item>
+        <item>한가네짬뽕</item>
         <item>홍등</item>
         <item>홍콩반점</item>
-        <item>한가네짬뽕</item>
-        <item>홍콩</item>
-        <item>반점</item>
+    </string-array>
+    <string-array name="naengmyon">
+        <item>숙성돈까스전문점 백돈</item>
+        <item>육쌈냉면</item>
+        <item>자연을 담은 돈까스</item>
+        <item>짱이네 수제돈가스&amp;돈냉면</item>
+        <item>파삼672</item>
     </string-array>
     <string-array name="donkkaseu">
-        <item>자연을담은돈까스</item>
-        <item>자연</item>
-        <item>을</item>
-        <item>담은</item>
-        <item>돈까스</item>
+        <item>면식당 라멘&amp;마제소바&amp;쌀국수</item>
+        <item>숙성돈까스전문점 백돈</item>
+        <item>은화수식당</item>
+        <item>자연을 담은 돈까스</item>
+        <item>짱이네 수제돈가스&amp;돈냉면</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="ramen">
+        <item>간바레 간바로우</item>
+        <item>멘야마쯔리 라멘</item>
+        <item>면식당 라멘&amp;마제소바&amp;쌀국수</item>
+        <item>자라쿠라멘</item>
+    </string-array>
+    <string-array name="maratang">
+        <item>다복향마라탕</item>
+        <item>도화마라탕</item>
+        <item>마라탕왕훠궈</item>
+        <item>신미방마라탕</item>
+        <item>장미맨숀</item>
+        <item>진미마라탕</item>
+        <item>천미마라탕</item>
+        <item>춘리마라탕</item>
+        <item>호아마라탕</item>
+        <item>훠룽쿵부마라탕</item>
+    </string-array>
+    <string-array name="bossam">
+        <item>대동집</item>
+        <item>소주신랑보쌈부인</item>
+        <item>일만족발</item>
+        <item>장충동왕족발보쌈</item>
+        <item>평민족발</item>
+        <item>한양왕족발보쌈</item>
+        <item>홍S족발</item>
+    </string-array>
+    <string-array name="bokkeumbap">
+        <item>본도시락</item>
+        <item>자연을 담은 돈까스</item>
+        <item>진지덮밥</item>
+        <item>파삼672</item>
+        <item>호랑가</item>
+    </string-array>
+    <string-array name="bibimppap">
+        <item>밥풀릭스</item>
+        <item>알촌</item>
+        <item>육쌈냉면</item>
+        <item>자연을 담은 돈까스</item>
+        <item>진지덮밥</item>
+    </string-array>
+    <string-array name="samgyopssal">
+        <item>내돈 내산</item>
+        <item>대동집</item>
+        <item>동래집</item>
+        <item>돼지3끼</item>
+        <item>삼겹살 참 잘하는 집</item>
+        <item>인생집</item>
+        <item>청정돼지 국내산삼겹살</item>
+    </string-array>
+    <string-array name="ssaelrodeu">
+        <item>다이어트랩</item>
+        <item>밀키친</item>
+        <item>버니그린</item>
+        <item>봉명동 내커피</item>
+        <item>샐러디</item>
+        <item>와로샐러드</item>
+        <item>요크 샌드위치&amp;샐러드</item>
+        <item>프로마치</item>
+        <item>행포케 샐러드&amp;포케</item>
+    </string-array>
+    <string-array name="udong">
+        <item>간이역</item>
+        <item>국수나무</item>
+        <item>대동집</item>
+        <item>장미맨숀</item>
+        <item>크라운호프</item>
+        <item>호랑가</item>
+    </string-array>
+    <string-array name="jajangmyeon">
+        <item>대동맛지도</item>
+        <item>비룡각</item>
+        <item>주성각</item>
+        <item>한가네짬뽕</item>
+        <item>홍콩반점</item>
+    </string-array>
+    <string-array name="jjamppong">
+        <item>대동맛지도</item>
+        <item>비룡각</item>
+        <item>주성각</item>
+        <item>한가네짬뽕</item>
+        <item>홍콩반점</item>
+    </string-array>
+    <string-array name="chobap">
+        <item>간바레 간바로우</item>
+        <item>무모한초밥</item>
+        <item>삼촌식당의 인생초밥</item>
+        <item>스시몽</item>
+        <item>씨월드피쉬활어회센타</item>
+        <item>우마미</item>
+        <item>좋은초밥</item>
+        <item>주식회사</item>
+        <item>집신 스시&amp;롤</item>
+        <item>코이요스시</item>
+        <item>해리초밥</item>
+    </string-array>
+    <string-array name="chicken">
+        <item>BBQ</item>
+        <item>BHC</item>
+        <item>KFC</item>
+        <item>교촌치킨</item>
+        <item>굽네치킨</item>
+        <item>대동집</item>
+        <item>또래오래</item>
+        <item>바른치킨</item>
+        <item>아웃닭</item>
+        <item>에꿍이치킨</item>
+        <item>역전할머니맥주</item>
+        <item>인생집</item>
+        <item>장미맨숀</item>
+        <item>지코바</item>
+        <item>처갓집양념치킨</item>
+        <item>충만치킨</item>
+        <item>크라운호프</item>
+        <item>큰통치킨</item>
+        <item>페리카나</item>
+        <item>푸라닭</item>
+        <item>호식이두마리치킨</item>
+    </string-array>
+    <string-array name="tangsuyuk">
+        <item>대동맛지도</item>
+        <item>비룡각</item>
+        <item>주성각</item>
+        <item>한가네짬뽕</item>
+        <item>홍콩반점</item>
+    </string-array>
+    <string-array name="pasta">
+        <item>가든쿡 파스타&amp;필라프</item>
+        <item>괴짜쉐프파스타</item>
+        <item>밀키친</item>
+        <item>수비드스테이크앤파스타</item>
+        <item>신입파스타</item>
+        <item>오렌지하우스</item>
+        <item>요녀석파스타필라프</item>
+        <item>이쉐프의 밀라노 파스타</item>
+        <item>청년파스타&amp;필라프</item>
+        <item>파스타먹은 로제떡볶이</item>
+        <item>파스타몽</item>
+        <item>파스타제작소 파스타&amp;필라프</item>
+    </string-array>
+    <string-array name="pizza">
+        <item>PIZZA WAVE</item>
+        <item>꽃을 피자</item>
+        <item>네오피자</item>
+        <item>르블루피자</item>
+        <item>반올림피자샵</item>
+        <item>서민피자</item>
+        <item>업텐브로피자</item>
+        <item>유로코피자</item>
+        <item>폭풍토핑 피자스톰</item>
+        <item>피자는치즈빨</item>
+        <item>피자마켓</item>
+        <item>피자스쿨</item>
+        <item>피자온\'s</item>
+        <item>피자파는집</item>
+        <item>피자플렉스</item>
+        <item>피자헛</item>
+        <item>피치버스</item>
+        <item>형섭이네 피자</item>
+    </string-array>
+    <string-array name="pilrapeu">
+        <item>가든쿡 파스타&amp;필라프</item>
+        <item>괴짜쉐프파스타</item>
+        <item>밀키친</item>
+        <item>수비드스테이크앤파스타</item>
+        <item>요녀석파스타필라프</item>
+        <item>이쉐프의 밀라노 파스타</item>
+        <item>청년파스타&amp;필라프</item>
+        <item>파스타먹은 로제떡볶이</item>
+        <item>파스타제작소 파스타&amp;필라프</item>
+    </string-array>
+    <string-array name="hwe">
+        <item>간바레 간바로우</item>
+        <item>무모한초밥</item>
+        <item>삼촌식당의 인생초밥</item>
+        <item>스시몽</item>
+        <item>씨월드피쉬활어회센타</item>
+        <item>우마미</item>
+        <item>좋은초밥</item>
+        <item>주식회사</item>
+        <item>집신 스시&amp;롤</item>
+        <item>코이요스시</item>
+        <item>해리초밥</item>
+    </string-array>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
 
