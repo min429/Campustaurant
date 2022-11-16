@@ -91,6 +91,70 @@ public class CreateRoomActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {}
                                 });
                             }
+                            if(adspin2.getItem(i).equals("비빔밥")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.bibimppap, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("냉면")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.naengmyon, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("볶음밥")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.bokkeumbap, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("삼겹살")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.samgyopssal, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
@@ -108,6 +172,70 @@ public class CreateRoomActivity extends AppCompatActivity {
                                 stFood = adspin2.getItem(i).toString();
 
                                 adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.pasta, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("필라프")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.pilrapeu, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("피자")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.pizza, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("치킨")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.chicken, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("샐러드")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.ssaelrodeu, android.R.layout.simple_spinner_dropdown_item);
                                 adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spin3.setAdapter(adspin3);
 
@@ -149,6 +277,70 @@ public class CreateRoomActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {}
                                 });
                             }
+                            if(adspin2.getItem(i).equals("짬뽕")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.jjamppong, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("탕수육")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.tangsuyuk, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("깐풍기")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.kkanpunggi, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("마라탕")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.maratang, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
@@ -166,6 +358,70 @@ public class CreateRoomActivity extends AppCompatActivity {
                                 stFood = adspin2.getItem(i).toString();
 
                                 adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.donkkaseu, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("초밥")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.chobap, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("회")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.hwe, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("라멘")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.ramen, android.R.layout.simple_spinner_dropdown_item);
+                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spin3.setAdapter(adspin3);
+
+                                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        stRestaurant = adspin3.getItem(i).toString();
+                                    }
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                                });
+                            }
+                            if(adspin2.getItem(i).equals("우동")){
+                                stFood = adspin2.getItem(i).toString();
+
+                                adspin3 = ArrayAdapter.createFromResource(CreateRoomActivity.this, R.array.udong, android.R.layout.simple_spinner_dropdown_item);
                                 adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spin3.setAdapter(adspin3);
 
