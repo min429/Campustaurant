@@ -30,10 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     ArrayList<String> foodArrayList;
-    DatabaseReference ref;
     FirebaseDatabase database;
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증
-    private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
+    private DatabaseReference ref; // 실시간 데이터베이스
     EditText mEtEmail, mEtPwd; // 로그인 입력필드
     String stEmail, stPwd;
     String fileName;
@@ -45,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login); // 로그인 액티비티 표출 // 하나의 액티비티(화면)는 하나의 XML만 연동 가능
 
         mFirebaseAuth = FirebaseAuth.getInstance(); // 파이어베이스 사용 준비
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("User"); // 실시간 데이터베이스 사용준비 // path : 앱 이름
         database = FirebaseDatabase.getInstance();
         foodArrayList = new ArrayList<>();
         mEtEmail = (EditText) findViewById(R.id.et_email); // 회원가입 입력필드 초기화 // R: res // R.id -> res 내에서 id가 et_email인 것을 찾아옴 // 단, 현재 액티비티와 연동된 XML에서만 찾음
@@ -90,7 +88,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        ref = database.getReference("Food"); // Food하위에서 데이터를 읽기 위해
+        // 실시간 데이터베이스 사용준비 // path: 데이터베이스 경로
+        ref = database.getReference("Food"); // Food 하위에서 데이터를 읽기 위해
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
