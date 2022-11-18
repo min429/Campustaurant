@@ -51,7 +51,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     FirebaseAuth mFirebaseAuth;
     FirebaseDatabase database;
     DatabaseReference ref;
-    DatabaseReference locaRef;
     String stUserToken;
     String stUserId;
     String stRestaurant = null;
@@ -65,7 +64,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_list);
-
 
         latLng = getIntent().getParcelableExtra("latLng");
         // 지도 초기화 전에 정의해줘야 지도 초기화 할 때 이 값을 사용 가능함
@@ -83,7 +81,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         // LayoutManager 설정
-        locaArrayList = new ArrayList<>();
         roomArrayList = new ArrayList<>();
         roomListAdapter = new RoomListAdapter(roomArrayList, this); // roomArrayList에 담긴 것들을 어댑터에 담아줌
         // this -> RoomListActivity 객체
@@ -93,6 +90,9 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         etRestaurant = findViewById(R.id.et_restaurant);
         inputRestaurant = getIntent().getStringExtra("inputRestaurant");
         etRestaurant.setText(inputRestaurant);
+        locaArrayList = (ArrayList<Location>)getIntent().getSerializableExtra("locaArrayList");
+        // getSerializableExtra : ArrayList를 intent를 통해 받아올 때 직렬화 되어있는 리스트를 받아와야 함
+        Log.d(TAG, "locaArrayList: "+locaArrayList);
         Log.d(TAG, "inputRestaurant: "+inputRestaurant);
 
         if (inputRestaurant == null || inputRestaurant.equals("")) {
@@ -123,6 +123,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                 Intent intent = getIntent(); // 인텐트
                 intent.putExtra("email", stUserId);
                 intent.putExtra("inputRestaurant", inputRestaurant);
+                intent.putExtra("locaArrayList", locaArrayList);
                 intent.putExtra("latLng", latLng);
                 startActivity(intent);
                 overridePendingTransition(0, 0); // 인텐트 효과 없애기
@@ -136,8 +137,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                 Intent intent = new Intent(RoomListActivity.this, CreateRoomActivity.class);
                 intent.putExtra("email", stUserId); // stUserId값을 CreateRoomActivity에 넘겨줌
                 intent.putExtra("userToken", stUserToken);
-                intent.putExtra("inputRestaurant", inputRestaurant);
-                intent.putExtra("latLng", latLng);
+                intent.putExtra("locaArrayList", locaArrayList);
                 startActivity(intent);
                 finish();
             }
@@ -169,22 +169,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                     }
                 }
                 roomListAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("RoomListActivity", String.valueOf(databaseError.toException())); // 에러문 출력
-            }
-        });
-
-        locaRef = database.getReference("Restaurant"); // Restaurant하위에서 데이터를 읽기 위해
-
-        locaRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // restaurant1,2,3... 하나씩 가져옴
-                    Location location = postSnapshot.getValue(Location.class);
-                    locaArrayList.add(location);
-                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

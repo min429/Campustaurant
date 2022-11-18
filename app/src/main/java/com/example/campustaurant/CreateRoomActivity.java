@@ -22,14 +22,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraAnimation;
+import com.naver.maps.map.CameraPosition;
+import com.naver.maps.map.CameraUpdate;
+import com.naver.maps.map.MapView;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.OverlayImage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 
-public class CreateRoomActivity extends AppCompatActivity {
+public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = "CreateRoomActivity";
+
+    private MapView mapView;
+    private static NaverMap naverMap;
+    //마커 변수 선언 및 초기화
+    private Marker marker = new Marker();
 
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -40,23 +53,29 @@ public class CreateRoomActivity extends AppCompatActivity {
     String stUserId;
     String stFood;
     String stRestaurant;
-    String inputRestaurant;
     Button btnRegister;
-    LatLng latLng;
+    Button btnMap;
+    ArrayList<Location> locaArrayList;
+    LatLng latLng = new LatLng(36.628881, 127.460586);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
 
+        //네이버 지도 // 밑에 3줄 실행한 순간 onMapReady(지도 초기화) 호출됨
+        mapView = (MapView) findViewById(R.id.mv_naver);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(CreateRoomActivity.this);
+
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Room");
         etRoomName = findViewById(R.id.et_roomName);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 RoomListActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         stUserToken = getIntent().getStringExtra("userToken");
-        inputRestaurant = getIntent().getStringExtra("inputRestaurant");
-        latLng = getIntent().getParcelableExtra("latLng");
+        locaArrayList = (ArrayList<Location>)getIntent().getSerializableExtra("locaArrayList");
         btnRegister = (Button)findViewById(R.id.btn_register);
+        btnMap = findViewById(R.id.btn_map);
         final Spinner spin1 = (Spinner)findViewById(R.id.spinner1);
         final Spinner spin2 = (Spinner)findViewById(R.id.spinner2);
         final Spinner spin3 = (Spinner)findViewById(R.id.spinner3);
@@ -449,6 +468,26 @@ public class CreateRoomActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // locaArrayList에서 가져온 location으로 latLng 초기화
+                for(Location location : locaArrayList){
+                    if(location.getName().equals(stRestaurant)){
+                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        break;
+                    }
+                }
+                CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng)
+                        .animate(CameraAnimation.Easing, 2000)
+                        .reason(1000);
+
+                naverMap.moveCamera(cameraUpdate);
+
+                setMarker(marker, latLng.latitude, latLng.longitude, R.drawable.ic_baseline_place_24, 0);
+            }
+        });
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -465,11 +504,97 @@ public class CreateRoomActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(CreateRoomActivity.this, RoomListActivity.class);
                 intent.putExtra("email", stUserId);
-                intent.putExtra("inputRestaurant", inputRestaurant);
-                intent.putExtra("latLng", latLng);
+                intent.putExtra("locaArrayList", locaArrayList);
                 startActivity(intent);
                 finish();
             }
         });
+    }
+
+    private void setMarker(Marker marker,  double lat, double lng, int resourceID, int zIndex)
+    {
+        //원근감 표시
+        marker.setIconPerspectiveEnabled(true);
+        //아이콘 지정
+        marker.setIcon(OverlayImage.fromResource(resourceID));
+        //마커의 투명도
+        marker.setAlpha(0.8f);
+        //마커 위치
+        marker.setPosition(new LatLng(lat, lng));
+        //마커 우선순위
+        marker.setZIndex(zIndex);
+        //마커 표시
+        marker.setMap(naverMap);
+    }
+
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap)
+    {
+        this.naverMap = naverMap;
+
+        //배경 지도 선택
+        naverMap.setMapType(NaverMap.MapType.Navi);
+
+        //건물 표시
+        naverMap.setLayerGroupEnabled(naverMap.LAYER_GROUP_BUILDING, true);
+
+        Log.d(TAG, "latLng: "+latLng);
+
+        //위치 및 각도 조정
+        CameraPosition cameraPosition = new CameraPosition(
+                latLng,   // 위치 지정
+                15,                                     // 줌 레벨
+                0,                                       // 기울임 각도
+                0                                     // 방향
+        );
+        naverMap.setCameraPosition(cameraPosition);
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory()
+    {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 }

@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
     private static final String TAG = "RestaurantActivity";
 
     ArrayList<String> restaurantList;
+    ArrayList<Location> locaArrayList;
     private RestaurantAdapter restaurantAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -34,6 +36,7 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
     String inputFood;
     Button btnEnter;
     EditText etFood;
+    LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
 
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         inputFood = getIntent().getStringExtra("inputFood");
+        locaArrayList = (ArrayList<Location>)getIntent().getSerializableExtra("locaArrayList");
+        Log.d(TAG, "locaArrayList: "+locaArrayList);
         Log.d(TAG, "inputFood: "+inputFood);
         etFood = findViewById(R.id.et_food);
         database = FirebaseDatabase.getInstance();
@@ -60,13 +65,15 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
             public void onClick(View view) {
                 inputFood = etFood.getText().toString();
 
-                finish();//인텐트 종료
-                overridePendingTransition(0, 0);//인텐트 효과 없애기
-                Intent intent = getIntent(); //인텐트
+                // 새로고침
+                finish();// 인텐트 종료
+                overridePendingTransition(0, 0);// 인텐트 효과 없애기
+                Intent intent = getIntent(); // 인텐트
                 intent.putExtra("inputFood", inputFood);
                 intent.putExtra("email", stUserId);
-                startActivity(intent); //액티비티 열기
-                overridePendingTransition(0, 0);//인텐트 효과 없애기
+                intent.putExtra("locaArrayList", locaArrayList);
+                startActivity(intent); // 액티비티 열기
+                overridePendingTransition(0, 0);// 인텐트 효과 없애기
             }
         });
 
@@ -96,9 +103,19 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
     @Override
     public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> RestaurantAdapter에서 사용
         String inputRestaurant = restaurantList.get(position);
+
+        // locaArrayList에서 가져온 location으로 latLng 초기화
+        for(Location location : locaArrayList){
+            if(location.getName().equals(inputRestaurant)){
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                break;
+            }
+        }
         Intent intent = new Intent(RestaurantActivity.this, RoomListActivity.class);
         intent.putExtra("inputRestaurant", inputRestaurant); // inputRestaurant값을 RoomListActivity에 넘겨줌
         intent.putExtra("email", stUserId);
+        intent.putExtra("locaArrayList", locaArrayList);
+        intent.putExtra("latLng", latLng);
         startActivity(intent);
     }
 }

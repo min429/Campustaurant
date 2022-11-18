@@ -1,6 +1,8 @@
 package com.example.campustaurant;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable { // Serializable : ArrayList를 intent를 통해 넘겨줄 때 직렬화 되어있어야 함
     public String name;
     public Double longitude;
     public Double latitude;
