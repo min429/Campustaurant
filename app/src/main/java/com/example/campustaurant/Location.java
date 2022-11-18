@@ -1,14 +1,24 @@
 package com.example.campustaurant;
 
 public class Location {
+    public String name;
     public Double longitude;
     public Double latitude;
 
     public Location() {}
 
-    public Location(Double longitude, Double latitude) {
+    public Location(String name, Double longitude, Double latitude) {
+        this.name = name;
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getLongitude() {

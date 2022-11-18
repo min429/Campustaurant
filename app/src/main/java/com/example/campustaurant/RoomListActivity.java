@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -31,6 +32,7 @@ import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class RoomListActivity extends AppCompatActivity implements ClickCallbackListener, OnMapReadyCallback{
     private static final String TAG = "RoomListActivity";
@@ -40,7 +42,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     //마커 변수 선언 및 초기화
     private Marker marker = new Marker();
 
-    Location location;
+    private ArrayList<Location> locaArrayList;
     private ArrayList<Room> roomArrayList;
     private RoomListAdapter roomListAdapter;
     private RecyclerView recyclerView;
@@ -57,13 +59,18 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     EditText etRestaurant;
     Button btnCreate;
     Button btnEnter;
+    LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_list);
 
-        //네이버 지도
+
+        latLng = getIntent().getParcelableExtra("latLng");
+        // 지도 초기화 전에 정의해줘야 지도 초기화 할 때 이 값을 사용 가능함
+
+        //네이버 지도 // 밑에 3줄 실행한 순간 onMapReady(지도 초기화) 호출됨
         mapView = (MapView) findViewById(R.id.mv_naver);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -76,6 +83,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         // LayoutManager 설정
+        locaArrayList = new ArrayList<>();
         roomArrayList = new ArrayList<>();
         roomListAdapter = new RoomListAdapter(roomArrayList, this); // roomArrayList에 담긴 것들을 어댑터에 담아줌
         // this -> RoomListActivity 객체
@@ -85,6 +93,8 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         etRestaurant = findViewById(R.id.et_restaurant);
         inputRestaurant = getIntent().getStringExtra("inputRestaurant");
         etRestaurant.setText(inputRestaurant);
+        Log.d(TAG, "inputRestaurant: "+inputRestaurant);
+
         if (inputRestaurant == null || inputRestaurant.equals("")) {
             if (mapView.getVisibility() == View.VISIBLE)
                 mapView.setVisibility(View.GONE);
@@ -93,18 +103,27 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                 mapView.setVisibility(View.VISIBLE);
         }
 
+
         btnEnter = findViewById(R.id.btn_enter);
         btnEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 inputRestaurant = etRestaurant.getText().toString();
 
+                // locaArrayList에서 가져온 location으로 latLng 초기화
+                for(Location location : locaArrayList){
+                    if(location.getName().equals(inputRestaurant)){
+                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        break;
+                    }
+                }
                 // 인텐트 새로고침
                 finish(); // 인텐트 종료
                 overridePendingTransition(0, 0); // 인텐트 효과 없애기
                 Intent intent = getIntent(); // 인텐트
                 intent.putExtra("email", stUserId);
                 intent.putExtra("inputRestaurant", inputRestaurant);
+                intent.putExtra("latLng", latLng);
                 startActivity(intent);
                 overridePendingTransition(0, 0); // 인텐트 효과 없애기
             }
@@ -118,6 +137,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                 intent.putExtra("email", stUserId); // stUserId값을 CreateRoomActivity에 넘겨줌
                 intent.putExtra("userToken", stUserToken);
                 intent.putExtra("inputRestaurant", inputRestaurant);
+                intent.putExtra("latLng", latLng);
                 startActivity(intent);
                 finish();
             }
@@ -161,13 +181,9 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         locaRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!(inputRestaurant == null || inputRestaurant.equals(""))) { // 대기열 화면을 처음 띄울 때 or 입력창에 아무것도 입력하지 않았을 때
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // restaurant1,2,3... 하나씩 가져옴
-                        if(postSnapshot.getKey().equals(inputRestaurant)){
-                            location = postSnapshot.getValue(Location.class);
-                            break;
-                        }
-                    }
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // restaurant1,2,3... 하나씩 가져옴
+                    Location location = postSnapshot.getValue(Location.class);
+                    locaArrayList.add(location);
                 }
             }
             @Override
@@ -224,16 +240,19 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         //건물 표시
         naverMap.setLayerGroupEnabled(naverMap.LAYER_GROUP_BUILDING, true);
 
+        Log.d(TAG, "latLng: "+latLng);
+
         //위치 및 각도 조정
         CameraPosition cameraPosition = new CameraPosition(
-                new LatLng(36.629011, 127.460469),   // 위치 지정
+                latLng,   // 위치 지정
                 15,                                     // 줌 레벨
                 0,                                       // 기울임 각도
                 0                                     // 방향
         );
         naverMap.setCameraPosition(cameraPosition);
 
-        setMarker(marker, 36.633149, 127.458494, R.drawable.ic_baseline_place_24, 0);
+        setMarker(marker, latLng.latitude, latLng.longitude, R.drawable.ic_baseline_place_24, 0);
+
     }
 
     @Override

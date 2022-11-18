@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.naver.maps.geometry.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +30,9 @@ import java.util.Hashtable;
 
 public class CreateRoomActivity extends AppCompatActivity {
     private static final String TAG = "CreateRoomActivity";
-    
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     EditText etRoomName;
     String stUserToken;
@@ -39,8 +42,7 @@ public class CreateRoomActivity extends AppCompatActivity {
     String stRestaurant;
     String inputRestaurant;
     Button btnRegister;
-    FirebaseDatabase database;
-    private DatabaseReference myRef;
+    LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 RoomListActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         stUserToken = getIntent().getStringExtra("userToken");
         inputRestaurant = getIntent().getStringExtra("inputRestaurant");
+        latLng = getIntent().getParcelableExtra("latLng");
         btnRegister = (Button)findViewById(R.id.btn_register);
         final Spinner spin1 = (Spinner)findViewById(R.id.spinner1);
         final Spinner spin2 = (Spinner)findViewById(R.id.spinner2);
@@ -441,7 +444,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                     });
                 }
             }
-            //************************************************************************************************************************************************************************************************
+//********************************************************************************************************************************************************************************************************************************
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
@@ -463,6 +466,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                 Intent intent = new Intent(CreateRoomActivity.this, RoomListActivity.class);
                 intent.putExtra("email", stUserId);
                 intent.putExtra("inputRestaurant", inputRestaurant);
+                intent.putExtra("latLng", latLng);
                 startActivity(intent);
                 finish();
             }
