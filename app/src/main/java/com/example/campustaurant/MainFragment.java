@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -45,14 +47,23 @@ public class MainFragment extends Fragment{
     Button btnLogout;
     Button btnRoom;
     Button btnEnter;
-    Button btnRefresh;
-    Button btnRelate;
+    ImageButton btnRefresh;
+    ImageButton btnRelate;
     EditText etFood;
     ImageView ivFood;
     String inputFood;
     String stUserId;
     String fileName;
     int idx;
+    //사이드바 메뉴
+    DrawerLayout MainScreen;
+    View Sidebar;
+    ImageButton Ib_OpenSidebar;
+    Button Bt_CloseSidebar;
+    //알림창
+    View Notification;
+    ImageButton Ib_OpenNotification;
+    Button Bt_CloseNotification;
 
     // Fragment에서 Activity에 있는 메서드를 사용하기 위해서 필요
     MainActivity mainActivity;
@@ -86,6 +97,65 @@ public class MainFragment extends Fragment{
         }catch(NullPointerException e){
             fileName = mainActivity.getIntent().getStringExtra("fileName"); // 처음에는 액티비티에서 값 전달받음
         }
+
+        // 사이드바 메뉴
+        MainScreen = rootView.findViewById(R.id.dl_main); // 해당 레이아웃 아이디
+        Sidebar = rootView.findViewById(R.id.Sidebar); // 사이드바 레이아웃 아이디
+        Ib_OpenSidebar = rootView.findViewById(R.id.Ib_OpenSidebar); //SideBar
+        Ib_OpenSidebar.setOnClickListener(new View.OnClickListener() { // 메뉴 클릭 시
+            @Override
+            public void onClick(View view) {
+                MainScreen.openDrawer(Sidebar);
+            }
+        });
+        Bt_CloseSidebar = rootView.findViewById(R.id.Bt_CloseSidebar);
+        Bt_CloseSidebar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainScreen.closeDrawers();
+            }
+        });
+
+        // 알림창 기능
+        MainScreen = rootView.findViewById(R.id.dl_main); // 해당 레이아웃 아이디
+        Notification = rootView.findViewById(R.id.Notification);
+        Ib_OpenNotification = rootView.findViewById(R.id.Ib_OpenNotification);
+        Ib_OpenNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainScreen.openDrawer(Notification);
+            }
+        });
+        Bt_CloseNotification = rootView.findViewById(R.id.Bt_CloseNotification);
+        Bt_CloseNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainScreen.closeDrawers();
+            }
+        });
+
+        //사이드바 기능
+        DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        };
 
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
