@@ -1,9 +1,14 @@
 package com.example.campustaurant;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +31,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,35 +39,49 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class MainFragment extends Fragment{
+    private static final String TAG = "MainFragment";
 
+    private final int GALLERY_CODE = 10;
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
     FirebaseStorage storage;
     FirebaseDatabase database;
     StorageReference stRef;
     DatabaseReference locaRef;
+    DatabaseReference proRef;
     private ArrayList<Location> locaArrayList;
     ArrayList<String> foodArrayList;
-    Button btnLogout;
+    Profile profile;
     Button btnRoom;
     Button btnEnter;
     ImageButton btnRefresh;
     ImageButton btnRelate;
     EditText etFood;
     ImageView ivFood;
+    ImageView ivProfile;
     String inputFood;
     String stUserId;
     String fileName;
+    String stUserToken;
     int idx;
     //사이드바 메뉴
     DrawerLayout MainScreen;
     View Sidebar;
     ImageButton Ib_OpenSidebar;
     Button Bt_CloseSidebar;
+    Button btnLogout;
+    TextView tvName;
+    TextView tvSex;
+    TextView tvOld;
     //알림창
     View Notification;
     ImageButton Ib_OpenNotification;
@@ -80,6 +102,8 @@ public class MainFragment extends Fragment{
         // Fragment에서 findViewById를  사용하기 위해서 필요
 
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        stUserToken = mFirebaseUser.getUid();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
         btnLogout = rootView.findViewById(R.id.btn_logout);
@@ -99,6 +123,10 @@ public class MainFragment extends Fragment{
         }
 
         // 사이드바 메뉴
+        tvName = rootView.findViewById(R.id.tv_name);
+        tvSex = rootView.findViewById(R.id.tv_sex);
+        tvOld = rootView.findViewById(R.id.tv_old);
+
         MainScreen = rootView.findViewById(R.id.dl_main); // 해당 레이아웃 아이디
         Sidebar = rootView.findViewById(R.id.Sidebar); // 사이드바 레이아웃 아이디
         Ib_OpenSidebar = rootView.findViewById(R.id.Ib_OpenSidebar); //SideBar
@@ -113,6 +141,16 @@ public class MainFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 MainScreen.closeDrawers();
+            }
+        });
+
+        ivProfile = rootView.findViewById(R.id.iv_profile);
+        ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mainActivity, EditProfileActivity.class);
+                intent.putExtra("userToken", stUserToken);
+                startActivityForResult(intent, GALLERY_CODE);
             }
         });
 
@@ -225,7 +263,6 @@ public class MainFragment extends Fragment{
         });
 
         stRef = storage.getReference();
-
         stRef.child(fileName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -238,7 +275,6 @@ public class MainFragment extends Fragment{
         });
 
         locaRef = database.getReference("Restaurant"); // Restaurant하위에서 데이터를 읽기 위해
-
         locaRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -253,6 +289,33 @@ public class MainFragment extends Fragment{
             }
         });
 
+        proRef = database.getReference("Profile").child(stUserToken);
+        proRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+                profile = datasnapshot.getValue(Profile.class);
+
+                Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);
+                tvName.setText(profile.getName());
+                tvSex.setText(profile.getSex());
+                tvOld.setText(profile.getOld());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GALLERY_CODE){
+            if(resultCode == RESULT_OK){
+            }
+        }
     }
 }

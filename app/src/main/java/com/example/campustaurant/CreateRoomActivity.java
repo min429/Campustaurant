@@ -46,6 +46,7 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
 
     FirebaseDatabase database;
     DatabaseReference myRef;
+    DatabaseReference chatRef;
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     EditText etRoomName;
     String stUserToken;
@@ -501,6 +502,9 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
                 Data.put("food", stFood);
                 Data.put("restaurant", stRestaurant);
                 myRef.child(stUserToken).setValue(Data); // 입력
+
+                chatRef = database.getReference("Chat").child(stUserToken);
+                chatRef.setValue(null); // 기존의 채팅방 삭제
 
                 Intent intent = new Intent(CreateRoomActivity.this, RoomListActivity.class);
                 intent.putExtra("email", stUserId);

@@ -1,5 +1,6 @@
 package com.example.campustaurant;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,10 @@ import java.util.ArrayList;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
     private static final String TAG = "ChatAdapter";
 
+    private ClickCallbackListener mListener;
     private ArrayList<Chat> mDataset;
     String stUserId = "";
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom MyViewHolder).
-     */
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
 
@@ -40,15 +38,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
     }
 
-    /**
-     * Initialize the dataset of the Adapter.
-     *
-     * @param mydataSet String[] containing the data to populate views to be used
-     * by RecyclerView.
-     */
-    public ChatAdapter(ArrayList<Chat> mydataSet, String stEmail) {
+    public ChatAdapter(ArrayList<Chat> mydataSet, String stEmail, ClickCallbackListener mListener) {
         mDataset = mydataSet;
         this.stUserId = stEmail;
+        this.mListener = mListener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -73,10 +66,18 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         holder.textView.setText(mDataset.get(position).getText());
+
+        holder.itemView.setTag(position); // itemView의 position(위치)값을 가져옴
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { // room_list의 각 LinearLayout을 짧게 누르면 발생
+                Log.d(TAG, "holder: "+holder.getAdapterPosition());
+                mListener.onClick(holder.getAdapterPosition()); // 콜백함수
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

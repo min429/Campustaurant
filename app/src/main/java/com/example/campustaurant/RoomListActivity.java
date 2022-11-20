@@ -181,20 +181,14 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> RoomListAdapter에서 사용
         Room room = roomArrayList.get(position);
         Log.d(TAG, "room.userId: "+room.userId+", stUserId: "+stUserId+", room.restaurant: "+room.restaurant+", stRestaurant: "+stRestaurant);
-        if(stRestaurant == null){ // 방을 생성하지 않은경우
-            stRestaurant = room.restaurant;
-        }
-        if(!room.userId.equals(stUserId) && room.restaurant.equals(stRestaurant)){ // 자신이외의 유저중에 자신과 같은 음식점을 선택한 사람이 있는 경우
-            ref.child(stUserToken).setValue(null); // 현재 유저가 생성한 방을 폭파함
-            ref.child(room.userToken).setValue(null); // 매칭상대가 생성한 방을 폭파함
-            Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
-            intent.putExtra("email", stUserId); // stUserId값(자신의 아이디)을 ChatActivity에 넘겨줌
-            intent.putExtra("other", room.userId); // room.userId값(상대방 아이디)을 ChatActivity에 넘겨줌
-            startActivity(intent);
-        }
-        else{
-            Toast.makeText(RoomListActivity.this, "다른 유저와 매칭해주세요.", Toast.LENGTH_SHORT).show();
-        }
+
+        Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
+        intent.putExtra("email", stUserId); // stUserId값(자신의 아이디)을 ChatActivity에 넘겨줌
+        intent.putExtra("host", room.userId); // room.userId값(방장 아이디)을 ChatActivity에 넘겨줌
+        intent.putExtra("hostToken", room.userToken); // room.userToken값(방장 아이디토큰)을 ChatActivity에 넘겨줌
+        intent.putExtra("userToken", stUserToken); // stUserToken값(자신의 아이디토큰)을 ChatActivity에 넘겨줌
+        startActivity(intent);
+        finish();
     }
 
     private void setMarker(Marker marker,  double lat, double lng, int resourceID, int zIndex)
