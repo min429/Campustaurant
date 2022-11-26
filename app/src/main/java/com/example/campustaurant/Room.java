@@ -1,20 +1,24 @@
 package com.example.campustaurant;
 
+import java.util.HashMap;
+
 public class Room {
-    public String userToken;
-    public String roomName;
-    public String userId;
-    public String food;
-    public String restaurant;
+    private String userToken;
+    private String roomName;
+    private String userId;
+    private String food;
+    private String restaurant;
+    private HashMap<String, String> tag;
 
     public Room() {}
 
-    public Room(String userToken, String roomName, String userId, String food, String restaurant) {
+    public Room(String userToken, String roomName, String userId, String food, String restaurant, HashMap<String, String> tag) {
         this.userToken = userToken;
         this.roomName = roomName;
         this.userId = userId;
         this.food = food;
         this.restaurant = restaurant;
+        this.tag = tag;
     }
 
     public String getUserToken() {
@@ -55,5 +59,13 @@ public class Room {
 
     public void setRestaurant(String restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public HashMap<String, String> getTag() {
+        return tag;
+    }
+
+    public void setTag(HashMap<String, String> tag) {
+        this.tag = tag;
     }
 }

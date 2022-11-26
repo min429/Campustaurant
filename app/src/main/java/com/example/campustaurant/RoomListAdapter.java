@@ -7,14 +7,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.CustomViewHolder> { // CustomViewHolder는 직접 만들어줘야함
 
     private ArrayList<Room> roomArrayList;
     private ClickCallbackListener mListener;
+    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool(); // RecyclerView 최적화를 위해
 
     public RoomListAdapter(ArrayList<Room> roomArrayList, ClickCallbackListener mListener) { // Constructer(생성자)
         this.roomArrayList = roomArrayList; // RoomListActivity에서 생성된 roomArrayList로 초기화
@@ -40,6 +43,22 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
         holder.tvFood.setText(roomArrayList.get(position).getFood());
         holder.tvRestaurant.setText(roomArrayList.get(position).getRestaurant());
         // 클릭한 View의 position에 해당하는 index에 대해 roomArrayList(index)에 해당하는 Room객체의 변수들로 text를 세팅
+
+        // 자식 레이아웃 매니저 설정
+        LinearLayoutManager layoutManager = new LinearLayoutManager(
+                holder.rvSub.getContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+        );
+        layoutManager.setInitialPrefetchItemCount(roomArrayList.get(position).getTag().size()); // 해시맵 사이즈를 가져와서 세팅
+
+        // 자식 어답터 설정
+        TagAdapter tagAdapter = new TagAdapter(new ArrayList(roomArrayList.get(position).getTag().values()), mListener);
+
+        holder.rvSub.setLayoutManager(layoutManager);
+        holder.rvSub.setAdapter(tagAdapter);
+        holder.rvSub.setRecycledViewPool(viewPool); // RecyclerView 최적화
+
         holder.itemView.setTag(position); // itemView의 position(위치)값을 가져옴
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +79,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
         public TextView tvUserId;
         public TextView tvFood;
         public TextView tvRestaurant;
+        public RecyclerView rvSub;
 
         public CustomViewHolder(@NonNull View itemView) { // Constructer(생성자) // 인자: 위에서 만든 View객체 view
             super(itemView);
@@ -67,6 +87,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
             this.tvUserId = (TextView) itemView.findViewById(R.id.tv_userId);
             this.tvFood = (TextView) itemView.findViewById(R.id.tv_food);
             this.tvRestaurant = (TextView) itemView.findViewById(R.id.tv_restaurant);
+            this.rvSub = itemView.findViewById(R.id.rv_tag);
         }
     }
 }

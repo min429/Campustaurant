@@ -105,7 +105,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
             @Override
             public void onClick(View view) {
                 String stText = etText.getText().toString();
-                Toast.makeText(ChatActivity.this, "MSG: " + stText, Toast.LENGTH_SHORT).show();
+                etText.setText("");
                 // Write a message to the database
 
                 Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
@@ -135,4 +135,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         intent.putExtra("userToken", chat.getUserToken()); // 해당 채팅의 유저토큰을 넘겨줌
         startActivity(intent);
     }
+
+    @Override
+    public void delete(int position) {}
 }

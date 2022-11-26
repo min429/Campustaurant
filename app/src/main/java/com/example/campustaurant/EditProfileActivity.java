@@ -164,17 +164,18 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
             });
 
+
             // 갤러리 이미지 세팅
-            try{
-                InputStream in = getContentResolver().openInputStream(data.getData());
-                img = BitmapFactory.decodeStream(in);
-                in.close();
-                ivProfile.setImageBitmap(img);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try{
+//                InputStream in = getContentResolver().openInputStream(data.getData());
+//                img = BitmapFactory.decodeStream(in);
+//                in.close();
+//                ivProfile.setImageBitmap(img);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
