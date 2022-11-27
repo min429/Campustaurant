@@ -82,7 +82,7 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
         etRoomName = findViewById(R.id.et_roomName);
         etTag = findViewById(R.id.et_tag);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 RoomListActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
-        stUserToken = getIntent().getStringExtra("userToken");
+        stUserToken = getIntent().getStringExtra("myToken");
         locaArrayList = (ArrayList<Location>)getIntent().getSerializableExtra("locaArrayList");
         tagArrayList = new ArrayList<>();
         recyclerView = (RecyclerView)findViewById(R.id.rv_tag);
@@ -522,9 +522,9 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
 
                 Hashtable<String, String> Data // DB테이블에 데이터 입력
                         = new Hashtable<String, String>();
-                Data.put("userToken", stUserToken);  // DB의 userToken란에 stUserToken 값
+                Data.put("hostToken", stUserToken);  // DB의 hostToken란에 stUserToken 값
                 Data.put("roomName", stRoomName);
-                Data.put("userId", stUserId);
+                Data.put("hostId", stUserId);
                 Data.put("food", stFood);
                 Data.put("restaurant", stRestaurant);
                 myRef.child(stUserToken).setValue(Data); // 입력
@@ -535,6 +535,7 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
                 if(tagArrayList.isEmpty()){
                     myRef.child(stUserToken).child("tag").child("tag"+1).setValue("태그없음");
                 }
+                myRef.child(stUserToken).child("ban").child("userToken").setValue("");
 
                 chatRef = database.getReference("Chat").child(stUserToken);
                 chatRef.setValue(null); // 기존의 채팅방 삭제

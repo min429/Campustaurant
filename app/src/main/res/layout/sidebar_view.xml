@@ -29,10 +29,11 @@
             android:orientation="vertical"
             android:layout_weight="0.8">
 
-            <Button
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:gravity="center"
                 android:layout_weight="0.1"
                 android:background="@color/background"
                 android:text="사용자"
@@ -110,19 +111,45 @@
                 android:layout_margin="10dp"
                 android:text="공지사항"
                 android:textSize="40sp"
+                android:textColor="#757575"
                 android:background="@color/background"/>
 
+            <!--
             <ListView
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:layout_weight="0.2"
                 android:layout_margin="10dp"/>
+                -->
 
-            <Button
+            <TextView
+                android:id="@+id/tv_notice"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="0.2"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="0.2"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="0.2"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="0.2"
+                android:layout_margin="5dp"/>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="0.01"
+                android:gravity="center"
                 android:background="@color/background"
                 android:text="최근기록"
                 android:textColor="#757575"

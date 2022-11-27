@@ -137,7 +137,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
             public void onClick(View view) {
                 Intent intent = new Intent(RoomListActivity.this, CreateRoomActivity.class);
                 intent.putExtra("email", stUserId); // stUserId값을 CreateRoomActivity에 넘겨줌
-                intent.putExtra("userToken", stUserToken);
+                intent.putExtra("myToken", stUserToken);
                 intent.putExtra("locaArrayList", locaArrayList);
                 startActivity(intent);
                 finish();
@@ -155,7 +155,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
                         Room room = postSnapshot.getValue(Room.class);
                         roomArrayList.add(room);
-                        if (room.getUserId().equals(stUserId)) {
+                        if (room.getHostId().equals(stUserId)) {
                             stRestaurant = room.getRestaurant();
                         }
                     }
@@ -165,7 +165,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                         if (room.getRestaurant().equals(inputRestaurant)) {
                             roomArrayList.add(room);
                         }
-                        if (room.getUserId().equals(stUserId)) {
+                        if (room.getHostId().equals(stUserId)) {
                             stRestaurant = room.getRestaurant();
                         }
                     }
@@ -182,13 +182,13 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     @Override
     public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> RoomListAdapter에서 사용
         Room room = roomArrayList.get(position);
-        Log.d(TAG, "room.userId: "+room.getUserId()+", stUserId: "+stUserId+", room.restaurant: "+room.getRestaurant()+", stRestaurant: "+stRestaurant);
+        Log.d(TAG, "room.userId: "+room.getHostId()+", stUserId: "+stUserId+", room.restaurant: "+room.getRestaurant()+", stRestaurant: "+stRestaurant);
 
         Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
         intent.putExtra("email", stUserId); // stUserId값(자신의 아이디)을 ChatActivity에 넘겨줌
-        intent.putExtra("host", room.getUserId()); // room.userId값(방장 아이디)을 ChatActivity에 넘겨줌
-        intent.putExtra("hostToken", room.getUserToken()); // room.userToken값(방장 아이디토큰)을 ChatActivity에 넘겨줌
-        intent.putExtra("userToken", stUserToken); // stUserToken값(자신의 아이디토큰)을 ChatActivity에 넘겨줌
+        intent.putExtra("hostId", room.getHostId()); // room.userId값(방장 아이디)을 ChatActivity에 넘겨줌
+        intent.putExtra("hostToken", room.getHostToken()); // room.hostToken값(방장 아이디토큰)을 ChatActivity에 넘겨줌
+        intent.putExtra("myToken", stUserToken); // stUserToken값(자신의 아이디토큰)을 ChatActivity에 넘겨줌
         startActivity(intent);
         finish();
     }

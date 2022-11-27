@@ -3,30 +3,32 @@ package com.example.campustaurant;
 import java.util.HashMap;
 
 public class Room {
-    private String userToken;
+    private String hostToken;
     private String roomName;
-    private String userId;
+    private String hostId;
     private String food;
     private String restaurant;
     private HashMap<String, String> tag;
+    private HashMap<String, String> ban;
 
     public Room() {}
 
-    public Room(String userToken, String roomName, String userId, String food, String restaurant, HashMap<String, String> tag) {
-        this.userToken = userToken;
+    public Room(String hostToken, String roomName, String hostId, String food, String restaurant, HashMap<String, String> tag, HashMap<String, String> ban) {
+        this.hostToken = hostToken;
         this.roomName = roomName;
-        this.userId = userId;
+        this.hostId = hostId;
         this.food = food;
         this.restaurant = restaurant;
         this.tag = tag;
+        this.ban = ban;
     }
 
-    public String getUserToken() {
-        return userToken;
+    public String getHostToken() {
+        return hostToken;
     }
 
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
+    public void setHostToken(String hostToken) {
+        this.hostToken = hostToken;
     }
 
     public String getRoomName() {
@@ -37,12 +39,12 @@ public class Room {
         this.roomName = roomName;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getHostId() {
+        return hostId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
     }
 
     public String getFood() {
@@ -67,5 +69,13 @@ public class Room {
 
     public void setTag(HashMap<String, String> tag) {
         this.tag = tag;
+    }
+
+    public HashMap<String, String> getBan() {
+        return ban;
+    }
+
+    public void setBan(HashMap<String, String> ban) {
+        this.ban = ban;
     }
 }

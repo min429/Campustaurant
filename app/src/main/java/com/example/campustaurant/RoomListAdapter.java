@@ -39,7 +39,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
     @Override
     public void onBindViewHolder(@NonNull RoomListAdapter.CustomViewHolder holder, int position) { // RoomListAdapter.CustomViewHolder에서 생성된 holder를 받아옴
         holder.tvRoomName.setText(roomArrayList.get(position).getRoomName());
-        holder.tvUserId.setText(roomArrayList.get(position).getUserId());
+        holder.tvUserId.setText(roomArrayList.get(position).getHostId());
         holder.tvFood.setText(roomArrayList.get(position).getFood());
         holder.tvRestaurant.setText(roomArrayList.get(position).getRestaurant());
         // 클릭한 View의 position에 해당하는 index에 대해 roomArrayList(index)에 해당하는 Room객체의 변수들로 text를 세팅

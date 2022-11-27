@@ -61,7 +61,7 @@ public class EditProfileActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); // 타이틀바 삭제(setContentView전에 써줘야함)
         setContentView(R.layout.activity_edit_profile);
 
-        stUserToken = getIntent().getStringExtra("userToken");
+        stUserToken = getIntent().getStringExtra("myToken");
         ibCross = findViewById(R.id.ib_cross);
         etName = findViewById(R.id.et_name);
         etSex = findViewById(R.id.et_sex);

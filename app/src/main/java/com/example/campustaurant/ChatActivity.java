@@ -1,5 +1,6 @@
 package com.example.campustaurant;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,7 @@ import org.w3c.dom.Comment;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 public class ChatActivity extends AppCompatActivity implements ClickCallbackListener{
@@ -52,15 +54,34 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         database = FirebaseDatabase.getInstance();
         chatArrayList = new ArrayList<>();
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
-        stOtherId = getIntent().getStringExtra("host");
+        stOtherId = getIntent().getStringExtra("hostId");
         stHostToken = getIntent().getStringExtra("hostToken");
-        stUserToken = getIntent().getStringExtra("userToken");
+        stUserToken = getIntent().getStringExtra("myToken");
         btnFinish = findViewById(R.id.btnFinish);
         btnSend = (Button)findViewById(R.id.btnSend);
         etText = (EditText) findViewById(R.id.etText);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         roomRef = database.getReference("Room").child(stHostToken);
+
+        roomRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DataSnapshot childSnapshot = dataSnapshot.child("ban");
+                HashMap<String,String> map = (HashMap<String,String>)childSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
+                for(String banUser : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 banUser에 저장
+                    if(stUserToken.equals(banUser)){
+                        Toast.makeText(ChatActivity.this, "강퇴당하셨습니다.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +154,8 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
 
         Intent intent = new Intent(ChatActivity.this, ProfileActivity.class);
         intent.putExtra("userToken", chat.getUserToken()); // 해당 채팅의 유저토큰을 넘겨줌
+        intent.putExtra("myToken", stUserToken); // 자신의 유저토큰을 넘겨줌
+        intent.putExtra("hostToken", stHostToken); // 방장의 유저토큰을 넘겨줌
         startActivity(intent);
     }
 

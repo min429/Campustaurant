@@ -82,6 +82,7 @@ public class MainFragment extends Fragment{
     TextView tvName;
     TextView tvSex;
     TextView tvOld;
+    TextView tvNotice;
     //알림창
     View Notification;
     ImageButton Ib_OpenNotification;
@@ -126,6 +127,14 @@ public class MainFragment extends Fragment{
         tvName = rootView.findViewById(R.id.tv_name);
         tvSex = rootView.findViewById(R.id.tv_sex);
         tvOld = rootView.findViewById(R.id.tv_old);
+        tvNotice = rootView.findViewById(R.id.tv_notice);
+
+        tvNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
 
         MainScreen = rootView.findViewById(R.id.dl_main); // 해당 레이아웃 아이디
         Sidebar = rootView.findViewById(R.id.Sidebar); // 사이드바 레이아웃 아이디
@@ -149,7 +158,7 @@ public class MainFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, EditProfileActivity.class);
-                intent.putExtra("userToken", stUserToken);
+                intent.putExtra("myToken", stUserToken);
                 startActivityForResult(intent, GALLERY_CODE);
             }
         });
@@ -295,10 +304,12 @@ public class MainFragment extends Fragment{
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 profile = datasnapshot.getValue(Profile.class);
 
-                Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);
-                tvName.setText(profile.getName());
-                tvSex.setText(profile.getSex());
-                tvOld.setText(profile.getOld());
+                if(profile != null){
+                    if(profile.getUri() != null) Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);
+                    if(profile.getName() != null) tvName.setText(profile.getName());
+                    if(profile.getSex() != null) tvSex.setText(profile.getSex());
+                    if(profile.getOld() != null) tvOld.setText(profile.getOld());
+                }
             }
 
             @Override
