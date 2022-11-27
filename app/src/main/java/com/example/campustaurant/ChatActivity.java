@@ -67,12 +67,20 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(Room.class) == null){
+                    if(!stUserToken.equals(stHostToken)){ // 방장이 아니라면
+                        Toast.makeText(ChatActivity.this, "더이상 존재하지 않는 방입니다.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
                 DataSnapshot childSnapshot = dataSnapshot.child("ban");
                 HashMap<String,String> map = (HashMap<String,String>)childSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
-                for(String banUser : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 banUser에 저장
-                    if(stUserToken.equals(banUser)){
-                        Toast.makeText(ChatActivity.this, "강퇴당하셨습니다.", Toast.LENGTH_SHORT).show();
-                        finish();
+                if(map != null){
+                    for(String banUser : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 banUser에 저장
+                        if(stUserToken.equals(banUser)){
+                            Toast.makeText(ChatActivity.this, "강퇴당하셨습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
                     }
                 }
             }

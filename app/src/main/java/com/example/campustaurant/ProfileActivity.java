@@ -37,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvName;
     TextView tvSex;
     TextView tvOld;
+    TextView tvRating;
     String stUserToken;
     String stHostToken;
     String stMyToken;
@@ -55,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tv_name);
         tvSex = findViewById(R.id.tv_sex);
         tvOld = findViewById(R.id.tv_old);
+        tvRating =findViewById(R.id.tv_rating);
         stUserToken = getIntent().getStringExtra("userToken"); // 해당 채팅의 유저토큰
         stHostToken = getIntent().getStringExtra("hostToken"); // 방장의 유저토큰
         stMyToken = getIntent().getStringExtra("myToken"); // 자신의 유저토큰
@@ -87,6 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
                     if(profile.getName() != null) tvName.setText(profile.getName());
                     if(profile.getSex() != null) tvSex.setText(profile.getSex());
                     if(profile.getOld() != null) tvOld.setText(profile.getOld());
+                    tvRating.setText(Integer.toString(profile.getRating()));
                 }
             }
             @Override
