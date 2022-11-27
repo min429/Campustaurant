@@ -5,14 +5,16 @@ public class Profile {
     private String sex;
     private String old;
     private String uri;
+    private int rating = 0;
 
     public Profile() {}
 
-    public Profile(String name, String sex, String old, String uri) {
+    public Profile(String name, String sex, String old, String uri, int rating) {
         this.name = name;
         this.sex = sex;
         this.old = old;
         this.uri = uri;
+        this.rating = rating;
     }
 
     public String getName() {
@@ -45,5 +47,13 @@ public class Profile {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }

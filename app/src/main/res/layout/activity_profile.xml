@@ -56,7 +56,15 @@
                 android:id="@+id/iv_profile"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:background="@drawable/person"/>
+                android:background="@drawable/person"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="10dp"/>
         </LinearLayout>
 
         <View
@@ -110,19 +118,23 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="나이: "/>
-                <TextView
-                    android:id="@+id/tv_old"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="23세"/>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="나이: "
+                        android:layout_marginStart="30dp"/>
+                    <TextView
+                        android:id="@+id/tv_old"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
+                </LinearLayout>
+
                 <ImageButton
                     android:id="@+id/ib_kick"
                     android:layout_width="30dp"

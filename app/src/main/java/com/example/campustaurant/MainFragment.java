@@ -75,6 +75,7 @@ public class MainFragment extends Fragment{
     TextView tvName;
     TextView tvSex;
     TextView tvOld;
+    TextView tvRating;
     //알림창
     View Notification;
     ImageButton Ib_OpenNotification;
@@ -119,8 +120,9 @@ public class MainFragment extends Fragment{
         tvName = rootView.findViewById(R.id.tv_name);
         tvSex = rootView.findViewById(R.id.tv_sex);
         tvOld = rootView.findViewById(R.id.tv_old);
-        btnRecord = rootView.findViewById(R.id.btn_record);
+        tvRating = rootView.findViewById(R.id.tv_rating);
 
+        btnRecord = rootView.findViewById(R.id.btn_record);
         btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -294,14 +296,19 @@ public class MainFragment extends Fragment{
         proRef = database.getReference("Profile").child(stUserToken);
         proRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-                profile = datasnapshot.getValue(Profile.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                profile = dataSnapshot.getValue(Profile.class);
 
                 if(profile != null){
                     if(profile.getUri() != null) Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);
                     if(profile.getName() != null) tvName.setText(profile.getName());
                     if(profile.getSex() != null) tvSex.setText(profile.getSex());
                     if(profile.getOld() != null) tvOld.setText(profile.getOld());
+                    tvRating.setText(Integer.toString(profile.getRating()));
+                }
+                else{
+                    proRef.child("rating").setValue(0);
+                    tvRating.setText("0");
                 }
             }
 

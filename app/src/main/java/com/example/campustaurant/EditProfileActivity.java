@@ -17,6 +17,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -50,10 +51,10 @@ public class EditProfileActivity extends AppCompatActivity {
     EditText etSex;
     EditText etOld;
     ImageView ivProfile;
+    TextView tvRating;
     String stName;
     String stSex;
     String stOld;
-    Bitmap img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +68,21 @@ public class EditProfileActivity extends AppCompatActivity {
         etSex = findViewById(R.id.et_sex);
         etOld = findViewById(R.id.et_old);
         ivProfile = findViewById(R.id.iv_profile);
+        tvRating = findViewById(R.id.tv_rating);
 
         dbRef = database.getReference("Profile").child(stUserToken);
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-                profile = datasnapshot.getValue(Profile.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                profile = dataSnapshot.getValue(Profile.class);
 
-                Glide.with(EditProfileActivity.this).load(profile.getUri()).into(ivProfile);
-                etName.setText(profile.getName());
-                etSex.setText(profile.getSex());
-                etOld.setText(profile.getOld());
+                if(profile != null){
+                    if(profile.getUri() != null) Glide.with(EditProfileActivity.this).load(profile.getUri()).into(ivProfile);
+                    if(profile.getName() != null) etName.setText(profile.getName());
+                    if(profile.getSex() != null) etSex.setText(profile.getSex());
+                    if(profile.getOld() != null) etOld.setText(profile.getOld());
+                    tvRating.setText(Integer.toString(profile.getRating()));
+                }
             }
 
             @Override
@@ -102,9 +107,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 stSex = etSex.getText().toString();
                 stOld = etOld.getText().toString();
 
-                dbRef.child(stUserToken).child("name").setValue(stName);
-                dbRef.child(stUserToken).child("sex").setValue(stSex);
-                dbRef.child(stUserToken).child("old").setValue(stOld);
+                dbRef.child("name").setValue(stName);
+                dbRef.child("sex").setValue(stSex);
+                dbRef.child("old").setValue(stOld);
 
                 setResult(RESULT_OK, getIntent());
                 finish();
@@ -120,9 +125,9 @@ public class EditProfileActivity extends AppCompatActivity {
             stSex = etSex.getText().toString();
             stOld = etOld.getText().toString();
 
-            dbRef.child(stUserToken).child("name").setValue(stName);
-            dbRef.child(stUserToken).child("sex").setValue(stSex);
-            dbRef.child(stUserToken).child("old").setValue(stOld);
+            dbRef.child("name").setValue(stName);
+            dbRef.child("sex").setValue(stSex);
+            dbRef.child("old").setValue(stOld);
 
             setResult(RESULT_OK, getIntent());
             finish();
