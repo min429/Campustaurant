@@ -138,4 +138,9 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
 
     @Override
     public void delete(int position) {}
+
+    @Override
+    public void remove(int position) {
+
+    }
 }

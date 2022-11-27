@@ -194,10 +194,10 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     }
 
     @Override
-    public void delete(int position) { // ClickCallbackListener 인터페이스의 메서드 -> TagAdapter에서 사용
-        ref.child(stUserToken).child("tag").child("tag"+(position+1)).setValue(null);
-        // DB에서 해당 태그 삭제
-    }
+    public void delete(int position) {}
+
+    @Override
+    public void remove(int position) {}
 
     private void setMarker(Marker marker,  double lat, double lng, int resourceID, int zIndex)
     {

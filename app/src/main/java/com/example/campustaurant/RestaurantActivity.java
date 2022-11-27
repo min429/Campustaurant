@@ -122,4 +122,9 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
 
     @Override
     public void delete(int position) {}
+
+    @Override
+    public void remove(int position) {
+
+    }
 }

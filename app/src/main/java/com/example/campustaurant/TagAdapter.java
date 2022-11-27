@@ -44,7 +44,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.CustomViewHolder
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() { // 롱 클릭
             @Override
             public boolean onLongClick(View view) {
-                remove(holder.getAdapterPosition()); // 뷰 지움
+                mlistener.remove(holder.getAdapterPosition()); // 뷰 지움
                 mlistener.delete(position);
                 return true;
             }
@@ -54,15 +54,6 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.CustomViewHolder
     @Override
     public int getItemCount() {
         return (null != tagArrayList ? tagArrayList.size() : 0);
-    }
-
-    public void remove(int position){
-        try{
-            tagArrayList.remove(position);
-            notifyItemRemoved(position);
-        }catch(IndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {

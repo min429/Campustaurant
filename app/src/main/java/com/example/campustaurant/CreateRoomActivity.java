@@ -643,4 +643,14 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
         myRef.child(stUserToken).child("tag").child("tag"+(position+1)).setValue(null);
         // DB에서 해당 태그 삭제
     }
+
+    @Override
+    public void remove(int position) {
+        try{
+            tagArrayList.remove(position);
+            tagAdapter.notifyItemRemoved(position);
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
 }
