@@ -33,6 +33,7 @@ import com.naver.maps.map.overlay.OverlayImage;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 public class RoomListActivity extends AppCompatActivity implements ClickCallbackListener, OnMapReadyCallback{
     private static final String TAG = "RoomListActivity";
@@ -136,7 +137,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
             public void onClick(View view) {
                 Intent intent = new Intent(RoomListActivity.this, CreateRoomActivity.class);
                 intent.putExtra("email", stUserId); // stUserId값을 CreateRoomActivity에 넘겨줌
-                intent.putExtra("userToken", stUserToken);
+                intent.putExtra("myToken", stUserToken);
                 intent.putExtra("locaArrayList", locaArrayList);
                 startActivity(intent);
                 finish();
@@ -149,21 +150,22 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "input: " + inputRestaurant);
+                roomArrayList.clear();
                 if (inputRestaurant == null || inputRestaurant.equals("")) { // 대기열 화면을 처음 띄울 때 or 입력창에 아무것도 입력하지 않았을 때
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
                         Room room = postSnapshot.getValue(Room.class);
                         roomArrayList.add(room);
-                        if (room.userId.equals(stUserId)) {
+                        if (room.getHostId().equals(stUserId)) {
                             stRestaurant = room.getRestaurant();
                         }
                     }
                 } else {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
                         Room room = postSnapshot.getValue(Room.class);
-                        if (room.restaurant.equals(inputRestaurant)) {
+                        if (room.getRestaurant().equals(inputRestaurant)) {
                             roomArrayList.add(room);
                         }
-                        if (room.userId.equals(stUserId)) {
+                        if (room.getHostId().equals(stUserId)) {
                             stRestaurant = room.getRestaurant();
                         }
                     }
@@ -180,16 +182,22 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     @Override
     public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> RoomListAdapter에서 사용
         Room room = roomArrayList.get(position);
-        Log.d(TAG, "room.userId: "+room.userId+", stUserId: "+stUserId+", room.restaurant: "+room.restaurant+", stRestaurant: "+stRestaurant);
+        Log.d(TAG, "room.userId: "+room.getHostId()+", stUserId: "+stUserId+", room.restaurant: "+room.getRestaurant()+", stRestaurant: "+stRestaurant);
 
         Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
         intent.putExtra("email", stUserId); // stUserId값(자신의 아이디)을 ChatActivity에 넘겨줌
-        intent.putExtra("host", room.userId); // room.userId값(방장 아이디)을 ChatActivity에 넘겨줌
-        intent.putExtra("hostToken", room.userToken); // room.userToken값(방장 아이디토큰)을 ChatActivity에 넘겨줌
-        intent.putExtra("userToken", stUserToken); // stUserToken값(자신의 아이디토큰)을 ChatActivity에 넘겨줌
+        intent.putExtra("hostId", room.getHostId()); // room.userId값(방장 아이디)을 ChatActivity에 넘겨줌
+        intent.putExtra("hostToken", room.getHostToken()); // room.hostToken값(방장 아이디토큰)을 ChatActivity에 넘겨줌
+        intent.putExtra("myToken", stUserToken); // stUserToken값(자신의 아이디토큰)을 ChatActivity에 넘겨줌
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void delete(int position) {}
+
+    @Override
+    public void remove(int position) {}
 
     private void setMarker(Marker marker,  double lat, double lng, int resourceID, int zIndex)
     {

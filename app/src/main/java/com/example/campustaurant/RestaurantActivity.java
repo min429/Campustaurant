@@ -82,6 +82,7 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                restaurantList.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) { // food1,2,3... 하나씩 가져옴
                     stFood = postSnapshot.getKey(); // Food 하위의 키값 하나씩 가져옴
                     if(stFood.equals(inputFood)){
@@ -117,5 +118,13 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
         intent.putExtra("locaArrayList", locaArrayList);
         intent.putExtra("latLng", latLng);
         startActivity(intent);
+    }
+
+    @Override
+    public void delete(int position) {}
+
+    @Override
+    public void remove(int position) {
+
     }
 }

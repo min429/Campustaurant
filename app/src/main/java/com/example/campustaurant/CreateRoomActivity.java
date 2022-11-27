@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 
-public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyCallback, ClickCallbackListener {
     private static final String TAG = "CreateRoomActivity";
 
     private MapView mapView;
@@ -48,7 +50,11 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
     DatabaseReference myRef;
     DatabaseReference chatRef;
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
+    TagAdapter tagAdapter;
+    RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
     EditText etRoomName;
+    EditText etTag;
     String stUserToken;
     String stRoomName;
     String stUserId;
@@ -56,7 +62,9 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
     String stRestaurant;
     Button btnRegister;
     Button btnMap;
+    Button btnEnter;
     ArrayList<Location> locaArrayList;
+    ArrayList<String> tagArrayList;
     LatLng latLng = new LatLng(36.628881, 127.460586);
 
     @Override
@@ -72,11 +80,19 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Room");
         etRoomName = findViewById(R.id.et_roomName);
+        etTag = findViewById(R.id.et_tag);
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 RoomListActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
-        stUserToken = getIntent().getStringExtra("userToken");
+        stUserToken = getIntent().getStringExtra("myToken");
         locaArrayList = (ArrayList<Location>)getIntent().getSerializableExtra("locaArrayList");
+        tagArrayList = new ArrayList<>();
+        recyclerView = (RecyclerView)findViewById(R.id.rv_tag);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false); // 수평 리사이클러뷰
+        recyclerView.setLayoutManager(linearLayoutManager);
+        tagAdapter = new TagAdapter(tagArrayList, this); // tagArrayList에 담긴 것들을 어댑터에 담아줌
+        recyclerView.setAdapter(tagAdapter); // recyclerView에 tagAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
         btnRegister = (Button)findViewById(R.id.btn_register);
         btnMap = findViewById(R.id.btn_map);
+        btnEnter = findViewById(R.id.btn_enter);
         final Spinner spin1 = (Spinner)findViewById(R.id.spinner1);
         final Spinner spin2 = (Spinner)findViewById(R.id.spinner2);
         final Spinner spin3 = (Spinner)findViewById(R.id.spinner3);
@@ -469,6 +485,16 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+        btnEnter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tagArrayList.add(etTag.getText().toString());
+                tagAdapter.notifyDataSetChanged();
+                etTag.setText("");
+            }
+        });
+
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -496,12 +522,20 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
 
                 Hashtable<String, String> Data // DB테이블에 데이터 입력
                         = new Hashtable<String, String>();
-                Data.put("userToken", stUserToken);  // DB의 userToken란에 stUserToken 값
+                Data.put("hostToken", stUserToken);  // DB의 hostToken란에 stUserToken 값
                 Data.put("roomName", stRoomName);
-                Data.put("userId", stUserId);
+                Data.put("hostId", stUserId);
                 Data.put("food", stFood);
                 Data.put("restaurant", stRestaurant);
                 myRef.child(stUserToken).setValue(Data); // 입력
+
+                for(int i=0; i<tagArrayList.size(); i++){
+                    myRef.child(stUserToken).child("tag").child("tag"+(i+1)).setValue(tagArrayList.get(i));
+                }
+                if(tagArrayList.isEmpty()){
+                    myRef.child(stUserToken).child("tag").child("tag"+1).setValue("태그없음");
+                }
+                myRef.child(stUserToken).child("ban").child("userToken").setValue("");
 
                 chatRef = database.getReference("Chat").child(stUserToken);
                 chatRef.setValue(null); // 기존의 채팅방 삭제
@@ -600,5 +634,24 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
     {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+
+    @Override
+    public void onClick(int position) {}
+
+    @Override
+    public void delete(int position) { // ClickCallbackListener 인터페이스의 메서드 -> TagAdapter에서 사용
+        myRef.child(stUserToken).child("tag").child("tag"+(position+1)).setValue(null);
+        // DB에서 해당 태그 삭제
+    }
+
+    @Override
+    public void remove(int position) {
+        try{
+            tagArrayList.remove(position);
+            tagAdapter.notifyItemRemoved(position);
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
     }
 }

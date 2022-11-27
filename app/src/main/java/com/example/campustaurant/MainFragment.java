@@ -4,11 +4,8 @@ import static android.app.Activity.RESULT_OK;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,11 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -79,6 +71,7 @@ public class MainFragment extends Fragment{
     ImageButton Ib_OpenSidebar;
     Button Bt_CloseSidebar;
     Button btnLogout;
+    Button btnRecord;
     TextView tvName;
     TextView tvSex;
     TextView tvOld;
@@ -126,6 +119,15 @@ public class MainFragment extends Fragment{
         tvName = rootView.findViewById(R.id.tv_name);
         tvSex = rootView.findViewById(R.id.tv_sex);
         tvOld = rootView.findViewById(R.id.tv_old);
+        btnRecord = rootView.findViewById(R.id.btn_record);
+
+        btnRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mainActivity, RecordListActivity.class);
+                startActivity(intent);
+            }
+        });
 
         MainScreen = rootView.findViewById(R.id.dl_main); // 해당 레이아웃 아이디
         Sidebar = rootView.findViewById(R.id.Sidebar); // 사이드바 레이아웃 아이디
@@ -149,7 +151,7 @@ public class MainFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, EditProfileActivity.class);
-                intent.putExtra("userToken", stUserToken);
+                intent.putExtra("myToken", stUserToken);
                 startActivityForResult(intent, GALLERY_CODE);
             }
         });
@@ -295,10 +297,12 @@ public class MainFragment extends Fragment{
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 profile = datasnapshot.getValue(Profile.class);
 
-                Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);
-                tvName.setText(profile.getName());
-                tvSex.setText(profile.getSex());
-                tvOld.setText(profile.getOld());
+                if(profile != null){
+                    if(profile.getUri() != null) Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);
+                    if(profile.getName() != null) tvName.setText(profile.getName());
+                    if(profile.getSex() != null) tvSex.setText(profile.getSex());
+                    if(profile.getOld() != null) tvOld.setText(profile.getOld());
+                }
             }
 
             @Override

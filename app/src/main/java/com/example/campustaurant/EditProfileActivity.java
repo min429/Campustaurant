@@ -61,7 +61,7 @@ public class EditProfileActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); // 타이틀바 삭제(setContentView전에 써줘야함)
         setContentView(R.layout.activity_edit_profile);
 
-        stUserToken = getIntent().getStringExtra("userToken");
+        stUserToken = getIntent().getStringExtra("myToken");
         ibCross = findViewById(R.id.ib_cross);
         etName = findViewById(R.id.et_name);
         etSex = findViewById(R.id.et_sex);
@@ -164,17 +164,18 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
             });
 
+
             // 갤러리 이미지 세팅
-            try{
-                InputStream in = getContentResolver().openInputStream(data.getData());
-                img = BitmapFactory.decodeStream(in);
-                in.close();
-                ivProfile.setImageBitmap(img);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try{
+//                InputStream in = getContentResolver().openInputStream(data.getData());
+//                img = BitmapFactory.decodeStream(in);
+//                in.close();
+//                ivProfile.setImageBitmap(img);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
