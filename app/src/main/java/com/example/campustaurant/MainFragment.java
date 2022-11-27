@@ -4,11 +4,8 @@ import static android.app.Activity.RESULT_OK;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,11 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -79,10 +71,10 @@ public class MainFragment extends Fragment{
     ImageButton Ib_OpenSidebar;
     Button Bt_CloseSidebar;
     Button btnLogout;
+    Button btnRecord;
     TextView tvName;
     TextView tvSex;
     TextView tvOld;
-    TextView tvNotice;
     //알림창
     View Notification;
     ImageButton Ib_OpenNotification;
@@ -127,12 +119,13 @@ public class MainFragment extends Fragment{
         tvName = rootView.findViewById(R.id.tv_name);
         tvSex = rootView.findViewById(R.id.tv_sex);
         tvOld = rootView.findViewById(R.id.tv_old);
-        tvNotice = rootView.findViewById(R.id.tv_notice);
+        btnRecord = rootView.findViewById(R.id.btn_record);
 
-        tvNotice.setOnClickListener(new View.OnClickListener() {
+        btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Intent intent = new Intent(mainActivity, RecordListActivity.class);
+                startActivity(intent);
             }
         });
 

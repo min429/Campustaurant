@@ -123,7 +123,6 @@
                 -->
 
             <TextView
-                android:id="@+id/tv_notice"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_weight="0.2"
@@ -144,12 +143,12 @@
                 android:layout_weight="0.2"
                 android:layout_margin="5dp"/>
 
-            <TextView
+            <Button
+                android:id="@+id/btn_record"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="0.01"
-                android:gravity="center"
                 android:background="@color/background"
                 android:text="최근기록"
                 android:textColor="#757575"
