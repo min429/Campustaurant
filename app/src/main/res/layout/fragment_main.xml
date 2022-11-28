@@ -2,193 +2,289 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dl_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/white"
+    android:id="@+id/dl_main"
     tools:context="MainFragment">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/Toolbar"
+        <include
+            layout="@layout/toolbar"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/PColor1"
-            app:contentInsetStart="0dp">
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/Ib_searchopen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/searchopen2"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/Ib_OpenSidebar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/menu_bar"
-                    android:scaleType="fitCenter"
-                    android:text="메뉴" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"></LinearLayout>
-
-                <TextView
-                    android:id="@+id/Tv_CampusTaurant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:letterSpacing="0.12"
-                    android:text="CampusTaurant"
-                    android:textSize="32sp"></TextView>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"></LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/Ib_OpenNotification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/notification" />
-
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <LinearLayout
-            android:id="@+id/ll_search"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.16"
-            android:background="@color/PColor2"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <EditText
-                android:id="@+id/et_food"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:layout_weight="0.9"
-                android:hint="음식을 입력하세요." />
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="오늘의 메뉴"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape"
+                        android:backgroundTint="@color/black">
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:orientation="horizontal"
+                        android:background="@color/background">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1"
+                            android:padding="4dp"
+                            android:orientation="vertical">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:background="@color/white">
+                            <ImageView
+                                android:id="@+id/iv_foodimg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_margin="10dp"
+                                android:adjustViewBounds="true"
+                                android:layout_weight="0.1"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/food1">
+                            </ImageView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:text="음식이름"
+                                android:textSize="18sp"
+                                android:textColor="@color/black"></TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1"
+                            android:padding="4dp"
+                            android:orientation="vertical">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:background="@drawable/shape3">
+                            <LinearLayout
+                                android:id="@+id/ll_relate"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingTop="10dp">
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:src="@drawable/icon_gorestaurantlist">
+                                </ImageView>
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="10dp"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
+                                    android:text="관련 음식점 보기"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:background="#00ffffff"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/ll_recommend"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:src="@drawable/icon_recommend">
+                                </ImageView>
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="10dp"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
+                                    android:text="메뉴 추천받기"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:background="#00ffffff"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1"
+                            android:padding="4dp"
+                            android:orientation="vertical">
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_enter"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.1"
-                android:backgroundTint="#843C0C"
-                android:text="입력" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:shadowColor="@color/black"
+                            android:shadowDx="-7.0"
+                            android:shadowDy="7.0"
+                            android:text="실시간 대기열"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/shape"
+                            android:backgroundTint="@color/black">
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+
+
+                        <!--실시간 대기열-->
+                        <include layout="@layout/realtime_view"/>
+
+
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="밥친구 찾기"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape"
+                        android:backgroundTint="@color/black">
+                    </LinearLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.05">
+                        <LinearLayout
+                            android:id="@+id/ll_room"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:background="@drawable/shape3_"
+                            android:layout_margin="20dp"
+                            android:paddingTop="10dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_checkroom"/>
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#00000000"
+                                android:text="대기열 바로가기"
+                                android:textColor="@color/black"
+                                android:textSize="20sp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/background">
+                        </LinearLayout>
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_weight="0.35"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <ImageView
-                android:id="@+id/iv_foodimg"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="16dp"
-                android:layout_weight="1"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <ImageButton
-                android:id="@+id/btn_refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@drawable/mainbutton1" />
-
-            <ImageButton
-                android:id="@+id/btn_relate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@drawable/mainbutton2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_weight="0.25"
-            android:orientation="vertical"
-            android:weightSum="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/trapezoid"
-                android:gravity="center"
-                android:text="실시간 대기열"
-                android:textSize="16dp" />
-
-            <ImageButton
-                android:id="@+id/ib_realtime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/realtime_list" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="0.03"
-            android:shadowColor="@color/black"
-            android:shadowDx="-7.0"
-            android:shadowDy="7.0"
-            android:text="밥친구 찾기"
-            android:textColor="@color/black"
-            android:textSize="40sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/shape"
-            android:backgroundTint="@color/black"></LinearLayout>
-
-        <Button
-            android:id="@+id/btn_room"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_weight="0.16"
-            android:background="@drawable/shape"
-            android:backgroundTint="@color/PColor2"
-            android:text="대기열 확인하기"
-            android:textSize="40sp" />
-
     </LinearLayout>
 
-    <include layout="@layout/sidebar_view" />
-
-    <include layout="@layout/notification_view" />
+    <include
+        layout="@layout/sidebar_view" />
+    <include
+        layout="@layout/notification_view"/>
 </androidx.drawerlayout.widget.DrawerLayout>

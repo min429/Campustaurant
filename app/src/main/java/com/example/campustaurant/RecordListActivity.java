@@ -1,5 +1,6 @@
 package com.example.campustaurant;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -12,8 +13,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class RecordListActivity extends AppCompatActivity {
     private static final String TAG = "RecordListActivity";
@@ -26,6 +32,7 @@ public class RecordListActivity extends AppCompatActivity {
     ImageView ivProfile;
     ImageButton ibRateGood;
     ImageButton ibRateBad;
+    String myToken;
     boolean rate = false;
 
     @Override
@@ -38,6 +45,24 @@ public class RecordListActivity extends AppCompatActivity {
         ivProfile = findViewById(R.id.iv_profile);
         ibRateGood = findViewById(R.id.ib_rategood);
         ibRateBad = findViewById(R.id.ib_ratebad);
+        myToken = getIntent().getStringExtra("myToken");
+
+        recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String,String> map = (HashMap<String,String>)dataSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
+                if(map != null){
+                    for(String rateUser : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 rateUser에 저장
+                        if(rateUser.equals(myToken)) rate = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         ibRateGood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,9 +75,10 @@ public class RecordListActivity extends AppCompatActivity {
                             int rating = dataSnapshot.getValue(Integer.class);
                             rating += 1;
                             profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
+                            recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
                         }
                     });
-                    rate = true;
+                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").child(myToken).setValue("");
                 }
             }
         });
@@ -70,8 +96,20 @@ public class RecordListActivity extends AppCompatActivity {
                             profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
                         }
                     });
-                    rate = true;
+                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").child(myToken).setValue("");
                 }
+            }
+        });
+
+        recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                tvRating.setText(Integer.toString(dataSnapshot.getValue(Integer.class)));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

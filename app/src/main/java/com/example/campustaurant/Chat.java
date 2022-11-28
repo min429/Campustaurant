@@ -4,14 +4,16 @@ public class Chat {
     String userToken;
     String datetime;
     String userId;
+    String userName;
     String text;
 
     public Chat() {}
 
-    public Chat(String userToken, String datetime, String userId, String text) {
+    public Chat(String userToken, String datetime, String userId, String userName, String text) {
         this.userToken = userToken;
         this.datetime = datetime;
         this.userId = userId;
+        this.userName = userName;
         this.text = text;
     }
 
@@ -37,6 +39,14 @@ public class Chat {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getText() {

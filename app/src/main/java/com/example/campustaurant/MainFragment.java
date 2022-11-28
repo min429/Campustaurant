@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,10 +55,10 @@ public class MainFragment extends Fragment{
     private ArrayList<Location> locaArrayList;
     ArrayList<String> foodArrayList;
     Profile profile;
-    Button btnRoom;
+    LinearLayout llRoom;
     Button btnEnter;
-    ImageButton btnRefresh;
-    ImageButton btnRelate;
+    LinearLayout llRecommend;
+    LinearLayout llRelate;
     EditText etFood;
     ImageView ivFood;
     ImageView ivProfile;
@@ -80,6 +82,9 @@ public class MainFragment extends Fragment{
     View Notification;
     ImageButton Ib_OpenNotification;
     Button Bt_CloseNotification;
+    //검색창
+    private ImageButton Ib_searchopen;
+    boolean searchopened;
 
     // Fragment에서 Activity에 있는 메서드를 사용하기 위해서 필요
     MainActivity mainActivity;
@@ -95,16 +100,20 @@ public class MainFragment extends Fragment{
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main, container, false);
         // Fragment에서 findViewById를  사용하기 위해서 필요
 
+        MainScreen = (DrawerLayout) rootView.findViewById(R.id.dl_main);
+        searchopened = false;
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         stUserToken = mFirebaseUser.getUid();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
         btnLogout = rootView.findViewById(R.id.btn_logout);
-        btnRoom = rootView.findViewById(R.id.btn_room);
+        llRoom = rootView.findViewById(R.id.ll_room);
         btnEnter = rootView.findViewById(R.id.btn_enter);
-        btnRefresh = rootView.findViewById(R.id.btn_refresh);
-        btnRelate = rootView.findViewById(R.id.btn_relate);
+        btnRecord = rootView.findViewById(R.id.btn_record);
+        llRecommend = rootView.findViewById(R.id.ll_recommend);
+        llRelate = rootView.findViewById(R.id.ll_relate);
         etFood = rootView.findViewById(R.id.et_food);
         ivFood = rootView.findViewById(R.id.iv_foodimg);
         locaArrayList = new ArrayList<>();
@@ -115,6 +124,31 @@ public class MainFragment extends Fragment{
         }catch(NullPointerException e){
             fileName = mainActivity.getIntent().getStringExtra("fileName"); // 처음에는 액티비티에서 값 전달받음
         }
+
+        //검색창
+        // 레이아웃 인플레이터 객체
+        LayoutInflater layoutInflater = (LayoutInflater) mainActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        Ib_searchopen = (ImageButton)rootView.findViewById(R.id.Ib_searchopen); // 열기 버튼
+        Ib_searchopen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 메인에 새로 생성한 레이아웃 추가
+                searchopened = true;
+                MainScreen.addView(layoutInflater.inflate(R.layout.activity_search,null));
+                // 이 코드로 인해 if(profile.getUri() != null) Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);에서 터짐
+                Log.d(TAG, "searchopen: "+searchopened);
+
+                ImageButton ibSearchClose = (ImageButton) rootView.findViewById(R.id.Ib_searchclose);
+                ibSearchClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        searchopened = false;
+                        MainScreen.removeViewAt(3);
+                    }
+                });
+            }
+        });
 
         // 사이드바 메뉴
         tvName = rootView.findViewById(R.id.tv_name);
@@ -127,19 +161,33 @@ public class MainFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, RecordListActivity.class);
+                intent.putExtra("myToken", stUserToken);
                 startActivity(intent);
             }
         });
 
         MainScreen = rootView.findViewById(R.id.dl_main); // 해당 레이아웃 아이디
-        Sidebar = rootView.findViewById(R.id.Sidebar); // 사이드바 레이아웃 아이디
-        Ib_OpenSidebar = rootView.findViewById(R.id.Ib_OpenSidebar); //SideBar
+        Sidebar = (View) rootView.findViewById(R.id.Sidebar); // 사이드바 레이아웃 아이디
+        Ib_OpenSidebar = (ImageButton)rootView.findViewById(R.id.Ib_OpenSidebar); //SideBar
         Ib_OpenSidebar.setOnClickListener(new View.OnClickListener() { // 메뉴 클릭 시
             @Override
             public void onClick(View view) {
+                if(searchopened) {
+                    searchopened = false;
+                    MainScreen.removeViewAt(3);
+                }
                 MainScreen.openDrawer(Sidebar);
             }
         });
+
+        Bt_CloseSidebar = (Button) rootView.findViewById(R.id.Bt_CloseSidebar);
+        Bt_CloseSidebar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainScreen.closeDrawers();
+            }
+        });
+
         Bt_CloseSidebar = rootView.findViewById(R.id.Bt_CloseSidebar);
         Bt_CloseSidebar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,16 +207,20 @@ public class MainFragment extends Fragment{
         });
 
         // 알림창 기능
-        MainScreen = rootView.findViewById(R.id.dl_main); // 해당 레이아웃 아이디
-        Notification = rootView.findViewById(R.id.Notification);
-        Ib_OpenNotification = rootView.findViewById(R.id.Ib_OpenNotification);
+        MainScreen = (DrawerLayout) rootView.findViewById(R.id.dl_main); // 해당 레이아웃 아이디
+        Notification = (View) rootView.findViewById(R.id.Notification);
+        Ib_OpenNotification = (ImageButton)rootView.findViewById(R.id.Ib_OpenNotification);
         Ib_OpenNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(searchopened) {
+                    searchopened = false;
+                    MainScreen.removeViewAt(3);
+                }
                 MainScreen.openDrawer(Notification);
             }
         });
-        Bt_CloseNotification = rootView.findViewById(R.id.Bt_CloseNotification);
+        Bt_CloseNotification = (Button) rootView.findViewById(R.id.Bt_CloseNotification);
         Bt_CloseNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,7 +251,7 @@ public class MainFragment extends Fragment{
             }
         };
 
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
+        llRecommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -220,7 +272,7 @@ public class MainFragment extends Fragment{
             }
         });
 
-        btnRelate.setOnClickListener(new View.OnClickListener() {
+        llRelate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, RestaurantActivity.class);
@@ -230,7 +282,7 @@ public class MainFragment extends Fragment{
                 startActivity(intent);
             }
         });
-
+/*
         btnEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -243,8 +295,8 @@ public class MainFragment extends Fragment{
                 startActivity(intent);
             }
         });
-
-        btnRoom.setOnClickListener(new View.OnClickListener() {
+*/
+        llRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, RoomListActivity.class);
