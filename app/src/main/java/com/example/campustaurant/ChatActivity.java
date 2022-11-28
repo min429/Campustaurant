@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,6 +65,26 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
 
         roomRef = database.getReference("Room").child(stHostToken);
 
+        roomRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                DataSnapshot childSnapshot = dataSnapshot.child("guest");
+                HashMap<String,String> guestMap = (HashMap<String,String>)childSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
+                if(guestMap == null){ // 채팅방에 아무도 입장하지 않은경우
+                    roomRef.child("guest").child(stUserToken).setValue(""); // 입장한 유저 저장
+                }
+                else{ // 이미 입장해있는 유저가 있는 경우
+                    for(String userToken: guestMap.keySet()){
+                        if(userToken.equals(stUserToken)){ // guest에 본인이 이미 저장되어있는 경우
+                            return;
+                        }
+                    }
+                    // guest에 본인이 저장되어있지 않은 경우
+                    roomRef.child("guest").child(stUserToken).setValue(""); // 입장한 유저 저장
+                }
+            }
+        });
+
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -73,6 +94,28 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                         finish();
                     }
                 }
+                DataSnapshot snapshot = dataSnapshot.child("guest");
+                HashMap<String,String> guestMap = (HashMap<String,String>)snapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
+                if(guestMap != null){
+                    Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
+                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
+                    String datetime = dateformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
+                    for(String guest : guestMap.keySet()){
+                        if(!guestMap.get(guest).equals("check")){ // 만약 해당 유저 입장여부를 체크하지 않았다면
+                            Hashtable<String, String> table // DB테이블에 넣을 해시테이블
+                                    = new Hashtable<String, String>();
+                            table.put("userToken", ""); // DB의 userToken란에 stUserToken값
+                            table.put("datetime", datetime); // DB의 datetime란에 datetime값
+                            table.put("userId", ""); // DB의 userId란에 stUserId값
+                            table.put("text", guest+"님이 입장하셨습니다."); // DB의 text란에 stText값
+                            // Chat클래스의 멤버변수의 명칭과 똑같은 이름으로 DB에 입력해야 Chat객체에 값을 읽어올 수 있음
+
+                            ref.child(datetime).setValue(table); // 입력
+                            roomRef.child("guest").child(guest).setValue("check"); // 유저 입장 체크 완료
+                        }
+                    }
+                }
+
                 DataSnapshot childSnapshot = dataSnapshot.child("ban");
                 HashMap<String,String> map = (HashMap<String,String>)childSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
                 if(map != null){

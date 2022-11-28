@@ -127,6 +127,7 @@ public class MainFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, RecordListActivity.class);
+                intent.putExtra("myToken", stUserToken);
                 startActivity(intent);
             }
         });

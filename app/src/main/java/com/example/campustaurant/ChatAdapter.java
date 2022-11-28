@@ -30,6 +30,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
+        if(mDataset.get(position).userId.equals("")){
+            return 3;
+        }
         if(mDataset.get(position).userId.equals(stUserId)){ // DB에 있는 (채팅별)email값과 로그인 할때 적은 email이 같은 경우
             return 1;
         }
@@ -55,9 +58,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.my_text_view, parent, false); // v를 my_text_view로 적용
         }
-        else {
+        else if(viewType == 2) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.other_text_view, parent, false); // v를 other_text_view로 적용
+        }
+        else{
+            v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.all_text_view, parent, false); // v를 other_text_view로 적용
         }
 
         return new MyViewHolder(v);
