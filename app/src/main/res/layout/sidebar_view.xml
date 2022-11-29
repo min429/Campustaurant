@@ -4,188 +4,366 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/Sidebar"
     android:layout_gravity="start"
-    android:background="@color/PColor2"
+    android:id="@+id/Sidebar"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:weightSum="1">
-
-    <Button
-        android:id="@+id/Bt_CloseSidebar"
-        android:layout_width="48dp"
-        android:layout_height="30dp"
-        android:layout_gravity="end|right"
-        android:background="@color/background"
-        android:hint="X"
-        android:layout_weight="0.05"/>
-
-    <ScrollView
+    tools:Context=".SidebarActivity">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.95">
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal"
+        android:background="@color/background">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1">
+        </LinearLayout>
+        <Button
+            android:id="@+id/Bt_CloseSidebar"
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:background="@drawable/goback"/>
+    </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/sv_sidebar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.1">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="0.8">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:layout_weight="0.1"
-                android:background="@color/background"
-                android:text="사용자"
-                android:textColor="#757575"
-                android:textSize="40sp" />
-
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/iv_profile"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:background="@drawable/person"
-                    android:layout_marginStart="10dp"/>
-
+                android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/tv_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginLeft="16dp"
+                    android:shadowColor="@color/black"
+                    android:shadowDx="-7.0"
+                    android:shadowDy="7.0"
+                    android:text="프로필"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.06">
+                </LinearLayout>
+                <ImageButton
+                    android:id="@+id/btn_setprofile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:layout_gravity=""
+                    android:src="@drawable/profilesetting"
+                    android:scaleType="centerInside"
+                    android:background="#00ffffff">
+                </ImageButton>
             </LinearLayout>
-
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_weight="0">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:elevation="20dp"
+                    android:weightSum="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1">
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="0.8">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.4"
+                            android:orientation="vertical">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="end"
+                            android:layout_weight="0.2">
+                            <ImageView
+                                android:id="@+id/iv_profile"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="fitEnd">
+                            </ImageView><!--둥글게 : java파일 roomfoodpic.clipToOutline = true추가-->
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.4"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="4dp">
+                            <TextView
+                                android:id="@+id/tv_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:layout_gravity="start"
+                                android:gravity="bottom">
+                            </TextView><!--둥글게 : java파일 roomfoodpic.clipToOutline = true추가-->
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1">
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical"
-                android:padding="5dp">
-
+                android:layout_weight="0.4">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="60dp"
+                    android:padding="10dp"
+                    android:elevation="10dp"
+                    android:layout_weight="0.2"
+                    android:orientation="vertical"
+                    android:background="@drawable/shape3">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="이름 : "
+                            android:textSize="14sp"
+                            android:textColor="@color/black">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text=""
+                            android:textSize="14sp"
+                            android:textColor="@color/black">
+                        </TextView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="0.1"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="성별 : "
+                            android:textSize="14sp"
+                            android:textColor="@color/black">
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_sex"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="14sp"></TextView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="0.1"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="나이 : "
+                            android:textSize="14sp"
+                            android:textColor="@color/black">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/tv_old"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text=""
+                            android:textSize="14sp"
+                            android:textColor="@color/black">
+                        </TextView>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="6dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:text="한 줄 소갯말"
+                        android:textSize="20dp"
+                        android:textColor="@color/black">
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:elevation="10dp"
+                    android:layout_weight="0.2"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/shape3">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="아 시발 전종훈 머하냐"
+                        android:textSize="16sp"
+                        android:textColor="@color/black">
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_weight="0"
+                android:weightSum="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:weightSum="1"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="이름: "/>
-                    <TextView
-                        android:id="@+id/tv_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:shadowColor="@color/black"
+                        android:text="최근기록"
+                        android:textColor="@color/black"
+                        android:textSize="48sp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.9"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"></LinearLayout>
+                    <Button
+                        android:id="@+id/btn_record"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="더보기"
+                        android:textColor="@color/black"
+                        android:background="#00ff0000"/>
+
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:layout_height="0dp"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/shape3"
+                    android:layout_weight="0.8">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:id="@+id/tv_sex"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="성별: "/>
+                    <include layout="@layout/record_list"/>
+
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="나이: "/>
-                    <TextView
-                        android:id="@+id/tv_old"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_weight="0"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:weightSum="1"
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.01"
-                android:gravity="center"
-                android:layout_margin="10dp"
-                android:text="공지사항"
-                android:textSize="40sp"
-                android:textColor="#757575"
-                android:background="@color/background"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:shadowColor="@color/black"
+                        android:text="공지사항"
+                        android:textColor="@color/black"
+                        android:textSize="48sp"/>
 
-            <!--
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="80dp"
-                android:layout_weight="0.2"
-                android:layout_margin="10dp"/>
-                -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.9"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"></LinearLayout>
+                    <Button
+                        android:id="@+id/btn_the_look2"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="더보기"
+                        android:textColor="@color/black"
+                        android:background="#00ff0000"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="0.2"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="0.2"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="0.2"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="0.2"
-                android:layout_margin="5dp"/>
+                </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_record"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="0.01"
-                android:background="@color/background"
-                android:text="최근기록"
-                android:textColor="#757575"
-                android:textSize="40sp" />
-
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="80dp"
-                android:layout_weight="0.2"
-                android:layout_margin="10dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/shape3"
+                    android:layout_weight="0.8">
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="0.05">
-
-        <Button
-            android:id="@+id/btn_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="로그아웃"
-            android:layout_margin="10dp"/>
+        android:layout_height="?actionBarSize"
+        android:background="@color/background">
+        <ImageView
+            android:id="@+id/iv_logout"
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:padding="8dp"
+            android:src="@drawable/logout"/>
     </LinearLayout>
-
 </LinearLayout>

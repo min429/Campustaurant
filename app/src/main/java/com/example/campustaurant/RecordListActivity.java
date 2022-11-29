@@ -94,6 +94,7 @@ public class RecordListActivity extends AppCompatActivity {
                             int rating = dataSnapshot.getValue(Integer.class);
                             rating -= 1;
                             profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
+                            recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
                         }
                     });
                     recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").child(myToken).setValue("");

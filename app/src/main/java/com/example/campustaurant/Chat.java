@@ -4,7 +4,7 @@ public class Chat {
     String userToken;
     String datetime;
     String userId;
-    String userName;
+    String userName = "이름없음";
     String text;
 
     public Chat() {}

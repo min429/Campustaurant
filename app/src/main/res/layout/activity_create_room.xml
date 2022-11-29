@@ -34,17 +34,24 @@
             android:id="@+id/spinner1"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25" />
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_background"
+            android:layout_weight="0.25"
+            />
 
         <Spinner
             android:id="@+id/spinner2"
             android:layout_width="120dp"
+            android:background="@drawable/spinner_background"
+            android:spinnerMode="dropdown"
             android:layout_height="wrap_content"
             android:layout_weight="0.25" />
 
         <Spinner
             android:id="@+id/spinner3"
             android:layout_width="120dp"
+            android:background="@drawable/spinner_background"
+            android:spinnerMode="dropdown"
             android:layout_height="wrap_content"
             android:layout_weight="0.25" />
 
