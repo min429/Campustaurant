@@ -44,21 +44,23 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
         holder.tvRestaurant.setText(roomArrayList.get(position).getRestaurant());
         // 클릭한 View의 position에 해당하는 index에 대해 roomArrayList(index)에 해당하는 Room객체의 변수들로 text를 세팅
 
-        // 자식 레이아웃 매니저 설정
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
-                holder.rvSub.getContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false
-        );
-        layoutManager.setInitialPrefetchItemCount(roomArrayList.get(position).getTag().size()); // 해시맵 사이즈를 가져와서 세팅
+        if(roomArrayList.get(position).getTag() != null){
+            // 자식 레이아웃 매니저 설정
+            LinearLayoutManager layoutManager = new LinearLayoutManager(
+                    holder.rvSub.getContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+            );
 
-        // 자식 어답터 설정
-        TagAdapter tagAdapter = new TagAdapter(new ArrayList(roomArrayList.get(position).getTag().values()), mListener);
+            layoutManager.setInitialPrefetchItemCount(roomArrayList.get(position).getTag().size()); // 해시맵 사이즈를 가져와서 세팅
 
-        holder.rvSub.setLayoutManager(layoutManager);
-        holder.rvSub.setAdapter(tagAdapter);
-        holder.rvSub.setRecycledViewPool(viewPool); // RecyclerView 최적화
+            // 자식 어답터 설정
+            TagAdapter tagAdapter = new TagAdapter(new ArrayList(roomArrayList.get(position).getTag().values()), mListener);
 
+            holder.rvSub.setLayoutManager(layoutManager);
+            holder.rvSub.setAdapter(tagAdapter);
+            holder.rvSub.setRecycledViewPool(viewPool); // RecyclerView 최적화
+        }
         holder.itemView.setTag(position); // itemView의 position(위치)값을 가져옴
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -37,7 +37,8 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.CustomViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull TagAdapter.CustomViewHolder holder, @SuppressLint("RecyclerView") int position) { // CreateRoomAdapter.CustomViewHolder에서 생성된 holder를 받아옴
-        holder.tvTag.setText(tagArrayList.get(position));
+        if(tagArrayList.get(position) != null)
+            holder.tvTag.setText(tagArrayList.get(position));
         // 클릭한 View의 position에 해당하는 tagArrayList(index)값으로 text를 세팅
         holder.itemView.setTag(position); // itemView의 position(위치)값을 가져옴
 
