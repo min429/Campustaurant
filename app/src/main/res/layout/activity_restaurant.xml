@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RoomListActivity"
-    android:orientation="vertical">
-
+    android:background="@color/white"
+    android:id="@+id/dl_restaurant">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <EditText
-            android:id="@+id/et_food"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:hint="음식을 입력하세요."
-            android:layout_weight="0.9"/>
-
-        <Button
-            android:id="@+id/btn_enter"
-            android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include
+            layout="@layout/toolbar"/>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="입력"
-            android:layout_weight="0.1"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:background="@color/PColor2">
+            <ImageButton
+                android:id="@+id/Ib_searchopen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/searchopen"/>
+            <Button
+                android:id="@+id/btn_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@color/PColor2"
+                style="?borderlessButtonStyle"
+                android:text="거리순"><!--거리순 이름순(기본) 폐점시간순 -->
+            </Button>
+        </LinearLayout>
 
         <!--recyclerview: 많은 수의 데이터 집합을, 제한된 영역 내에서 유연하게(flexible) 표시할 수 있도록 만들어주는 위젯-->
         <androidx.recyclerview.widget.RecyclerView
@@ -48,4 +48,4 @@
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
-</LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

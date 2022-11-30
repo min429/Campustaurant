@@ -1,15 +1,23 @@
 package com.example.campustaurant;
 
+import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,18 +45,24 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
     Button btnEnter;
     EditText etFood;
     LatLng latLng;
+    //검색창
+    DrawerLayout MainScreen;
+    private ImageButton Ib_searchopen;
+    boolean searchopened;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
+        MainScreen = (DrawerLayout) findViewById(R.id.dl_restaurant);
+        searchopened = false;
+
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         inputFood = getIntent().getStringExtra("inputFood");
         locaArrayList = (ArrayList<Location>)getIntent().getSerializableExtra("locaArrayList");
         Log.d(TAG, "locaArrayList: "+locaArrayList);
         Log.d(TAG, "inputFood: "+inputFood);
-        etFood = findViewById(R.id.et_food);
         database = FirebaseDatabase.getInstance();
         recyclerView = (RecyclerView)findViewById(R.id.rv);
         linearLayoutManager = new LinearLayoutManager(this);
@@ -59,26 +73,76 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
         // this -> RestaurantActivity 객체
         recyclerView.setAdapter(restaurantAdapter); // recyclerView에 restaurantAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
 
-        btnEnter = findViewById(R.id.btn_enter);
-        btnEnter.setOnClickListener(new View.OnClickListener() {
+        //검색창
+        // 레이아웃 인플레이터 객체
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        Ib_searchopen = (ImageButton)findViewById(R.id.Ib_searchopen); // 열기 버튼
+        Ib_searchopen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputFood = etFood.getText().toString();
+                // 메인에 새로 생성한 레이아웃 추가
+                searchopened = true;
+                MainScreen.addView(layoutInflater.inflate(R.layout.search_view,null));
+                etFood = findViewById(R.id.et_input);
+                etFood.setHint("음식을 입력해보세요!");
 
-                // 새로고침
-                finish();// 인텐트 종료
-                overridePendingTransition(0, 0);// 인텐트 효과 없애기
-                Intent intent = getIntent(); // 인텐트
-                intent.putExtra("inputFood", inputFood);
-                intent.putExtra("email", stUserId);
-                intent.putExtra("locaArrayList", locaArrayList);
-                startActivity(intent); // 액티비티 열기
-                overridePendingTransition(0, 0);// 인텐트 효과 없애기
+                etFood.setOnEditorActionListener(new TextView.OnEditorActionListener() { // 키보드에서 바로 검색
+                    @Override
+                    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                        switch (actionId)
+                        {
+                            case IME_ACTION_SEARCH :
+                                inputFood = etFood.getText().toString();
+
+                                searchopened = false;
+                                MainScreen.removeViewAt(1);
+
+                                // 새로고침
+                                finish();// 인텐트 종료
+                                overridePendingTransition(0, 0);// 인텐트 효과 없애기
+                                Intent intent = getIntent(); // 인텐트
+                                intent.putExtra("inputFood", inputFood);
+                                intent.putExtra("email", stUserId);
+                                intent.putExtra("locaArrayList", locaArrayList);
+                                startActivity(intent); // 액티비티 열기
+                                overridePendingTransition(0, 0);// 인텐트 효과 없애기
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                ImageButton ibSearchClose = (ImageButton) findViewById(R.id.Ib_searchclose);
+                ibSearchClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        searchopened = false;
+                        MainScreen.removeViewAt(1);
+                    }
+                });
             }
         });
+        
+//        btnEnter = findViewById(R.id.btn_enter);
+//        btnEnter.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                inputFood = etFood.getText().toString();
+//
+//                // 새로고침
+//                finish();// 인텐트 종료
+//                overridePendingTransition(0, 0);// 인텐트 효과 없애기
+//                Intent intent = getIntent(); // 인텐트
+//                intent.putExtra("inputFood", inputFood);
+//                intent.putExtra("email", stUserId);
+//                intent.putExtra("locaArrayList", locaArrayList);
+//                startActivity(intent); // 액티비티 열기
+//                overridePendingTransition(0, 0);// 인텐트 효과 없애기
+//            }
+//        });
 
         ref = database.getReference("Food"); // Food하위에서 데이터를 읽기 위해
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

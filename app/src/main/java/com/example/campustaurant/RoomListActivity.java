@@ -1,18 +1,27 @@
 package com.example.campustaurant;
 
+import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -57,14 +66,21 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     String stRestaurant = null;
     String inputRestaurant;
     EditText etRestaurant;
-    Button btnCreate;
+    FloatingActionButton btnCreate;
     Button btnEnter;
     LatLng latLng;
+    //검색창
+    DrawerLayout MainScreen;
+    private ImageButton Ib_searchopen;
+    boolean searchopened;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_list);
+
+        MainScreen = (DrawerLayout) findViewById(R.id.dl_roomList);
+        searchopened = false;
 
         latLng = getIntent().getParcelableExtra("latLng");
         // 지도 초기화 전에 정의해줘야 지도 초기화 할 때 이 값을 사용 가능함
@@ -88,9 +104,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         recyclerView.setAdapter(roomListAdapter); // recyclerView에 roomListAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
 
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
-        etRestaurant = findViewById(R.id.et_restaurant);
         inputRestaurant = getIntent().getStringExtra("inputRestaurant");
-        etRestaurant.setText(inputRestaurant);
         locaArrayList = (ArrayList<Location>)getIntent().getSerializableExtra("locaArrayList");
         // getSerializableExtra : ArrayList를 intent를 통해 받아올 때 직렬화 되어있는 리스트를 받아와야 함
         Log.d(TAG, "locaArrayList: "+locaArrayList);
@@ -104,32 +118,89 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                 mapView.setVisibility(View.VISIBLE);
         }
 
+        //검색창
+        // 레이아웃 인플레이터 객체
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        btnEnter = findViewById(R.id.btn_enter);
-        btnEnter.setOnClickListener(new View.OnClickListener() {
+        Ib_searchopen = (ImageButton)findViewById(R.id.Ib_searchopen); // 열기 버튼
+        Ib_searchopen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputRestaurant = etRestaurant.getText().toString();
+                // 메인에 새로 생성한 레이아웃 추가
+                searchopened = true;
+                MainScreen.addView(layoutInflater.inflate(R.layout.search_view,null));
+                etRestaurant = findViewById(R.id.et_input);
+                etRestaurant.setHint("음식점을 입력해보세요!");
 
-                // locaArrayList에서 가져온 location으로 latLng 초기화
-                for(Location location : locaArrayList){
-                    if(location.getName().equals(inputRestaurant)){
-                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        break;
+                etRestaurant.setOnEditorActionListener(new TextView.OnEditorActionListener() { // 키보드에서 바로 검색
+                    @Override
+                    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                        switch (actionId)
+                        {
+                            case IME_ACTION_SEARCH :
+                                inputRestaurant = etRestaurant.getText().toString();
+
+                                searchopened = false;
+                                MainScreen.removeViewAt(1);
+
+                                // locaArrayList에서 가져온 location으로 latLng 초기화
+                                for(Location location : locaArrayList){
+                                    if(location.getName().equals(inputRestaurant)){
+                                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                                        break;
+                                    }
+                                }
+                                // 인텐트 새로고침
+                                finish(); // 인텐트 종료
+                                overridePendingTransition(0, 0); // 인텐트 효과 없애기
+                                Intent intent = getIntent(); // 인텐트
+                                intent.putExtra("email", stUserId);
+                                intent.putExtra("inputRestaurant", inputRestaurant);
+                                intent.putExtra("locaArrayList", locaArrayList);
+                                intent.putExtra("latLng", latLng);
+                                startActivity(intent);
+                                overridePendingTransition(0, 0); // 인텐트 효과 없애기
+                        }
+                        return true;
                     }
-                }
-                // 인텐트 새로고침
-                finish(); // 인텐트 종료
-                overridePendingTransition(0, 0); // 인텐트 효과 없애기
-                Intent intent = getIntent(); // 인텐트
-                intent.putExtra("email", stUserId);
-                intent.putExtra("inputRestaurant", inputRestaurant);
-                intent.putExtra("locaArrayList", locaArrayList);
-                intent.putExtra("latLng", latLng);
-                startActivity(intent);
-                overridePendingTransition(0, 0); // 인텐트 효과 없애기
+                });
+
+                ImageButton ibSearchClose = (ImageButton) findViewById(R.id.Ib_searchclose);
+                ibSearchClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        searchopened = false;
+                        MainScreen.removeViewAt(1);
+                    }
+                });
             }
         });
+
+//        btnEnter = findViewById(R.id.btn_enter);
+//        btnEnter.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                inputRestaurant = etRestaurant.getText().toString();
+//
+//                // locaArrayList에서 가져온 location으로 latLng 초기화
+//                for(Location location : locaArrayList){
+//                    if(location.getName().equals(inputRestaurant)){
+//                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//                        break;
+//                    }
+//                }
+//                // 인텐트 새로고침
+//                finish(); // 인텐트 종료
+//                overridePendingTransition(0, 0); // 인텐트 효과 없애기
+//                Intent intent = getIntent(); // 인텐트
+//                intent.putExtra("email", stUserId);
+//                intent.putExtra("inputRestaurant", inputRestaurant);
+//                intent.putExtra("locaArrayList", locaArrayList);
+//                intent.putExtra("latLng", latLng);
+//                startActivity(intent);
+//                overridePendingTransition(0, 0); // 인텐트 효과 없애기
+//            }
+//        });
 
         btnCreate = findViewById(R.id.btn_create);
         btnCreate.setOnClickListener(new View.OnClickListener() {
