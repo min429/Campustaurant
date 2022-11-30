@@ -60,6 +60,7 @@ public class MainFragment extends Fragment{
     LinearLayout llRecommend;
     LinearLayout llRelate;
     EditText etFood;
+    TextView tvFood;
     ImageView ivFood;
     ImageView ivProfile;
     String inputFood;
@@ -72,8 +73,9 @@ public class MainFragment extends Fragment{
     View Sidebar;
     ImageButton Ib_OpenSidebar;
     Button Bt_CloseSidebar;
-    Button btnLogout;
+    ImageView ivLogout;
     Button btnRecord;
+    Button btnNotice;
     TextView tvName;
     TextView tvSex;
     TextView tvOld;
@@ -108,7 +110,7 @@ public class MainFragment extends Fragment{
         stUserToken = mFirebaseUser.getUid();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
-        btnLogout = rootView.findViewById(R.id.btn_logout);
+        ivLogout = rootView.findViewById(R.id.iv_logout);
         llRoom = rootView.findViewById(R.id.ll_room);
         btnEnter = rootView.findViewById(R.id.btn_enter);
         btnRecord = rootView.findViewById(R.id.btn_record);
@@ -116,6 +118,7 @@ public class MainFragment extends Fragment{
         llRelate = rootView.findViewById(R.id.ll_relate);
         etFood = rootView.findViewById(R.id.et_food);
         ivFood = rootView.findViewById(R.id.iv_foodimg);
+        tvFood = rootView.findViewById(R.id.tv_foodName);
         locaArrayList = new ArrayList<>();
         stUserId = mainActivity.getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         foodArrayList = mainActivity.getIntent().getStringArrayListExtra("foodArrayList");
@@ -136,8 +139,6 @@ public class MainFragment extends Fragment{
                 // 메인에 새로 생성한 레이아웃 추가
                 searchopened = true;
                 MainScreen.addView(layoutInflater.inflate(R.layout.activity_search,null));
-                // 이 코드로 인해 if(profile.getUri() != null) Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);에서 터짐
-                Log.d(TAG, "searchopen: "+searchopened);
 
                 ImageButton ibSearchClose = (ImageButton) rootView.findViewById(R.id.Ib_searchclose);
                 ibSearchClose.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +163,15 @@ public class MainFragment extends Fragment{
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, RecordListActivity.class);
                 intent.putExtra("myToken", stUserToken);
+                startActivity(intent);
+            }
+        });
+
+        btnNotice = (Button)rootView.findViewById(R.id.btn_notice); // 사이드바 버튼
+        btnNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mainActivity, NoticeListActivity.class);
                 startActivity(intent);
             }
         });
@@ -306,7 +316,7 @@ public class MainFragment extends Fragment{
             }
         });
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        ivLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 로그아웃 버튼 클릭시 처리 시작
@@ -322,6 +332,7 @@ public class MainFragment extends Fragment{
         stRef.child(fileName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                tvFood.setText(fileName);
                 Glide.with(mainActivity).load(uri).into(ivFood);
             }
         }).addOnFailureListener(new OnFailureListener() {

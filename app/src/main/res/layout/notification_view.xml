@@ -7,23 +7,68 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:layout_gravity="right"
-    android:background="@color/PColor2"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/Bt_CloseNotification"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:background="@color/background"
-        android:hint="X" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/Bt_CloseNotification"
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:background="@drawable/goback"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:orientation="horizontal"></LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="알림창"
+            android:textSize="24sp"
+            android:textColor="@color/black">
+        </TextView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:orientation="horizontal"></LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="알림창"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        android:textSize="50sp">
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:orientation="horizontal"></LinearLayout>
 
-    </TextView>
+        <Button
+            android:id="@+id/btn_clearall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="모두 지우기"
+            android:textColor="@color/black"
+            android:background="@drawable/shape5"/>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:layout_margin="10dp">
+
+        <!--리사이클러뷰
+
+        -->
+
+
+
+    </ScrollView>
 </LinearLayout>

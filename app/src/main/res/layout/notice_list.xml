@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_recordList"
+        android:id="@+id/ll_noticeList"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:orientation="horizontal"
@@ -21,7 +21,7 @@
             android:layout_weight="0.6"
             android:gravity="center">
             <TextView
-                android:id="@+id/tv_date"
+                android:id="@+id/tv_noticedate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
@@ -40,12 +40,12 @@
             android:layout_weight="0.4"
             android:gravity="left">
             <TextView
-                android:id="@+id/tv_restaurant"
+                android:id="@+id/tv_noticename"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="2dp"
-                android:text="부대통령"
+                android:text="앱이 드디어 최초 공개되었습니다."
                 android:textSize="16dp"
                 android:textColor="@color/black"
                 android:maxLength="16"/>
