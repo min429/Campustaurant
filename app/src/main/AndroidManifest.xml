@@ -40,13 +40,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SearchActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
@@ -76,7 +69,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ProfileActivity"
+            android:name=".ChatProfileActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog">
             <meta-data

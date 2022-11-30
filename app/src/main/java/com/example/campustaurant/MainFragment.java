@@ -1,12 +1,14 @@
 package com.example.campustaurant;
 
 import static android.app.Activity.RESULT_OK;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -112,11 +114,10 @@ public class MainFragment extends Fragment{
         storage = FirebaseStorage.getInstance();
         ivLogout = rootView.findViewById(R.id.iv_logout);
         llRoom = rootView.findViewById(R.id.ll_room);
-        btnEnter = rootView.findViewById(R.id.btn_enter);
+        //btnEnter = rootView.findViewById(R.id.btn_enter);
         btnRecord = rootView.findViewById(R.id.btn_record);
         llRecommend = rootView.findViewById(R.id.ll_recommend);
         llRelate = rootView.findViewById(R.id.ll_relate);
-        etFood = rootView.findViewById(R.id.et_food);
         ivFood = rootView.findViewById(R.id.iv_foodimg);
         tvFood = rootView.findViewById(R.id.tv_foodName);
         locaArrayList = new ArrayList<>();
@@ -138,7 +139,32 @@ public class MainFragment extends Fragment{
             public void onClick(View view) {
                 // 메인에 새로 생성한 레이아웃 추가
                 searchopened = true;
-                MainScreen.addView(layoutInflater.inflate(R.layout.activity_search,null));
+                MainScreen.addView(layoutInflater.inflate(R.layout.search_view,null));
+                etFood = rootView.findViewById(R.id.et_input);
+                etFood.setHint("음식을 검색해보세요!");
+
+                etFood.setOnEditorActionListener(new TextView.OnEditorActionListener() { // 키보드에서 바로 검색
+                    @Override
+                    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                        switch (actionId)
+                        {
+                            case IME_ACTION_SEARCH :
+                                inputFood = etFood.getText().toString();
+                                etFood.setText("");
+
+                                searchopened = false;
+                                MainScreen.removeViewAt(3);
+
+                                Intent intent = new Intent(mainActivity, RestaurantActivity.class);
+                                intent.putExtra("email", stUserId); // stUserId값을 RestaurantActivity에 넘겨줌
+                                intent.putExtra("inputFood", inputFood);
+                                intent.putExtra("locaArrayList", locaArrayList);
+                                startActivity(intent);
+                                break;
+                        }
+                        return true;
+                    }
+                });
 
                 ImageButton ibSearchClose = (ImageButton) rootView.findViewById(R.id.Ib_searchclose);
                 ibSearchClose.setOnClickListener(new View.OnClickListener() {
@@ -238,28 +264,28 @@ public class MainFragment extends Fragment{
             }
         });
 
-        //사이드바 기능
-        DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
-            }
-
-            @Override
-            public void onDrawerOpened(@NonNull View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerClosed(@NonNull View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
-        };
+//        //사이드바 기능
+//        DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
+//            @Override
+//            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+//
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(@NonNull View drawerView) {
+//
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(@NonNull View drawerView) {
+//
+//            }
+//
+//            @Override
+//            public void onDrawerStateChanged(int newState) {
+//
+//            }
+//        };
 
         llRecommend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -292,6 +318,7 @@ public class MainFragment extends Fragment{
                 startActivity(intent);
             }
         });
+
 /*
         btnEnter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,6 +333,7 @@ public class MainFragment extends Fragment{
             }
         });
 */
+
         llRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

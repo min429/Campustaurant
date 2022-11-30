@@ -14,14 +14,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Comment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -200,10 +197,10 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
     }
 
     @Override
-    public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> ProfileActivity에서 사용
+    public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> ChatProfileActivity에서 사용
         Chat chat = chatArrayList.get(position);
 
-        Intent intent = new Intent(ChatActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(ChatActivity.this, ChatProfileActivity.class);
         intent.putExtra("userToken", chat.getUserToken()); // 해당 채팅의 유저토큰을 넘겨줌
         intent.putExtra("myToken", stUserToken); // 자신의 유저토큰을 넘겨줌
         intent.putExtra("hostToken", stHostToken); // 방장의 유저토큰을 넘겨줌
