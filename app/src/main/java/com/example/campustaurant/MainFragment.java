@@ -75,6 +75,7 @@ public class MainFragment extends Fragment{
     Button Bt_CloseSidebar;
     ImageView ivLogout;
     Button btnRecord;
+    Button btnNotice;
     TextView tvName;
     TextView tvSex;
     TextView tvOld;
@@ -162,6 +163,15 @@ public class MainFragment extends Fragment{
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, RecordListActivity.class);
                 intent.putExtra("myToken", stUserToken);
+                startActivity(intent);
+            }
+        });
+
+        btnNotice = (Button)rootView.findViewById(R.id.btn_notice); // 사이드바 버튼
+        btnNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mainActivity, NoticeListActivity.class);
                 startActivity(intent);
             }
         });

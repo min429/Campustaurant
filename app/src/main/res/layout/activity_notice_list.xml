@@ -26,7 +26,7 @@
                 android:shadowColor="@color/black"
                 android:shadowDx="-7.0"
                 android:shadowDy="7.0"
-                android:text="매칭기록"
+                android:text="공지사항"
                 android:textColor="@color/black"
                 android:textSize="28sp" />
             <LinearLayout
@@ -63,7 +63,7 @@
                 android:layout_weight="0.6"
                 android:gravity="center">
                 <TextView
-                    android:id="@+id/tv_dateName"
+                    android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
@@ -82,12 +82,12 @@
                 android:layout_weight="0.4"
                 android:gravity="center">
                 <TextView
-                    android:id="@+id/tv_restaurantName"
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="2dp"
-                    android:text="가게명"
+                    android:text="제목"
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:maxLength="12"/>
@@ -103,7 +103,7 @@
         </LinearLayout>
 
         <!--리사이클러 뷰 들어갈 자리-->
-        <include layout="@layout/record_list"/>
+        <include layout="@layout/notice_list"/>
         <!--리사이클러 뷰 들어갈 자리-->
 
     </LinearLayout>
