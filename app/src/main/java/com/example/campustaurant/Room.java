@@ -8,18 +8,20 @@ public class Room {
     private String hostId;
     private String food;
     private String restaurant;
+    private String uri;
     private HashMap<String, String> tag;
     private HashMap<String, String> ban;
     private HashMap<String, String> guest;
 
     public Room() {}
 
-    public Room(String hostToken, String roomName, String hostId, String food, String restaurant, HashMap<String, String> tag, HashMap<String, String> ban, HashMap<String, String> guest) {
+    public Room(String hostToken, String roomName, String hostId, String food, String restaurant, String uri, HashMap<String, String> tag, HashMap<String, String> ban, HashMap<String, String> guest) {
         this.hostToken = hostToken;
         this.roomName = roomName;
         this.hostId = hostId;
         this.food = food;
         this.restaurant = restaurant;
+        this.uri = uri;
         this.tag = tag;
         this.ban = ban;
         this.guest = guest;
@@ -63,6 +65,14 @@ public class Room {
 
     public void setRestaurant(String restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public HashMap<String, String> getTag() {

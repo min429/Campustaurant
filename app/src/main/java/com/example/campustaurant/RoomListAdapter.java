@@ -3,12 +3,15 @@ package com.example.campustaurant;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,9 +42,9 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
     @Override
     public void onBindViewHolder(@NonNull RoomListAdapter.CustomViewHolder holder, int position) { // RoomListAdapter.CustomViewHolder에서 생성된 holder를 받아옴
         holder.tvRoomName.setText(roomArrayList.get(position).getRoomName());
-        holder.tvUserId.setText(roomArrayList.get(position).getHostId());
         holder.tvFood.setText(roomArrayList.get(position).getFood());
         holder.tvRestaurant.setText(roomArrayList.get(position).getRestaurant());
+        Glide.with(holder.itemView).load(roomArrayList.get(position).getUri()).into(holder.ivFood);
         // 클릭한 View의 position에 해당하는 index에 대해 roomArrayList(index)에 해당하는 Room객체의 변수들로 text를 세팅
 
         if(roomArrayList.get(position).getTag() != null){
@@ -78,18 +81,18 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.Custom
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         public TextView tvRoomName;
-        public TextView tvUserId;
         public TextView tvFood;
         public TextView tvRestaurant;
         public RecyclerView rvSub;
+        public ImageView ivFood;
 
         public CustomViewHolder(@NonNull View itemView) { // Constructer(생성자) // 인자: 위에서 만든 View객체 view
             super(itemView);
             this.tvRoomName = (TextView) itemView.findViewById(R.id.tv_roomName);
-            this.tvUserId = (TextView) itemView.findViewById(R.id.tv_userId);
             this.tvFood = (TextView) itemView.findViewById(R.id.tv_food);
             this.tvRestaurant = (TextView) itemView.findViewById(R.id.tv_restaurant);
             this.rvSub = itemView.findViewById(R.id.rv_tag);
+            this.ivFood = itemView.findViewById(R.id.iv_food);
         }
     }
 }

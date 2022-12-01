@@ -1,20 +1,22 @@
 package com.example.campustaurant;
 
 public class Chat {
-    String userToken;
-    String datetime;
-    String userId;
-    String userName = "이름없음";
-    String text;
+    private String userToken;
+    private String datetime;
+    private String userId;
+    private String userName = "이름없음";
+    private String text;
+    private String uri;
 
     public Chat() {}
 
-    public Chat(String userToken, String datetime, String userId, String userName, String text) {
+    public Chat(String userToken, String datetime, String userId, String userName, String text, String uri) {
         this.userToken = userToken;
         this.datetime = datetime;
         this.userId = userId;
         this.userName = userName;
         this.text = text;
+        this.uri = uri;
     }
 
     public String getUserToken() {
@@ -55,5 +57,13 @@ public class Chat {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

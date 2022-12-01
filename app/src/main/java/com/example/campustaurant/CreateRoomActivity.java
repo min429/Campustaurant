@@ -2,6 +2,7 @@ package com.example.campustaurant;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +29,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraPosition;
@@ -63,8 +70,8 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
     String stFood;
     String stRestaurant;
     Button btnRegister;
-    Button btnMap;
-    Button btnEnter;
+    ImageView ivMap;
+    ImageButton ibEnter;
     ArrayList<Location> locaArrayList;
     ArrayList<String> tagArrayList;
     LatLng latLng = new LatLng(36.628881, 127.460586);
@@ -93,8 +100,8 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
         tagAdapter = new TagAdapter(tagArrayList, this); // tagArrayList에 담긴 것들을 어댑터에 담아줌
         recyclerView.setAdapter(tagAdapter); // recyclerView에 tagAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
         btnRegister = (Button)findViewById(R.id.btn_register);
-        btnMap = findViewById(R.id.btn_map);
-        btnEnter = findViewById(R.id.btn_enter);
+        ivMap = findViewById(R.id.iv_map);
+        ibEnter = findViewById(R.id.ib_enter);
         final Spinner spin1 = (Spinner)findViewById(R.id.spinner1);
         final Spinner spin2 = (Spinner)findViewById(R.id.spinner2);
         final Spinner spin3 = (Spinner)findViewById(R.id.spinner3);
@@ -561,7 +568,7 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
         });
 
 
-        btnEnter.setOnClickListener(new View.OnClickListener() {
+        ibEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tagArrayList.add(etTag.getText().toString());
@@ -570,7 +577,7 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
             }
         });
 
-        btnMap.setOnClickListener(new View.OnClickListener() {
+        ivMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // locaArrayList에서 가져온 location으로 latLng 초기화
@@ -603,6 +610,17 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
                 Data.put("food", stFood);
                 Data.put("restaurant", stRestaurant);
                 myRef.child(stUserToken).setValue(Data); // 입력
+
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference imageRef = storage.getReference().child(stFood+".jpg");
+
+                // DB에 이미지 uri 저장
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        myRef.child(stUserToken).child("uri").setValue(String.valueOf(uri));
+                    }
+                });
 
                 for(int i=0; i<tagArrayList.size(); i++){
                     myRef.child(stUserToken).child("tag").child("tag"+(i+1)).setValue(tagArrayList.get(i));
