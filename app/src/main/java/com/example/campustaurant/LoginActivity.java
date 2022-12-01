@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증
     private DatabaseReference ref; // 실시간 데이터베이스
     EditText mEtEmail, mEtPwd; // 로그인 입력필드
+    Button btnLogin;
+    Button btnFind;
     String stEmail, stPwd;
     String fileName;
     int idx;
@@ -49,8 +51,17 @@ public class LoginActivity extends AppCompatActivity {
         mEtEmail = (EditText) findViewById(R.id.et_email); // 회원가입 입력필드 초기화 // R: res // R.id -> res 내에서 id가 et_email인 것을 찾아옴 // 단, 현재 액티비티와 연동된 XML에서만 찾음
         mEtPwd = (EditText) findViewById(R.id.et_pwd); // 회원가입 입력필드 초기화
 
-        Button btn_login = findViewById(R.id.btn_login);
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        btnFind = findViewById(R.id.btn_find); // 아이디 패스워드찾기 추가
+        btnFind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, FindAccountActivity.class); // Intent -> 액티비티 이동(화면 이동) 현재 Activity -> 이동할 Activity
+                startActivity(intent);
+            }
+        });
+
+        btnLogin = findViewById(R.id.btn_login);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 로그인 버튼 눌렀을 때 처리 시작

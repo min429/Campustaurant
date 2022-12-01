@@ -4,9 +4,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -19,21 +22,24 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
+        public TextView tvName;
+        public ImageView ivProfile;
 
         public MyViewHolder(View v) {
             super(v);
             // Define click listener for the MyViewHolder's View
-
             textView = v.findViewById(R.id.tvChat);
+            ivProfile = v.findViewById(R.id.iv_profile);
+            tvName = v.findViewById(R.id.tv_name);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(mDataset.get(position).userId.equals("")){
+        if(mDataset.get(position).getUserId().equals("")){
             return 3;
         }
-        if(mDataset.get(position).userId.equals(stUserId)){ // DB에 있는 (채팅별)email값과 로그인 할때 적은 email이 같은 경우
+        if(mDataset.get(position).getUserId().equals(stUserId)){ // DB에 있는 (채팅별)email값과 로그인 할때 적은 email이 같은 경우
             return 1;
         }
         else{
@@ -76,6 +82,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         holder.textView.setText(mDataset.get(position).getText());
+        holder.tvName.setText(mDataset.get(position).getText());
+        Glide.with(holder.itemView).load(mDataset.get(position).getUri()).into(holder.ivProfile);
 
         holder.itemView.setTag(position); // itemView의 position(위치)값을 가져옴
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -7,8 +7,9 @@
             android:id="@+id/tv_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chat_bubble"
-            android:textSize="25dp"
-            android:textColor="@color/black"/>
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:textSize="12sp"
+            android:textColor="@color/white"/>
 
 </LinearLayout>

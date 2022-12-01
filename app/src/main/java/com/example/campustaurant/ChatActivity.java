@@ -188,6 +188,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 numbers.put("userToken", stUserToken); // DB의 userToken란에 stUserToken값
                 numbers.put("datetime", datetime); // DB의 datetime란에 datetime값
                 numbers.put("userId", stUserId); // DB의 userId란에 stUserId값
+                //numbers.put("userName", )
                 numbers.put("text", stText); // DB의 text란에 stText값
                 // Chat클래스의 멤버변수의 명칭과 똑같은 이름으로 DB에 입력해야 Chat객체에 값을 읽어올 수 있음
 
@@ -215,3 +216,5 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
 
     }
 }
+
+// 프로필이랑 이름 가져와서 보여줘야함 -> DB 리스너

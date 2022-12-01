@@ -220,15 +220,14 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "input: " + inputRestaurant);
                 roomArrayList.clear();
                 if (inputRestaurant == null || inputRestaurant.equals("")) { // 대기열 화면을 처음 띄울 때 or 입력창에 아무것도 입력하지 않았을 때
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
                         Room room = postSnapshot.getValue(Room.class);
                         roomArrayList.add(room);
-                        if (room.getHostId().equals(stUserId)) {
-                            stRestaurant = room.getRestaurant();
-                        }
+//                        if (room.getHostId().equals(stUserId)) {
+//                            stRestaurant = room.getRestaurant();
+//                        }
                     }
                 } else {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
@@ -236,9 +235,9 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                         if (room.getRestaurant().equals(inputRestaurant)) {
                             roomArrayList.add(room);
                         }
-                        if (room.getHostId().equals(stUserId)) {
-                            stRestaurant = room.getRestaurant();
-                        }
+//                        if (room.getHostId().equals(stUserId)) {
+//                            stRestaurant = room.getRestaurant();
+//                        }
                     }
                 }
                 roomListAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
@@ -253,7 +252,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     @Override
     public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> RoomListAdapter에서 사용
         Room room = roomArrayList.get(position);
-        Log.d(TAG, "room.userId: "+room.getHostId()+", stUserId: "+stUserId+", room.restaurant: "+room.getRestaurant()+", stRestaurant: "+stRestaurant);
 
         Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
         intent.putExtra("email", stUserId); // stUserId값(자신의 아이디)을 ChatActivity에 넘겨줌
