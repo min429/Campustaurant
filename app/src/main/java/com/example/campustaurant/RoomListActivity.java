@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +44,7 @@ import com.naver.maps.map.overlay.OverlayImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 public class RoomListActivity extends AppCompatActivity implements ClickCallbackListener, OnMapReadyCallback{
     private static final String TAG = "RoomListActivity";
@@ -51,7 +53,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     private static NaverMap naverMap;
     //마커 변수 선언 및 초기화
     private Marker marker = new Marker();
-
     private ArrayList<Location> locaArrayList;
     private ArrayList<Room> roomArrayList;
     private RoomListAdapter roomListAdapter;
@@ -61,7 +62,9 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     FirebaseAuth mFirebaseAuth;
     FirebaseDatabase database;
     DatabaseReference ref;
+    DatabaseReference userRef;
     String stUserToken;
+    String stHostToken;
     String stUserId;
     String stRestaurant = null;
     String inputRestaurant;
@@ -247,19 +250,40 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                 Log.e("RoomListActivity", String.valueOf(databaseError.toException())); // 에러문 출력
             }
         });
+
+        userRef = database.getReference("User").child(stUserToken);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                stHostToken = dataSnapshot.child("room").getValue(String.class);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     @Override
     public void onClick(int position) { // ClickCallbackListener 인터페이스의 메서드 -> RoomListAdapter에서 사용
         Room room = roomArrayList.get(position);
 
-        Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
-        intent.putExtra("email", stUserId); // stUserId값(자신의 아이디)을 ChatActivity에 넘겨줌
-        intent.putExtra("hostId", room.getHostId()); // room.userId값(방장 아이디)을 ChatActivity에 넘겨줌
-        intent.putExtra("hostToken", room.getHostToken()); // room.hostToken값(방장 아이디토큰)을 ChatActivity에 넘겨줌
-        intent.putExtra("myToken", stUserToken); // stUserToken값(자신의 아이디토큰)을 ChatActivity에 넘겨줌
-        startActivity(intent);
-        finish();
+        if(stHostToken != null && !room.getHostToken().equals(stHostToken)){ // 이미 참가한 대기방이 있으면
+            Toast.makeText(RoomListActivity.this, "이미 참가한 대기방이 있습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else { // 아직 참가한 대기방이 없거나 참여중인 대기방인 경우
+            Log.d(TAG, "stHostToken: "+stHostToken);
+            userRef.child("room").setValue(room.getHostToken()); // 들어간 방 확정
+
+            Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
+            intent.putExtra("email", stUserId); // stUserId값(자신의 아이디)을 ChatActivity에 넘겨줌
+            intent.putExtra("hostId", room.getHostId()); // room.userId값(방장 아이디)을 ChatActivity에 넘겨줌
+            intent.putExtra("hostToken", room.getHostToken()); // room.hostToken값(방장 아이디토큰)을 ChatActivity에 넘겨줌
+            intent.putExtra("myToken", stUserToken); // stUserToken값(자신의 아이디토큰)을 ChatActivity에 넘겨줌
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

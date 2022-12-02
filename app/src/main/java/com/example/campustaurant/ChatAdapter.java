@@ -92,8 +92,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             }
         }
         if(holder.ivProfile != null){ // 레이아웃에 ivProfile이 있는 경우
-            if(!(position >= 1 && mDataset.get(position-1).getUserToken().equals(mDataset.get(position).getUserToken()))){ // 같은사람이 여러번 채팅을 치지않은 경우
-                Glide.with(holder.itemView).load(mDataset.get(position).getUri()).into(holder.ivProfile);
+            Glide.with(holder.itemView).load(mDataset.get(position).getUri()).into(holder.ivProfile);
+            if((position >= 1 && mDataset.get(position-1).getUserToken().equals(mDataset.get(position).getUserToken()))){ // 같은사람이 여러번 채팅을 친 경우
+                holder.ivProfile.setVisibility(View.INVISIBLE); // 이미지 안보이게
             }
         }
         holder.itemView.setTag(position); // itemView의 position(위치)값을 가져옴

@@ -45,6 +45,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
     DatabaseReference ref;
     DatabaseReference roomRef;
     DatabaseReference profileRef;
+    DatabaseReference userRef;
     ArrayList<Chat> chatArrayList; // Chat 객체 배열
 
     @Override
@@ -62,6 +63,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         btnSend = (Button)findViewById(R.id.btnSend);
         etText = (EditText) findViewById(R.id.etText);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        userRef = database.getReference("User").child(stUserToken);
 
         profileRef = database.getReference("Profile").child(stUserToken);
         profileRef.addValueEventListener(new ValueEventListener() {
@@ -103,6 +105,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue(Room.class) == null){
                     if(!stUserToken.equals(stHostToken)){ // 방장이 아니라면
+                        userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
                         Toast.makeText(ChatActivity.this, "더이상 존재하지 않는 방입니다.", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -120,7 +123,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                             table.put("userToken", ""); // DB의 userToken란에 stUserToken값
                             table.put("datetime", datetime); // DB의 datetime란에 datetime값
                             table.put("userId", ""); // DB의 userId란에 stUserId값
-                            table.put("text", guest+"님이 입장하셨습니다."); // DB의 text란에 stText값
+                            table.put("text", stUserName+"님이 입장하셨습니다."); // DB의 text란에 stText값
                             // Chat클래스의 멤버변수의 명칭과 똑같은 이름으로 DB에 입력해야 Chat객체에 값을 읽어올 수 있음
 
                             ref.child(datetime).setValue(table); // 입력
@@ -134,6 +137,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 if(map != null){
                     for(String banUser : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 banUser에 저장
                         if(stUserToken.equals(banUser)){
+                            userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
                             Toast.makeText(ChatActivity.this, "강퇴당하셨습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
@@ -153,8 +157,12 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 finish(); // ChatActivity를 종료하면 다시 MainActivity로 돌아감
 
                 if(stUserId.equals(stOtherId)){ // 방장이 나가면
+                    userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
                     roomRef.setValue(null); // 대기방을 폭파함
                     ref.setValue(null); // 채팅방을 폭파함
+                }
+                else{ // 방장외 유저가 나가면
+                    userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
                 }
             }
         });
@@ -168,7 +176,6 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         recyclerView.setAdapter(chatAdapter);
 
         ref = database.getReference("Chat").child(stHostToken); // Chat하위에 데이터 저장하기 위해
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -222,6 +229,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         intent.putExtra("userToken", chat.getUserToken()); // 해당 채팅의 유저토큰을 넘겨줌
         intent.putExtra("myToken", stUserToken); // 자신의 유저토큰을 넘겨줌
         intent.putExtra("hostToken", stHostToken); // 방장의 유저토큰을 넘겨줌
+        intent.putExtra("userName", stUserName); // 자신의 이름을 넘겨줌
         startActivity(intent);
     }
 

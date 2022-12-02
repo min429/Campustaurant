@@ -19,10 +19,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Hashtable;
+
 public class ChatProfileActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference ref;
     DatabaseReference roomRef;
+    DatabaseReference chatRef;
     ImageView ivProfile;
     Button btnClose;
     TextView tvKick;
@@ -33,6 +38,7 @@ public class ChatProfileActivity extends AppCompatActivity {
     String stUserToken;
     String stHostToken;
     String stMyToken;
+    String stUserName;
     Profile profile;
 
     @Override
@@ -52,25 +58,42 @@ public class ChatProfileActivity extends AppCompatActivity {
         stUserToken = getIntent().getStringExtra("userToken"); // 해당 채팅의 유저토큰
         stHostToken = getIntent().getStringExtra("hostToken"); // 방장의 유저토큰
         stMyToken = getIntent().getStringExtra("myToken"); // 자신의 유저토큰
+        stUserName = getIntent().getStringExtra("userName");
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {finish();}
         });
 
-        roomRef = database.getReference("Room");
+        roomRef = database.getReference("Room").child(stHostToken);
+        chatRef = database.getReference("Chat").child(stHostToken);
 
         tvKick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(stMyToken.equals(stHostToken) && !stUserToken.equals(stHostToken)){ // 방장일 경우, 방장이외의 유저를 강퇴할 수 있음
-                    roomRef.child(stHostToken).child("ban").child(stUserToken).setValue("");
+                    roomRef.child("ban").child(stUserToken).setValue("");
+
+                    Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
+                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
+                    String datetime = dateformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
+
+                    Hashtable<String, String> table // DB테이블에 넣을 해시테이블
+                            = new Hashtable<String, String>();
+                    table.put("userToken", ""); // DB의 userToken란에 stUserToken값
+                    table.put("datetime", datetime); // DB의 datetime란에 datetime값
+                    table.put("userId", ""); // DB의 userId란에 stUserId값
+                    table.put("text", stUserName+"님이 강퇴당하셨습니다."); // DB의 text란에 stText값
+                    // Chat클래스의 멤버변수의 명칭과 똑같은 이름으로 DB에 입력해야 Chat객체에 값을 읽어올 수 있음
+
+                    chatRef.child(datetime).setValue(table); // 입력
+
+                    finish();
                 }
             }
         });
 
         ref = database.getReference("Profile").child(stUserToken);
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {

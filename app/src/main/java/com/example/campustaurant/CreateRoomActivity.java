@@ -45,6 +45,7 @@ import com.naver.maps.map.overlay.OverlayImage;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyCallback, ClickCallbackListener {
@@ -54,10 +55,10 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
     private static NaverMap naverMap;
     //마커 변수 선언 및 초기화
     private Marker marker = new Marker();
-
     FirebaseDatabase database;
     DatabaseReference myRef;
     DatabaseReference chatRef;
+    DatabaseReference userRef;
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     TagAdapter tagAdapter;
     RecyclerView recyclerView;
@@ -65,6 +66,7 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
     EditText etRoomName;
     EditText etTag;
     String stUserToken;
+    String stHostToken;
     String stRoomName;
     String stUserId;
     String stFood;
@@ -567,6 +569,19 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
             }
         });
 
+        userRef = database.getReference("User").child(stUserToken);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                stHostToken = dataSnapshot.child("room").getValue(String.class);
+                Log.d(TAG, "stHostToken: "+stHostToken);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         ibEnter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -600,41 +615,55 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stRoomName = etRoomName.getText().toString();
-
-                Hashtable<String, String> Data // DB테이블에 데이터 입력
-                        = new Hashtable<String, String>();
-                Data.put("hostToken", stUserToken);  // DB의 hostToken란에 stUserToken 값
-                Data.put("roomName", stRoomName);
-                Data.put("hostId", stUserId);
-                Data.put("food", stFood);
-                Data.put("restaurant", stRestaurant);
-                myRef.child(stUserToken).setValue(Data); // 입력
-
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference imageRef = storage.getReference().child("food/"+stFood+".jpg");
-
-                // DB에 이미지 uri 저장
-                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                myRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                     @Override
-                    public void onSuccess(Uri uri) {
-                        myRef.child(stUserToken).child("uri").setValue(String.valueOf(uri));
+                    public void onSuccess(DataSnapshot dataSnapshot) {
+                        HashMap<String,String> hostMap = (HashMap<String,String>)dataSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
+                        for(String host: hostMap.keySet()){
+                            if(host.equals(stHostToken)){ // 이미 참가한 대기방이 있으면
+                                Toast.makeText(CreateRoomActivity.this, "이미 참여중인 대기방이 있습니다.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        // 아직 참가한 대기방이 없거나 참여중인 대기방인 경우
+                        stRoomName = etRoomName.getText().toString();
+
+                        Hashtable<String, String> Data // DB테이블에 데이터 입력
+                                = new Hashtable<String, String>();
+                        Data.put("hostToken", stUserToken); // DB의 hostToken란에 stUserToken 값
+                        Data.put("roomName", stRoomName);
+                        Data.put("hostId", stUserId);
+                        Data.put("food", stFood);
+                        Data.put("restaurant", stRestaurant);
+                        myRef.child(stUserToken).setValue(Data); // 입력
+
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference imageRef = storage.getReference().child("food/"+stFood+".jpg");
+
+                        // DB에 이미지 uri 저장
+                        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                myRef.child(stUserToken).child("uri").setValue(String.valueOf(uri));
+                            }
+                        });
+
+                        for(int i=0; i<tagArrayList.size(); i++){
+                            myRef.child(stUserToken).child("tag").child("tag"+(i+1)).setValue(tagArrayList.get(i));
+                        }
+                        myRef.child(stUserToken).child("ban").child("userToken").setValue("");
+                        userRef.child("room").setValue(stUserToken); // 들어간 방 확정
+
+                        chatRef = database.getReference("Chat").child(stUserToken);
+                        chatRef.setValue(null); // 기존의 채팅방 삭제
+
+                        Intent intent = new Intent(CreateRoomActivity.this, RoomListActivity.class);
+                        intent.putExtra("email", stUserId);
+                        intent.putExtra("locaArrayList", locaArrayList);
+                        startActivity(intent);
+                        finish();
                     }
                 });
-
-                for(int i=0; i<tagArrayList.size(); i++){
-                    myRef.child(stUserToken).child("tag").child("tag"+(i+1)).setValue(tagArrayList.get(i));
-                }
-                myRef.child(stUserToken).child("ban").child("userToken").setValue("");
-
-                chatRef = database.getReference("Chat").child(stUserToken);
-                chatRef.setValue(null); // 기존의 채팅방 삭제
-
-                Intent intent = new Intent(CreateRoomActivity.this, RoomListActivity.class);
-                intent.putExtra("email", stUserId);
-                intent.putExtra("locaArrayList", locaArrayList);
-                startActivity(intent);
-                finish();
             }
         });
     }

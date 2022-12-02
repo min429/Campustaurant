@@ -231,6 +231,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:maxLines="1"
                             android:textSize="10sp"
                             android:textColor="@color/black">
                         </EditText>

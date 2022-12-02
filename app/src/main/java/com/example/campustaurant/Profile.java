@@ -1,7 +1,7 @@
 package com.example.campustaurant;
 
 public class Profile {
-    private String name = "이름없음";
+    private String name = "익명";
     private String sex = "";
     private String introduce = "";
     private String uri = "https://firebasestorage.googleapis.com/v0/b/campustaurant.appspot.com/o/profile%2Fbasic.png?alt=media&token=8787b786-3c2b-4253-ad90-4bf293b07ee8";
