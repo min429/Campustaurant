@@ -12,11 +12,11 @@
         android:layout_weight="0.2">
         <ImageView
             android:id="@+id/iv_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
             android:layout_gravity="top"
             android:layout_marginRight="6dp"
-            android:background="@drawable/profile1"/><!--둥글게 : java파일 roomfoodpic.clipToOutline = true추가-->
+            android:scaleType="centerInside"/><!--둥글게 : java파일 roomfoodpic.clipToOutline = true추가-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -25,7 +25,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이름"/>
+                android:textColor="@color/black"/>
             <TextView
                 android:id="@+id/tvChat"
                 android:layout_width="wrap_content"

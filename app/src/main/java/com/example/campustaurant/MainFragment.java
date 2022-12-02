@@ -26,8 +26,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,8 +57,13 @@ public class MainFragment extends Fragment{
     StorageReference stRef;
     DatabaseReference locaRef;
     DatabaseReference proRef;
+    DatabaseReference notificationRef;
     private ArrayList<Location> locaArrayList;
     ArrayList<String> foodArrayList;
+    ArrayList<Notification> notificationList;
+    private NotificationAdapter notificationAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
     Profile profile;
     LinearLayout llRoom;
     Button btnEnter;
@@ -76,11 +84,12 @@ public class MainFragment extends Fragment{
     ImageButton Ib_OpenSidebar;
     Button Bt_CloseSidebar;
     ImageView ivLogout;
+    ImageButton ibSetting;
     Button btnRecord;
     Button btnNotice;
     TextView tvName;
     TextView tvSex;
-    TextView tvOld;
+    TextView tvIntroduce;
     TextView tvRating;
     //알림창
     View Notification;
@@ -121,6 +130,16 @@ public class MainFragment extends Fragment{
         ivFood = rootView.findViewById(R.id.iv_foodimg);
         tvFood = rootView.findViewById(R.id.tv_foodName);
         locaArrayList = new ArrayList<>();
+        recyclerView = (RecyclerView)rootView.findViewById(R.id.rv);
+        linearLayoutManager = new LinearLayoutManager(mainActivity);
+        // 리사이클러뷰 설정
+        recyclerView.setLayoutManager(linearLayoutManager);
+        // LayoutManager 설정
+        notificationList = new ArrayList<>();
+        notificationAdapter = new NotificationAdapter(notificationList); // restaurantList에 담긴 것들을 어댑터에 담아줌
+        // this -> RestaurantActivity 객체
+        recyclerView.setAdapter(notificationAdapter); // recyclerView에 restaurantAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
+
         stUserId = mainActivity.getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         foodArrayList = mainActivity.getIntent().getStringArrayListExtra("foodArrayList");
         try {
@@ -178,10 +197,12 @@ public class MainFragment extends Fragment{
         });
 
         // 사이드바 메뉴
+        ivProfile = rootView.findViewById(R.id.iv_profile);
         tvName = rootView.findViewById(R.id.tv_name);
         tvSex = rootView.findViewById(R.id.tv_sex);
-        tvOld = rootView.findViewById(R.id.tv_old);
+        tvIntroduce = rootView.findViewById(R.id.tv_introduce);
         tvRating = rootView.findViewById(R.id.tv_rating);
+        ibSetting = rootView.findViewById(R.id.btn_setting);
 
         btnRecord = rootView.findViewById(R.id.btn_record);
         btnRecord.setOnClickListener(new View.OnClickListener() {
@@ -232,13 +253,14 @@ public class MainFragment extends Fragment{
             }
         });
 
-        ivProfile = rootView.findViewById(R.id.iv_profile);
-        ivProfile.setOnClickListener(new View.OnClickListener() {
+
+        ibSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, EditProfileActivity.class);
                 intent.putExtra("myToken", stUserToken);
-                startActivityForResult(intent, GALLERY_CODE);
+                startActivity(intent);
+                //startActivityForResult(intent, GALLERY_CODE);
             }
         });
 
@@ -357,11 +379,11 @@ public class MainFragment extends Fragment{
         });
 
         stRef = storage.getReference();
-        stRef.child(fileName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        stRef.child("food/"+fileName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                tvFood.setText(fileName);
                 Glide.with(mainActivity).load(uri).into(ivFood);
+                tvFood.setText(fileName);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -390,11 +412,13 @@ public class MainFragment extends Fragment{
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 profile = dataSnapshot.getValue(Profile.class);
 
+                RequestManager glideRequestManager = Glide.with(mainActivity);
+
                 if(profile != null){
-                    if(profile.getUri() != null) Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);
+                    if(profile.getUri() != null) glideRequestManager.load(profile.getUri()).into(ivProfile);
                     if(profile.getName() != null) tvName.setText(profile.getName());
                     if(profile.getSex() != null) tvSex.setText(profile.getSex());
-                    if(profile.getOld() != null) tvOld.setText(profile.getOld());
+                    if(profile.getIntroduce() != null) tvIntroduce.setText(profile.getIntroduce());
                     tvRating.setText(Integer.toString(profile.getRating()));
                 }
                 else{
@@ -402,7 +426,25 @@ public class MainFragment extends Fragment{
                     tvRating.setText("0");
                 }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        notificationRef = database.getReference("Notification");
+        notificationRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                notificationList.clear();
+                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                    Notification notification = postSnapshot.getValue(Notification.class);
+                    Log.d(TAG, "notificationList: "+notificationList);
+                    if(notification != null)
+                        notificationList.add(notification);
+                }
+                notificationAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -412,12 +454,12 @@ public class MainFragment extends Fragment{
         return rootView;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == GALLERY_CODE){
-            if(resultCode == RESULT_OK){
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == GALLERY_CODE){
+//            if(resultCode == RESULT_OK){
+//            }
+//        }
+//    }
 }
