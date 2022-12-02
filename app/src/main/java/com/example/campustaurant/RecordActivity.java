@@ -3,6 +3,7 @@ package com.example.campustaurant;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,12 +29,10 @@ public class RecordActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference recordRef = database.getReference("Record");
-    DatabaseReference profileRef = database.getReference("Profile");
     TextView tvName;
     TextView tvRating;
     ImageView ivProfile;
-    ImageButton ibRateGood;
-    ImageButton ibRateBad;
+    Button btnRate;
     Button btnClose;
     String myToken;
     boolean rate = false;
@@ -45,9 +45,10 @@ public class RecordActivity extends AppCompatActivity {
         //tvName = findViewById(R.id.tv_name);
         tvRating = findViewById(R.id.tv_rating);
         //ivProfile = findViewById(R.id.iv_profile);
-        ibRateGood = findViewById(R.id.ib_rategood);
-        ibRateBad = findViewById(R.id.ib_ratebad);
         btnClose = findViewById(R.id.btn_close);
+        btnRate = findViewById(R.id.btn_rate);
+        ivProfile = findViewById(R.id.iv_profile);
+        tvName = findViewById(R.id.tv_name);
         myToken = getIntent().getStringExtra("myToken");
 
         recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").addValueEventListener(new ValueEventListener() {
@@ -67,6 +68,15 @@ public class RecordActivity extends AppCompatActivity {
             }
         });
 
+        btnRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecordActivity.this, ReviewActivity.class);
+                intent.putExtra("myToken", myToken);
+                startActivity(intent);
+            }
+        });
+
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,48 +84,52 @@ public class RecordActivity extends AppCompatActivity {
             }
         });
 
-        ibRateGood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!rate){
-                    Toast.makeText(RecordActivity.this, "up", Toast.LENGTH_SHORT).show();
-                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                        @Override
-                        public void onSuccess(DataSnapshot dataSnapshot) {
-                            int rating = dataSnapshot.getValue(Integer.class);
-                            rating += 1;
-                            profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
-                            recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
-                        }
-                    });
-                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").child(myToken).setValue("");
-                }
-            }
-        });
+//        ibRateGood.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(!rate){
+//                    Toast.makeText(RecordActivity.this, "up", Toast.LENGTH_SHORT).show();
+//                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+//                        @Override
+//                        public void onSuccess(DataSnapshot dataSnapshot) {
+//                            int rating = dataSnapshot.getValue(Integer.class);
+//                            rating += 1;
+//                            profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
+//                            recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
+//                        }
+//                    });
+//                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").child(myToken).setValue("");
+//                }
+//            }
+//        });
+//
+//        ibRateBad.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(!rate){
+//                    Toast.makeText(RecordActivity.this, "down", Toast.LENGTH_SHORT).show();
+//                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+//                        @Override
+//                        public void onSuccess(DataSnapshot dataSnapshot) {
+//                            int rating = dataSnapshot.getValue(Integer.class);
+//                            rating -= 1;
+//                            profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
+//                            recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
+//                        }
+//                    });
+//                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").child(myToken).setValue("");
+//                }
+//            }
+//        });
 
-        ibRateBad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!rate){
-                    Toast.makeText(RecordActivity.this, "down", Toast.LENGTH_SHORT).show();
-                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                        @Override
-                        public void onSuccess(DataSnapshot dataSnapshot) {
-                            int rating = dataSnapshot.getValue(Integer.class);
-                            rating -= 1;
-                            profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
-                            recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
-                        }
-                    });
-                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").child(myToken).setValue("");
-                }
-            }
-        });
 
-        recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").addValueEventListener(new ValueEventListener() {
+
+        recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvRating.setText(Integer.toString(dataSnapshot.getValue(Integer.class)));
+                tvName.setText(dataSnapshot.child("name").getValue(String.class));
+                tvRating.setText(Integer.toString(dataSnapshot.child("rating").getValue(Integer.class)));
+                Glide.with(RecordActivity.this).load(dataSnapshot.child("uri").getValue(String.class)).into(ivProfile);
             }
 
             @Override

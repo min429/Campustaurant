@@ -163,6 +163,22 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 }
                 else{ // 방장외 유저가 나가면
                     userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
+
+                    Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
+                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
+                    String datetime = dateformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
+
+                    Hashtable<String, String> table // DB테이블에 넣을 해시테이블
+                            = new Hashtable<String, String>();
+                    table.put("userToken", ""); // DB의 userToken란에 stUserToken값
+                    table.put("datetime", datetime); // DB의 datetime란에 datetime값
+                    table.put("userId", ""); // DB의 userId란에 stUserId값
+                    table.put("text", stUserName+"님이 퇴장하셨습니다."); // DB의 text란에 stText값
+                    // Chat클래스의 멤버변수의 명칭과 똑같은 이름으로 DB에 입력해야 Chat객체에 값을 읽어올 수 있음
+
+                    roomRef.child("guest").child(stUserToken).setValue(""); // 유저 입장 체크 해제
+
+                    ref.child(datetime).setValue(table); // 입력
                 }
             }
         });

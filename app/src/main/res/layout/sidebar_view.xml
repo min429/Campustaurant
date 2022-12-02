@@ -67,7 +67,7 @@
             </LinearLayout>
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="240dp"
                 android:layout_weight="0">
                 <LinearLayout
                     android:layout_width="match_parent"

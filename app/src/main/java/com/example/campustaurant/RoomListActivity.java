@@ -262,7 +262,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
 
             }
         });
-
     }
 
     @Override
@@ -273,7 +272,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
             Toast.makeText(RoomListActivity.this, "이미 참가한 대기방이 있습니다.", Toast.LENGTH_SHORT).show();
         }
         else { // 아직 참가한 대기방이 없거나 참여중인 대기방인 경우
-            Log.d(TAG, "stHostToken: "+stHostToken);
             userRef.child("room").setValue(room.getHostToken()); // 들어간 방 확정
 
             Intent intent = new Intent(RoomListActivity.this, ChatActivity.class);
