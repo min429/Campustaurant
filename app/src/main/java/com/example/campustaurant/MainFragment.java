@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,11 +77,12 @@ public class MainFragment extends Fragment{
     ImageButton Ib_OpenSidebar;
     Button Bt_CloseSidebar;
     ImageView ivLogout;
+    ImageButton ibSetting;
     Button btnRecord;
     Button btnNotice;
     TextView tvName;
     TextView tvSex;
-    TextView tvOld;
+    TextView tvIntroduce;
     TextView tvRating;
     //알림창
     View Notification;
@@ -178,10 +180,12 @@ public class MainFragment extends Fragment{
         });
 
         // 사이드바 메뉴
+        ivProfile = rootView.findViewById(R.id.iv_profile);
         tvName = rootView.findViewById(R.id.tv_name);
         tvSex = rootView.findViewById(R.id.tv_sex);
-        tvOld = rootView.findViewById(R.id.tv_old);
+        tvIntroduce = rootView.findViewById(R.id.tv_introduce);
         tvRating = rootView.findViewById(R.id.tv_rating);
+        ibSetting = rootView.findViewById(R.id.btn_setting);
 
         btnRecord = rootView.findViewById(R.id.btn_record);
         btnRecord.setOnClickListener(new View.OnClickListener() {
@@ -232,13 +236,14 @@ public class MainFragment extends Fragment{
             }
         });
 
-        ivProfile = rootView.findViewById(R.id.iv_profile);
-        ivProfile.setOnClickListener(new View.OnClickListener() {
+
+        ibSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, EditProfileActivity.class);
                 intent.putExtra("myToken", stUserToken);
-                startActivityForResult(intent, GALLERY_CODE);
+                startActivity(intent);
+                //startActivityForResult(intent, GALLERY_CODE);
             }
         });
 
@@ -357,11 +362,11 @@ public class MainFragment extends Fragment{
         });
 
         stRef = storage.getReference();
-        stRef.child(fileName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        stRef.child("food/"+fileName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                tvFood.setText(fileName);
                 Glide.with(mainActivity).load(uri).into(ivFood);
+                tvFood.setText(fileName);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -390,11 +395,13 @@ public class MainFragment extends Fragment{
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 profile = dataSnapshot.getValue(Profile.class);
 
+                RequestManager glideRequestManager = Glide.with(mainActivity);
+
                 if(profile != null){
-                    if(profile.getUri() != null) Glide.with(mainActivity).load(profile.getUri()).into(ivProfile);
+                    if(profile.getUri() != null) glideRequestManager.load(profile.getUri()).into(ivProfile);
                     if(profile.getName() != null) tvName.setText(profile.getName());
                     if(profile.getSex() != null) tvSex.setText(profile.getSex());
-                    if(profile.getOld() != null) tvOld.setText(profile.getOld());
+                    if(profile.getIntroduce() != null) tvIntroduce.setText(profile.getIntroduce());
                     tvRating.setText(Integer.toString(profile.getRating()));
                 }
                 else{
@@ -412,12 +419,12 @@ public class MainFragment extends Fragment{
         return rootView;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == GALLERY_CODE){
-            if(resultCode == RESULT_OK){
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == GALLERY_CODE){
+//            if(resultCode == RESULT_OK){
+//            }
+//        }
+//    }
 }

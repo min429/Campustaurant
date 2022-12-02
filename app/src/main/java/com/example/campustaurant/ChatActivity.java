@@ -39,9 +39,12 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
     String stOtherId; // 방장 아이디
     String stHostToken; // 방장 토큰
     String stUserToken; // 유저 토큰
+    String stUserName; // 유저 이름
+    String stUri; // profile uri
     FirebaseDatabase database;
     DatabaseReference ref;
     DatabaseReference roomRef;
+    DatabaseReference profileRef;
     ArrayList<Chat> chatArrayList; // Chat 객체 배열
 
     @Override
@@ -60,8 +63,21 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         etText = (EditText) findViewById(R.id.etText);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-        roomRef = database.getReference("Room").child(stHostToken);
+        profileRef = database.getReference("Profile").child(stUserToken);
+        profileRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Profile profile = dataSnapshot.getValue(Profile.class);
+                stUserName = profile.getName();
+                stUri = profile.getUri();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        roomRef = database.getReference("Room").child(stHostToken);
         roomRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
@@ -188,7 +204,8 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 numbers.put("userToken", stUserToken); // DB의 userToken란에 stUserToken값
                 numbers.put("datetime", datetime); // DB의 datetime란에 datetime값
                 numbers.put("userId", stUserId); // DB의 userId란에 stUserId값
-                //numbers.put("userName", )
+                numbers.put("userName", stUserName); // DB의 userName란에 stUserName값
+                numbers.put("uri", stUri); // DB의 uri란에 stUri값
                 numbers.put("text", stText); // DB의 text란에 stText값
                 // Chat클래스의 멤버변수의 명칭과 똑같은 이름으로 DB에 입력해야 Chat객체에 값을 읽어올 수 있음
 

@@ -20,7 +20,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="CAMPUS\nTAURANT"
-                android:textSize="80dp"
+                android:textSize="70sp"
                 android:letterSpacing="0.1"
                 android:textColor="@color/white"></TextView>
             <LinearLayout

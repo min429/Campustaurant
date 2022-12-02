@@ -1,18 +1,18 @@
 package com.example.campustaurant;
 
 public class Profile {
-    private String name;
-    private String sex;
-    private String old;
-    private String uri;
+    private String name = "이름없음";
+    private String sex = "";
+    private String introduce = "";
+    private String uri = "https://firebasestorage.googleapis.com/v0/b/campustaurant.appspot.com/o/profile%2Fbasic.png?alt=media&token=8787b786-3c2b-4253-ad90-4bf293b07ee8";
     private int rating = 0;
 
     public Profile() {}
 
-    public Profile(String name, String sex, String old, String uri, int rating) {
+    public Profile(String name, String sex, String introduce, String uri, int rating) {
         this.name = name;
         this.sex = sex;
-        this.old = old;
+        this.introduce = introduce;
         this.uri = uri;
         this.rating = rating;
     }
@@ -33,12 +33,12 @@ public class Profile {
         this.sex = sex;
     }
 
-    public String getOld() {
-        return old;
+    public String getIntroduce() {
+        return introduce;
     }
 
-    public void setOld(String old) {
-        this.old = old;
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
     }
 
     public String getUri() {

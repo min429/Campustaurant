@@ -86,7 +86,8 @@
                                 android:adjustViewBounds="true"
                                 android:layout_weight="0.1"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/loading">
+                                android:src="@drawable/loading"
+                                android:background="@drawable/loading">
                             </ImageView>
                             <TextView
                                 android:id="@+id/tv_foodName"

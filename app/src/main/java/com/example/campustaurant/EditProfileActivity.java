@@ -3,17 +3,24 @@ package com.example.campustaurant;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.PermissionChecker;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class EditProfileActivity extends AppCompatActivity {
+    private static final String TAG = "EditProfileActivity";
 
     private final int GALLERY_CODE = 10;
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -46,15 +55,15 @@ public class EditProfileActivity extends AppCompatActivity {
     DatabaseReference dbRef = database.getReference("Profile");
     Profile profile;
     String stUserToken;
-    ImageButton ibCross;
+    Button btnClose;
     EditText etName;
     EditText etSex;
-    EditText etOld;
+    EditText etIntroduce;
     ImageView ivProfile;
     TextView tvRating;
     String stName;
     String stSex;
-    String stOld;
+    String stIntroduce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +72,12 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         stUserToken = getIntent().getStringExtra("myToken");
-        ibCross = findViewById(R.id.ib_cross);
+        btnClose = findViewById(R.id.btn_close);
         etName = findViewById(R.id.et_name);
         etSex = findViewById(R.id.et_sex);
-        etOld = findViewById(R.id.et_old);
         ivProfile = findViewById(R.id.iv_profile);
         tvRating = findViewById(R.id.tv_rating);
+        etIntroduce = findViewById(R.id.et_introduce);
 
         dbRef = database.getReference("Profile").child(stUserToken);
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -76,15 +85,16 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 profile = dataSnapshot.getValue(Profile.class);
 
+                RequestManager glideRequestManager = Glide.with(getApplicationContext()); // Glide쓸 때 getApplicationContext를 통해 로드해야함
+
                 if(profile != null){
-                    if(profile.getUri() != null) Glide.with(EditProfileActivity.this).load(profile.getUri()).into(ivProfile);
+                    if(profile.getUri() != null) glideRequestManager.load(profile.getUri()).into(ivProfile);
                     if(profile.getName() != null) etName.setText(profile.getName());
                     if(profile.getSex() != null) etSex.setText(profile.getSex());
-                    if(profile.getOld() != null) etOld.setText(profile.getOld());
+                    if(profile.getIntroduce() != null) etIntroduce.setText(profile.getIntroduce());
                     tvRating.setText(Integer.toString(profile.getRating()));
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -94,24 +104,33 @@ public class EditProfileActivity extends AppCompatActivity {
         ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                startActivityForResult(intent, GALLERY_CODE);
+                // 권한 확인
+//                boolean hasCamPerm = checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+                boolean hasWritePerm = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+                if (!hasWritePerm){
+                    // 권한 없을 시  권한설정 요청
+                    ActivityCompat.requestPermissions(EditProfileActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
+                else {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, GALLERY_CODE);
+                }
             }
         });
 
-        ibCross.setOnClickListener(new View.OnClickListener() {
+        btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 stName = etName.getText().toString();
                 stSex = etSex.getText().toString();
-                stOld = etOld.getText().toString();
+                stIntroduce = etIntroduce.getText().toString();
 
                 dbRef.child("name").setValue(stName);
                 dbRef.child("sex").setValue(stSex);
-                dbRef.child("old").setValue(stOld);
+                dbRef.child("introduce").setValue(stIntroduce);
 
-                setResult(RESULT_OK, getIntent());
+                //setResult(RESULT_OK, getIntent());
                 finish();
             }
         });
@@ -119,21 +138,9 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keycode, KeyEvent event) {
-        if(keycode ==KeyEvent.KEYCODE_BACK) { // 뒤로가기 버튼 눌렀을 때
-            stName = etName.getText().toString();
-            stSex = etSex.getText().toString();
-            stOld = etOld.getText().toString();
-
-            dbRef.child("name").setValue(stName);
-            dbRef.child("sex").setValue(stSex);
-            dbRef.child("old").setValue(stOld);
-
-            setResult(RESULT_OK, getIntent());
-            finish();
-            return true;
-        }
-        return false;
+    public void onBackPressed() {
+        // 뒤로가기 버튼 방지 (주석처리 필요)
+        // super.onBackPressed();
     }
 
     @Override

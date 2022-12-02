@@ -612,7 +612,7 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
                 myRef.child(stUserToken).setValue(Data); // 입력
 
                 FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference imageRef = storage.getReference().child(stFood+".jpg");
+                StorageReference imageRef = storage.getReference().child("food/"+stFood+".jpg");
 
                 // DB에 이미지 uri 저장
                 imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

@@ -1,133 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#eeeeee"
-    android:orientation="vertical"
-    android:layout_width="300dp"
-    android:layout_height="wrap_content">
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
 
-    <!-- 타이틀바 -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/Toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        app:contentInsetStart="0dp"
-        android:background="#ff7a00">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:text="Profile"
-                android:textSize="20sp"
-                android:textColor="#fff"
-                android:gravity="center"
-                android:background="#ff7a00"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.9"/>
-
-            <ImageButton
-                android:id="@+id/ib_cross"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:scaleType="fitCenter"
-                android:background="@drawable/cross_btn"
-                android:layout_weight="0.1"/>
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
-    <!-- //end 타이틀바 -->
-
-    <!-- Notice -->
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent"
+        android:layout_weight="0.1"
+        android:orientation="vertical"
+        android:background="@drawable/shape31">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp">
-
-            <ImageView
-                android:id="@+id/iv_profile"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:background="@drawable/person"
-                android:layout_marginStart="10dp"/>
-
+            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="프로필"
+                android:textSize="24dp"
+                android:textColor="@color/black">
+            </TextView>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="10dp"/>
+                android:layout_weight="0.1">
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_close"
+                android:layout_width="?actionBarSize"
+                android:layout_height="?actionBarSize"
+                android:background="@drawable/goback"/>
         </LinearLayout>
-
-        <View
-            android:background="#66bdbdbd"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp">
-
+            android:layout_height="300dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="300dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="이름: "/>
-                <EditText
-                    android:id="@+id/et_name"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_weight="0.8">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.4"
+                        android:orientation="vertical">
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end"
+                        android:layout_weight="0.2">
+                        <ImageView
+                            android:id="@+id/iv_profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitCenter">
+                        </ImageView><!--둥글게 : java파일 roomfoodpic.clipToOutline = true추가-->
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.4"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="4dp">
+                        <TextView
+                            android:id="@+id/tv_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:layout_gravity="start"
+                            android:gravity="bottom">
+                        </TextView><!--둥글게 : java파일 roomfoodpic.clipToOutline = true추가-->
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="성별: "/>
-                <EditText
-                    android:id="@+id/et_sex"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
+                    android:padding="4dp"
+                    android:elevation="10dp"
+                    android:orientation="vertical">
+                    <!--
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="0.1"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="대학교 : "
+                            android:textSize="14sp"
+                            android:textColor="@color/black">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/tv_profileuniversity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="충북대학교"
+                            android:textSize="16sp"
+                            android:textColor="@color/black">
+                        </TextView>
+                    </LinearLayout>
+                    -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="0.1"
+                        android:layout_gravity="center">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="이름 : "
+                            android:textColor="@color/black"
+                            android:textSize="14sp"></TextView>
+                        <EditText
+                            android:id="@+id/et_name"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:textColor="@color/black">
+                        </EditText>
+                    </LinearLayout>
+                    <!--
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="0.1"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="학번 : "
+                            android:textSize="14sp"
+                            android:textColor="@color/black">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/tv_profilestudentid"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="2019999999"
+                            android:textSize="16sp"
+                            android:textColor="@color/black">
+                        </TextView>
+                    </LinearLayout>
+                    -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="0.1"
+                        android:layout_gravity="center">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="성별 : "
+                            android:textColor="@color/black"
+                            android:textSize="14sp"></TextView>
+                        <EditText
+                            android:id="@+id/et_sex"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:textColor="@color/black">
+                        </EditText>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="나이: "/>
-                <EditText
-                    android:id="@+id/et_old"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_marginBottom="6dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="6dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="한 줄 소갯말"
+                            android:textSize="18dp"
+                            android:textColor="@color/black">
+                        </TextView>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1">
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/shape3">
+                        <EditText
+                            android:id="@+id/et_introduce"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:textColor="@color/black">
+                        </EditText>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
-    <!-- Notice -->
 </LinearLayout>

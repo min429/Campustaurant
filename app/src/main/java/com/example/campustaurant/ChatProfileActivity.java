@@ -28,8 +28,8 @@ public class ChatProfileActivity extends AppCompatActivity {
     TextView tvKick;
     TextView tvName;
     TextView tvSex;
-    TextView tvOld;
     TextView tvRating;
+    TextView tvIntroduce;
     String stUserToken;
     String stHostToken;
     String stMyToken;
@@ -47,6 +47,7 @@ public class ChatProfileActivity extends AppCompatActivity {
         tvKick = findViewById(R.id.tv_kick);
         tvName = findViewById(R.id.tv_name);
         tvSex = findViewById(R.id.tv_sex);
+        tvIntroduce = findViewById(R.id.tv_introduce);
         tvRating =findViewById(R.id.tv_rating);
         stUserToken = getIntent().getStringExtra("userToken"); // 해당 채팅의 유저토큰
         stHostToken = getIntent().getStringExtra("hostToken"); // 방장의 유저토큰
@@ -79,7 +80,7 @@ public class ChatProfileActivity extends AppCompatActivity {
                     if(profile.getUri() != null) Glide.with(ChatProfileActivity.this).load(profile.getUri()).into(ivProfile);
                     if(profile.getName() != null) tvName.setText(profile.getName());
                     if(profile.getSex() != null) tvSex.setText(profile.getSex());
-                    if(profile.getOld() != null) tvOld.setText(profile.getOld());
+                    if(profile.getIntroduce() != null) tvIntroduce.setText(profile.getIntroduce());
                     tvRating.setText(Integer.toString(profile.getRating()));
                 }
             }
