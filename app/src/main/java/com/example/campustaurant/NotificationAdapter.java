@@ -1,5 +1,6 @@
 package com.example.campustaurant;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.CustomViewHolder> { // CustomViewHolder는 직접 만들어줘야함
+    private static final String TAG = "NotificationAdapter";
 
     private ArrayList<Notification> notificationList;
 
@@ -58,6 +62,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public void remove(int position){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference notificationRef = database.getReference("Notification");
+        notificationRef.child(notificationList.get(position).getDatetime()).setValue(null);
         try{
             notificationList.remove(position);
             notifyItemRemoved(position);

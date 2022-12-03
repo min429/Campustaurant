@@ -68,6 +68,16 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 stOtherToken = dataSnapshot.getKey();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        profileRef.child(stUserToken).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Profile profile = dataSnapshot.getValue(Profile.class);
                 stUserName = profile.getName();
                 stUri = profile.getUri();
