@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.1"
             android:layout_marginLeft="16dp"
-            android:text="익명"
+            android:text="Anonymous"
             android:textColor="@color/black"
             android:textSize="18sp">
         </TextView>
@@ -69,8 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/shape5"
-            android:text="평가하기"
+            android:text="Evaluate"
             android:textColor="@color/black"
-            android:textSize="14sp"></Button>
+            android:textSize="12sp"></Button>
     </LinearLayout>
 </LinearLayout>

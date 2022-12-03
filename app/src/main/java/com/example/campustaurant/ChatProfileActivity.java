@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,10 +26,14 @@ import java.util.Calendar;
 import java.util.Hashtable;
 
 public class ChatProfileActivity extends AppCompatActivity {
+    private static final String TAG = "ChatProfileActivity";
+
     FirebaseDatabase database;
     DatabaseReference ref;
     DatabaseReference roomRef;
     DatabaseReference chatRef;
+    DatabaseReference profileRef;
+    DatabaseReference userRef;
     ImageView ivProfile;
     Button btnClose;
     TextView tvKick;
@@ -39,6 +45,7 @@ public class ChatProfileActivity extends AppCompatActivity {
     String stHostToken;
     String stMyToken;
     String stUserName;
+    String stOtherName;
     Profile profile;
 
     @Override
@@ -58,7 +65,7 @@ public class ChatProfileActivity extends AppCompatActivity {
         stUserToken = getIntent().getStringExtra("userToken"); // 해당 채팅의 유저토큰
         stHostToken = getIntent().getStringExtra("hostToken"); // 방장의 유저토큰
         stMyToken = getIntent().getStringExtra("myToken"); // 자신의 유저토큰
-        stUserName = getIntent().getStringExtra("userName");
+        stUserName = getIntent().getStringExtra("userName"); // 자신의 이름
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +74,27 @@ public class ChatProfileActivity extends AppCompatActivity {
 
         roomRef = database.getReference("Room").child(stHostToken);
         chatRef = database.getReference("Chat").child(stHostToken);
+        profileRef = database.getReference("Profile").child(stUserToken);
+        userRef = database.getReference("User").child(stUserToken);
+
+        profileRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                stOtherName = dataSnapshot.child("name").getValue(String.class);
+                if(stOtherName == null) stOtherName = "익명";
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         tvKick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(stMyToken.equals(stHostToken) && !stUserToken.equals(stHostToken)){ // 방장일 경우, 방장이외의 유저를 강퇴할 수 있음
                     roomRef.child("ban").child(stUserToken).setValue("");
+                    userRef.child("room").child(stHostToken).setValue(null);
 
                     Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
                     SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
@@ -83,7 +105,7 @@ public class ChatProfileActivity extends AppCompatActivity {
                     table.put("userToken", ""); // DB의 userToken란에 stUserToken값
                     table.put("datetime", datetime); // DB의 datetime란에 datetime값
                     table.put("userId", ""); // DB의 userId란에 stUserId값
-                    table.put("text", stUserName+"님이 강퇴당하셨습니다."); // DB의 text란에 stText값
+                    table.put("text", stOtherName+"님이 강퇴당하셨습니다."); // DB의 text란에 stText값
                     // Chat클래스의 멤버변수의 명칭과 똑같은 이름으로 DB에 입력해야 Chat객체에 값을 읽어올 수 있음
 
                     chatRef.child(datetime).setValue(table); // 입력

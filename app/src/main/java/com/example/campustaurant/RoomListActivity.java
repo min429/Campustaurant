@@ -173,7 +173,7 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                     @Override
                     public void onClick(View view) {
                         searchopened = false;
-                        MainScreen.removeViewAt(1);
+                        MainScreen.removeViewAt(2);
                     }
                 });
             }

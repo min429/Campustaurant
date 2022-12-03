@@ -110,6 +110,18 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                         finish();
                     }
                 }
+                DataSnapshot childSnapshot = dataSnapshot.child("ban");
+                HashMap<String,String> map = (HashMap<String,String>)childSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
+                if(map != null){
+                    for(String banUser : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 banUser에 저장
+                        if(stUserToken.equals(banUser)){
+                            userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
+                            Toast.makeText(ChatActivity.this, "강퇴당하셨습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                }
+
                 DataSnapshot snapshot = dataSnapshot.child("guest");
                 HashMap<String,String> guestMap = (HashMap<String,String>)snapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
                 if(guestMap != null){
@@ -128,18 +140,6 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
 
                             ref.child(datetime).setValue(table); // 입력
                             roomRef.child("guest").child(guest).setValue("check"); // 유저 입장 체크 완료
-                        }
-                    }
-                }
-
-                DataSnapshot childSnapshot = dataSnapshot.child("ban");
-                HashMap<String,String> map = (HashMap<String,String>)childSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
-                if(map != null){
-                    for(String banUser : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 banUser에 저장
-                        if(stUserToken.equals(banUser)){
-                            userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
-                            Toast.makeText(ChatActivity.this, "강퇴당하셨습니다.", Toast.LENGTH_SHORT).show();
-                            finish();
                         }
                     }
                 }
@@ -176,7 +176,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                     table.put("text", stUserName+"님이 퇴장하셨습니다."); // DB의 text란에 stText값
                     // Chat클래스의 멤버변수의 명칭과 똑같은 이름으로 DB에 입력해야 Chat객체에 값을 읽어올 수 있음
 
-                    roomRef.child("guest").child(stUserToken).setValue(""); // 유저 입장 체크 해제
+                    roomRef.child("guest").child(stUserToken).setValue(null); // 유저 입장 체크 해제
 
                     ref.child(datetime).setValue(table); // 입력
                 }

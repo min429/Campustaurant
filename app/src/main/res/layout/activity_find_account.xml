@@ -51,8 +51,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.33"
-                android:text="혼자말고"
-                android:textSize="22sp"
+                android:text="Not alone"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:gravity="bottom"/>
 
@@ -70,8 +70,8 @@
                 android:layout_gravity="center"
                 android:layout_weight="0.33"
                 android:textColor="@color/black"
-                android:text="같이먹자"
-                android:textSize="22sp"/>
+                android:text="Eat together"
+                android:textSize="16sp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -127,10 +127,10 @@
                 android:gravity="center">
 
                 <TextView
-                    android:text="아이디 찾기"
+                    android:text="Find ID"
                     android:textColor="@color/black"
                     android:textAlignment="center"
-                    android:textSize="30dp"
+                    android:textSize="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -149,7 +149,7 @@
                     android:layout_width="250dp"
                     android:layout_height="30dp"
                     android:background="@drawable/shape3"
-                    android:hint="이름을 입력하세요."
+                    android:hint="Enter your name."
                     android:textColorHint="#ff000000"
                     android:minWidth="200dp"
                     android:paddingLeft="10dp"
@@ -173,7 +173,7 @@
                     android:textColorHint="#ff000000"
 
                     android:background="@drawable/shape3"
-                    android:hint="학번을 입력하세요"
+                    android:hint="Enter your student ID."
                     android:inputType="number"
                     android:minWidth="200dp"
                     android:paddingLeft="10dp"
@@ -190,11 +190,12 @@
                 android:gravity="center">
 
                 <Button
-                    android:text="아이디 찾기"
+                    android:text="Search"
                     android:id="@+id/btn_findId"
                     android:textColor="#ff000000"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
+                    android:textAllCaps="false"
                     android:background="@drawable/shape3" />
 
             </LinearLayout>
@@ -220,9 +221,9 @@
                 android:gravity="center">
 
                 <TextView
-                    android:text="비밀번호 찾기"
+                    android:text="Find password"
                     android:textAlignment="center"
-                    android:textSize="30dp"
+                    android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -238,7 +239,7 @@
 
                 <EditText
                     android:id="@+id/et_id"
-                    android:hint="아이디를 입력하세요."
+                    android:hint="Enter your ID."
                     android:paddingLeft="10dp"
                     android:layout_width="250dp"
                     android:layout_height="30dp"
@@ -261,7 +262,7 @@
 
                 <EditText
                     android:id="@+id/et_name_pwd"
-                    android:hint="이름을 입력하세요."
+                    android:hint="Enter your name."
                     android:textColorHint="#ff000000"
 
                     android:paddingLeft="10dp"
@@ -282,7 +283,7 @@
 
                 <EditText
                     android:id="@+id/et_student_pwd"
-                    android:hint="학번을 입력하세요."
+                    android:hint="Enter your student ID."
                     android:textColorHint="#ff000000"
 
                     android:paddingLeft="10dp"
@@ -304,10 +305,11 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:text="비밀번호 찾기"
+                    android:text="Search"
                     android:textColor="#ff000000"
                     android:id="@+id/btn_findPwd"
                     android:background="@drawable/shape3"
+                    android:textAllCaps="false"
                     android:layout_width="100dp"
                     android:layout_height="30dp" />
 

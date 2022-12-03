@@ -26,7 +26,7 @@
                 android:shadowColor="@color/black"
                 android:shadowDx="-7.0"
                 android:shadowDy="7.0"
-                android:text="공지사항"
+                android:text="Notice"
                 android:textColor="@color/black"
                 android:textSize="28sp" />
             <LinearLayout
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:padding="2dp"
                     android:ellipsize="end"
-                    android:text="날짜"
+                    android:text="Date"
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:maxLength="12"/>
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="2dp"
-                    android:text="제목"
+                    android:text="Title"
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:maxLength="12"/>

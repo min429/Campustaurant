@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,9 +47,9 @@
                     android:shadowColor="@color/black"
                     android:shadowDx="-7.0"
                     android:shadowDy="7.0"
-                    android:text="프로필"
+                    android:text="Profile"
                     android:textColor="@color/black"
-                    android:textSize="48sp"/>
+                    android:textSize="48sp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -156,7 +157,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:text="이름 : "
+                            android:text="Name : "
                             android:textSize="14sp"
                             android:textColor="@color/black">
                         </TextView>
@@ -180,7 +181,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:text="성별 : "
+                            android:text="Sex : "
                             android:textSize="14sp"
                             android:textColor="@color/black">
                         </TextView>
@@ -204,7 +205,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
-                        android:text="한 줄 소갯말"
+                        android:text="Introduction"
                         android:textSize="20dp"
                         android:textColor="@color/black">
                     </TextView>
@@ -224,7 +225,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="아 시발 전종훈 머하냐"
+                        android:text="Let's have a meal, friends!!"
                         android:textSize="14sp"
                         android:textColor="@color/black">
                     </TextView>
@@ -250,7 +251,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
                         android:shadowColor="@color/black"
-                        android:text="최근기록"
+                        android:text="Recent"
                         android:textColor="@color/black"
                         android:textSize="48sp" />
                     <LinearLayout
@@ -264,7 +265,8 @@
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:background="#00ff0000"
-                        android:text="더보기"
+                        android:text="details"
+                        android:textSize="10sp"
                         android:textColor="@color/black" />
 
 
@@ -298,28 +300,31 @@
                     android:weightSum="1"
 
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
                         android:shadowColor="@color/black"
-                        android:text="공지사항"
+                        android:text="Notice"
                         android:textColor="@color/black"
-                        android:textSize="48sp"/>
+                        android:textSize="48sp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="0.9"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"></LinearLayout>
+
                     <Button
                         android:id="@+id/btn_notice"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
-                        android:text="더보기"
+                        android:background="#00ff0000"
+                        android:text="details"
                         android:textColor="@color/black"
-                        android:background="#00ff0000"/>
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 

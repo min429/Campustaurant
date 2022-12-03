@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:ellipsize="end"
-                android:text="2022/11/26"
+                android:text="2022/12/14"
                 android:textSize="16dp"
                 android:textColor="@color/black"
                 android:maxLength="12"/>
@@ -45,10 +45,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="2dp"
-                android:text="앱이 드디어 최초 공개되었습니다."
+                android:text="Revealed for the first time"
                 android:textSize="16dp"
                 android:textColor="@color/black"
-                android:maxLength="16"/>
+                android:maxLength="30"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

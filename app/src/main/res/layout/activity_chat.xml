@@ -39,7 +39,7 @@
                         android:layout_margin="8dp"
                         android:padding="10dp"
                         android:textSize="14dp"
-                        android:hint="채팅방 종료"
+                        android:hint="Exit"
                         android:textColorHint="@color/black"
                         android:background="@drawable/shape3">
                     </Button>
@@ -57,7 +57,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
-                            android:text="참여 중인 인원 : 2"
+                            android:text="participant : 2"
                             android:textColor="@color/black"
                             android:textSize="14dp"></TextView>
                         <TextView
@@ -65,7 +65,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
-                            android:text="남은 시간 : 10:00"
+                            android:text="time left : 10:00"
                             android:textColor="@color/black"
                             android:textSize="14dp"></TextView>
                     </LinearLayout>
@@ -100,7 +100,7 @@
                 android:backgroundTint="@color/white"
                 android:textSize="14dp"
                 android:padding="12dp"
-                android:hint="채팅을 입력하세요."
+                android:hint="Enter the chat you want to send."
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"></EditText>
             <Button
@@ -112,7 +112,7 @@
                 android:padding="10dp"
                 android:layout_gravity="right"
                 android:gravity="center"
-                android:text="보내기"
+                android:text="Send"
                 android:textSize="18dp"></Button>
         </FrameLayout>
     </LinearLayout>

@@ -18,7 +18,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="프로필"
+                android:text="Profile"
                 android:textSize="24dp"
                 android:textColor="@color/black">
             </TextView>
@@ -131,7 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="이름 : "
+                        android:text="Name : Lee ji hyeong"
                         android:textColor="@color/black"
                         android:textSize="14sp"></TextView>
                     <TextView
@@ -139,7 +139,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="전종훈"
+                        android:text=""
                         android:textSize="16sp"
                         android:textColor="@color/black">
                     </TextView>
@@ -181,7 +181,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="성별 : "
+                        android:text="Sex : "
                         android:textColor="@color/black"
                         android:textSize="14sp"></TextView>
                     <TextView
@@ -189,7 +189,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="남자"
+                        android:text="man"
                         android:textSize="16sp"
                         android:textColor="@color/black">
                     </TextView>
@@ -209,7 +209,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="한 줄 소갯말"
+                        android:text="Introduction"
                         android:textSize="18dp"
                         android:textColor="@color/black">
                     </TextView>
@@ -223,9 +223,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:text="강퇴하기"
+                        android:text="BAN"
                         android:textColor="@color/black"
-                        android:textSize="10sp">
+                        android:textSize="12sp">
                     </TextView>
                 </LinearLayout>
                 <LinearLayout
@@ -242,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="아 시발 전종훈 머하냐"
+                        android:text="Let's have a meal with me, friends!!"
                         android:textSize="14sp"
                         android:textColor="@color/black">
                     </TextView>

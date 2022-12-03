@@ -42,9 +42,9 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="오늘의 메뉴"
+                        android:text="Today's food"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
@@ -133,8 +133,9 @@
                                     android:layout_marginBottom="10dp"
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
-                                    android:text="관련 음식점 보기"
-                                    android:textSize="16sp"
+                                    android:textAllCaps="false"
+                                    android:text="Relative Restaurant"
+                                    android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:background="#00ffffff"/>
                             </LinearLayout>
@@ -158,8 +159,9 @@
                                     android:layout_marginBottom="10dp"
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
-                                    android:text="메뉴 추천받기"
-                                    android:textSize="16sp"
+                                    android:textAllCaps="false"
+                                    android:text="recommendation Food"
+                                    android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:background="#00ffffff"/>
                             </LinearLayout>
@@ -194,9 +196,9 @@
                             android:shadowColor="@color/black"
                             android:shadowDx="-7.0"
                             android:shadowDy="7.0"
-                            android:text="실시간 대기열"
+                            android:text="Real-time Queueing"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -236,9 +238,9 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="밥친구 찾기"
+                        android:text="Find friends to eat with"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -269,9 +271,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="#00000000"
-                                android:text="대기열 바로가기"
+                                android:text="To the Room list"
                                 android:textColor="@color/black"
-                                android:textSize="20sp"/>
+                                android:textSize="16sp"
+                                android:textAllCaps="false"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"

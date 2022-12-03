@@ -88,8 +88,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.33"
-            android:text="혼자말고"
-            android:textSize="20sp"
+            android:text="Not alone"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:gravity="bottom"/>
 
@@ -107,8 +107,8 @@
             android:layout_gravity="center"
             android:layout_weight="0.33"
             android:textColor="@color/black"
-            android:text="같이먹자"
-            android:textSize="20sp"/>
+            android:text="Eat together"
+            android:textSize="16sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -143,6 +143,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="6dp"
                         android:layout_weight="0.1"
                         android:orientation="vertical">
                         <TextView
@@ -151,14 +152,14 @@
                             android:layout_weight="0.5"
                             android:gravity="center|right"
                             android:text="ID : "
-                            android:textSize="20sp"></TextView>
+                            android:textSize="14sp"></TextView>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
                             android:gravity="center|right"
                             android:text="Password : "
-                            android:textSize="20sp"></TextView>
+                            android:textSize="14sp"></TextView>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -191,20 +192,22 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.3"
                         android:gravity="center"
+                        android:layout_marginLeft="10dp"
                         android:orientation="vertical">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.45"></LinearLayout>
-                        <Button
-                            android:id="@+id/btn_login"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:layout_gravity="center"
-                            style="?android:attr/borderlessButtonStyle"
-                            android:background="@color/PColor4"
-                            android:text="login"></Button>
+                            <Button
+                                android:id="@+id/btn_login"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:layout_gravity="center"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:textAllCaps="false"
+                                android:background="@color/PColor4"
+                                android:text="login"></Button>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

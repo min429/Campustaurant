@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/shape3"
                 android:padding="10dp"
-                android:text="내가 쓴 채팅 예시입니다."
+                android:text="This is an example of my chat."
                 android:textColor="@color/black"
                 android:textSize="11sp"></TextView>
         </LinearLayout>

@@ -16,17 +16,18 @@
             android:layout_weight="0.25"
             android:background="@color/white"
             android:gravity="left">
+
                 <TextView
                     android:id="@+id/tv_restaurant"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
                     android:background="@color/white"
                     android:ellipsize="end"
-                    android:text="음식점 이름"
-                    android:textSize="20dp"
+                    android:maxLength="30"
+                    android:padding="8dp"
+                    android:text="Restaurant name"
                     android:textColor="@color/black"
-                    android:maxLength="12"/>
+                    android:textSize="20dp" />
         </LinearLayout>
         <!--
         <LinearLayout

@@ -26,6 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"/>
+
             <TextView
                 android:id="@+id/tvChat"
                 android:layout_width="wrap_content"
@@ -33,9 +34,9 @@
                 android:layout_gravity="center"
                 android:background="@drawable/shape3"
                 android:padding="10dp"
-                android:text="상대가 쓴 채팅 예시입니다."
-                android:textSize="11sp"
-                android:textColor="@color/black"></TextView>
+                android:text="example of a chat"
+                android:textColor="@color/black"
+                android:textSize="11sp"></TextView>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

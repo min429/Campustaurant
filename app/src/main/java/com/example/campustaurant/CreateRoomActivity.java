@@ -619,10 +619,12 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
                     @Override
                     public void onSuccess(DataSnapshot dataSnapshot) {
                         HashMap<String,String> hostMap = (HashMap<String,String>)dataSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
-                        for(String host: hostMap.keySet()){
-                            if(host.equals(stHostToken)){ // 이미 참가한 대기방이 있으면
-                                Toast.makeText(CreateRoomActivity.this, "이미 참여중인 대기방이 있습니다.", Toast.LENGTH_SHORT).show();
-                                return;
+                        if(hostMap != null){
+                            for(String host: hostMap.keySet()){
+                                if(host.equals(stHostToken)){ // 이미 참가한 대기방이 있으면
+                                    Toast.makeText(CreateRoomActivity.this, "이미 참여중인 대기방이 있습니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                             }
                         }
                         // 아직 참가한 대기방이 없거나 참여중인 대기방인 경우

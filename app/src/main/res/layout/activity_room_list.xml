@@ -25,13 +25,15 @@
                 android:layout_gravity="center"
                 android:background="@drawable/searchopen"/>
             <Button
-                android:id="@+id/btn_orderingroom"
+                android:id="@+id/btn_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:background="@color/PColor2"
+                android:textAllCaps="false"
                 style="?borderlessButtonStyle"
-                android:text="거리순"><!--거리순 최신순(기본)-->
+                android:text="Distance"
+                android:textSize="12sp"><!--거리순 이름순(기본) 폐점시간순 -->
             </Button>
         </LinearLayout>
 

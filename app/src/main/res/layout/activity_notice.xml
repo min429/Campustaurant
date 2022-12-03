@@ -30,7 +30,7 @@
                     android:shadowColor="@color/black"
                     android:shadowDx="-7.0"
                     android:shadowDy="7.0"
-                    android:text="공지사항"
+                    android:text="Notice"
                     android:textColor="@color/black"
                     android:textSize="28sp" />
                 <LinearLayout
@@ -70,21 +70,23 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:text="제목 : "
+                android:text="Title : "
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:text="아 드디어 앱이출시되엇지롱 r"
+                android:text="Demo version released"
                 android:textColor="@color/black"
                 android:textSize="16sp"/>
         </LinearLayout>
@@ -103,7 +105,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="하지만 공지사항 쓸게없넹 ㅎ"
+                android:text="URAAAAAA"
                 android:textSize="14sp"
                 android:textColor="@color/black">
             </TextView>

@@ -24,15 +24,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:ellipsize="marquee"
-                android:text="함께 식사한 밥친구가 리뷰를 보냈습니다."
-                android:textSize="14dp"
-                android:textColor="@color/black"/>
+                android:text="A friend reviewed me"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -50,16 +51,16 @@
             android:background="@drawable/imageshape"
             android:scaleType="centerInside"><!--둥글게 : java파일 roomfoodpic.clipToOutline = true추가-->
         </ImageView>
+
         <TextView
             android:id="@+id/tv_name"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.2"
-            android:text="익명"
+            android:gravity="center"
+            android:text="Anonymous"
             android:textColor="@color/black"
-            android:textSize="14sp">
-        </TextView>
+            android:textSize="10sp"></TextView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

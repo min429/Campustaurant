@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:ellipsize="end"
-                android:text="2022/11/26"
+                android:text="2022/12/14"
                 android:textSize="16dp"
                 android:textColor="@color/black"
                 android:maxLength="12"/>
@@ -39,16 +39,17 @@
             android:layout_gravity="center"
             android:layout_weight="0.4"
             android:gravity="left">
+
             <TextView
                 android:id="@+id/tv_restaurant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:maxLength="30"
                 android:padding="2dp"
-                android:text="부대통령"
-                android:textSize="16dp"
+                android:text="Sausagident"
                 android:textColor="@color/black"
-                android:maxLength="16"/>
+                android:textSize="16dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

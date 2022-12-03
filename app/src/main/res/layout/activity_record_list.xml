@@ -16,19 +16,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:shadowColor="@color/black"
                 android:shadowDx="-7.0"
                 android:shadowDy="7.0"
-                android:text="매칭기록"
+                android:text="Record"
                 android:textColor="@color/black"
                 android:textSize="28sp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:padding="2dp"
                     android:ellipsize="end"
-                    android:text="날짜"
+                    android:text="Date"
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:maxLength="12"/>
@@ -87,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="2dp"
-                    android:text="가게명"
+                    android:text="Restaurant Name"
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:maxLength="12"/>
