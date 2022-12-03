@@ -131,7 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Name : Lee ji hyeong"
+                        android:text="Name : "
                         android:textColor="@color/black"
                         android:textSize="14sp"></TextView>
                     <TextView
@@ -189,7 +189,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="man"
+                        android:text=""
                         android:textSize="16sp"
                         android:textColor="@color/black">
                     </TextView>

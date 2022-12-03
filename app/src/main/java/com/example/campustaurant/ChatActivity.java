@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity implements ClickCallbackListener{
     private static final String TAG = "ChatActivity";
@@ -63,7 +64,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         btnSend = (Button)findViewById(R.id.btnSend);
         etText = (EditText) findViewById(R.id.etText);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        userRef = database.getReference("User").child(stUserToken);
+        userRef = database.getReference("User");
 
         profileRef = database.getReference("Profile").child(stUserToken);
         profileRef.addValueEventListener(new ValueEventListener() {
@@ -105,7 +106,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue(Room.class) == null){
                     if(!stUserToken.equals(stHostToken)){ // 방장이 아니라면
-                        userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
+                        userRef.child(stUserToken).child("room").setValue(null); // 내가 들어간 대기방 정보 파기
                         Toast.makeText(ChatActivity.this, "더이상 존재하지 않는 방입니다.", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -115,7 +116,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 if(map != null){
                     for(String banUser : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 banUser에 저장
                         if(stUserToken.equals(banUser)){
-                            userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
+                            userRef.child(stUserToken).child("room").setValue(null); // 내가 들어간 대기방 정보 파기
                             Toast.makeText(ChatActivity.this, "강퇴당하셨습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
@@ -157,12 +158,22 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 finish(); // ChatActivity를 종료하면 다시 MainActivity로 돌아감
 
                 if(stUserId.equals(stOtherId)){ // 방장이 나가면
-                    userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
+                    userRef.child(stUserToken).child("room").setValue(null); // 내가 들어간 대기방 정보 파기
                     roomRef.setValue(null); // 대기방을 폭파함
                     ref.setValue(null); // 채팅방을 폭파함
+
+                    userRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                        @Override
+                        public void onSuccess(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot childSnapshot: dataSnapshot.getChildren()){
+                                String userToken = childSnapshot.getKey();
+                                userRef.child(userToken).child("room").setValue(null); // 내가 들어간 대기방 정보 파기
+                            }
+                        }
+                    });
                 }
                 else{ // 방장외 유저가 나가면
-                    userRef.child("room").setValue(null); // 내가 들어간 대기방 정보 파기
+                    userRef.child(stUserToken).child("room").setValue(null); // 내가 들어간 대기방 정보 파기
 
                     Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
                     SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
