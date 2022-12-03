@@ -2,6 +2,7 @@ package com.example.campustaurant;
 
 public class Notification {
     private String datetime;
+    private String otherToken;
     private String userName;
     private String uri;
     private String rate;
@@ -10,8 +11,9 @@ public class Notification {
 
     public Notification() {}
 
-    public Notification(String datetime, String userName, String uri, String rate, String review, int rating) {
+    public Notification(String datetime, String otherToken, String userName, String uri, String rate, String review, int rating) {
         this.datetime = datetime;
+        this.otherToken = otherToken;
         this.userName = userName;
         this.uri = uri;
         this.rate = rate;
@@ -25,6 +27,14 @@ public class Notification {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public String getOtherToken() {
+        return otherToken;
+    }
+
+    public void setOtherToken(String otherToken) {
+        this.otherToken = otherToken;
     }
 
     public String getUserName() {

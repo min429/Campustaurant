@@ -440,8 +440,11 @@ public class MainFragment extends Fragment{
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     Notification notification = postSnapshot.getValue(Notification.class);
                     Log.d(TAG, "notificationList: "+notificationList);
-                    if(notification != null)
-                        notificationList.add(notification);
+                    if(notification != null){
+                        if(stUserToken.equals(notification.getOtherToken()))
+                            notificationList.add(notification);
+                    }
+
                 }
                 notificationAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
             }

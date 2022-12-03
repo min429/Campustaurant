@@ -41,11 +41,28 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.tvReview.setText(notificationList.get(position).getReview());
         holder.tvRating.setText(Integer.toString(notificationList.get(position).getRating()));
         Glide.with(holder.itemView).load(notificationList.get(position).getUri()).into(holder.ivProfile);
-        if(notificationList.get(position).getRate() == "good"){
+        if(notificationList.get(position).getRate().equals("good")){
             Glide.with(holder.itemView).load("https://firebasestorage.googleapis.com/v0/b/campustaurant.appspot.com/o/rate%2Fgood.png?alt=media&token=45798afe-40cf-48d1-b963-1f7f1a722883").into(holder.ivRating);
         }
-        else if(notificationList.get(position).getRate() == "bad"){
+        else if(notificationList.get(position).getRate().equals("bad")){
             Glide.with(holder.itemView).load("https://firebasestorage.googleapis.com/v0/b/campustaurant.appspot.com/o/rate%2Fbad.png?alt=media&token=f62171b2-9099-4cec-86a0-567f9d267482").into(holder.ivRating);
+        }
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() { // 롱 클릭
+            @Override
+            public boolean onLongClick(View view) {
+                remove(holder.getAdapterPosition()); // 뷰 지움
+                return true;
+            }
+        });
+    }
+
+    public void remove(int position){
+        try{
+            notificationList.remove(position);
+            notifyItemRemoved(position);
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
         }
     }
 

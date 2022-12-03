@@ -41,6 +41,7 @@ public class ReviewActivity extends AppCompatActivity {
     String myToken;
     String stUserName;
     String stUserToken;
+    String stOtherToken;
     String stUri;
     String stRate;
     String stReview;
@@ -63,10 +64,10 @@ public class ReviewActivity extends AppCompatActivity {
         etReview = findViewById(R.id.et_review);
         myToken = getIntent().getStringExtra("myToken");
 
-        profileRef = database.getReference("Profile").child(stUserToken);
-        profileRef.addValueEventListener(new ValueEventListener() {
+        profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                stOtherToken = dataSnapshot.getKey();
                 Profile profile = dataSnapshot.getValue(Profile.class);
                 stUserName = profile.getName();
                 stUri = profile.getUri();
@@ -89,6 +90,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 good = true;
+                Glide.with(ReviewActivity.this).load("https://firebasestorage.googleapis.com/v0/b/campustaurant.appspot.com/o/rate%2Fgoodcheck.png?alt=media&token=df9e942c-faf8-486b-b8e4-f5b425008bd8").into(ivGood);
             }
         });
 
@@ -96,6 +98,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 bad = true;
+                Glide.with(ReviewActivity.this).load("https://firebasestorage.googleapis.com/v0/b/campustaurant.appspot.com/o/rate%2Fbadcheck.png?alt=media&token=556caf46-0445-4a99-a5ed-c110cf3bc6d1").into(ivBad);
             }
         });
 
@@ -103,7 +106,6 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(good){
-                    Toast.makeText(ReviewActivity.this, "down", Toast.LENGTH_SHORT).show();
                     recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
                         public void onSuccess(DataSnapshot dataSnapshot) {
@@ -117,7 +119,6 @@ public class ReviewActivity extends AppCompatActivity {
                     stRate = "good";
                 }
                 else if(bad){
-                    Toast.makeText(ReviewActivity.this, "down", Toast.LENGTH_SHORT).show();
                     recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
                         public void onSuccess(DataSnapshot dataSnapshot) {
@@ -139,6 +140,7 @@ public class ReviewActivity extends AppCompatActivity {
                 Hashtable<String, String> table // DB테이블에 넣을 해시테이블
                         = new Hashtable<String, String>();
                 table.put("datetime", datetime); // DB의 datetime란에 datetime값
+                table.put("otherToken", stOtherToken); // DB의 otherToken란에 stOtherToken값
                 table.put("userName", stUserName); // DB의 userName란에 stUserName값
                 table.put("uri", stUri); // DB의 uri란에 stUri값
                 table.put("rate", stRate); // DB의 rate란에 stRate값
@@ -146,6 +148,8 @@ public class ReviewActivity extends AppCompatActivity {
 
                 notificationRef.child(datetime).setValue(table); // 입력
                 notificationRef.child(datetime).child("rating").setValue(intRating); // DB의 rating란에 intRating값
+
+                finish();
             }
         });
 
