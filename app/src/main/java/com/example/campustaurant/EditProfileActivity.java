@@ -131,7 +131,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 dbRef.child("sex").setValue(stSex);
                 dbRef.child("introduce").setValue(stIntroduce);
 
-                dbRef.child("uri").setValue(stUri);
+                if(stUri != null)
+                    dbRef.child("uri").setValue(stUri);
 
                 //setResult(RESULT_OK, getIntent());
                 finish();
@@ -161,8 +162,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference dbRef = database.getReference("Profile");
+
         stUserToken = mFirebaseUser.getUid();
 
         if(requestCode == GALLERY_CODE){
