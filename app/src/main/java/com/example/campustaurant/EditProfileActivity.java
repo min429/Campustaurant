@@ -64,6 +64,7 @@ public class EditProfileActivity extends AppCompatActivity {
     String stName;
     String stSex;
     String stIntroduce;
+    String stUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +131,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 dbRef.child("sex").setValue(stSex);
                 dbRef.child("introduce").setValue(stIntroduce);
 
+                dbRef.child("uri").setValue(stUri);
+
                 //setResult(RESULT_OK, getIntent());
                 finish();
             }
@@ -172,22 +175,23 @@ public class EditProfileActivity extends AppCompatActivity {
             imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    dbRef.child(stUserToken).child("uri").setValue(String.valueOf(uri));
+//                    dbRef.child(stUserToken).child("uri").setValue(String.valueOf(uri));
+                    stUri = String.valueOf(uri);
                 }
             });
 
 
             // 갤러리 이미지 세팅
-//            try{
-//                InputStream in = getContentResolver().openInputStream(data.getData());
-//                img = BitmapFactory.decodeStream(in);
-//                in.close();
-//                ivProfile.setImageBitmap(img);
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            try{
+                InputStream in = getContentResolver().openInputStream(data.getData());
+                Bitmap img = BitmapFactory.decodeStream(in);
+                in.close();
+                ivProfile.setImageBitmap(img);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
