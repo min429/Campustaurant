@@ -196,7 +196,7 @@
                             android:shadowColor="@color/black"
                             android:shadowDx="-7.0"
                             android:shadowDy="7.0"
-                            android:text="Real-time Queueing"
+                            android:text="Real-time Room"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
