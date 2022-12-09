@@ -23,17 +23,18 @@
                     android:layout_gravity="center">
                     <ImageView
                         android:id="@+id/img_roomfoodpic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
                         android:background="@drawable/imageshape"
-                        android:src="@drawable/food1"><!--둥글게 : java파일 roomfoodpic.clipToOutline = true추가-->
+                        android:src="@drawable/bossam"><!--둥글게 : java파일 roomfoodpic.clipToOutline = true추가-->
                     </ImageView>
                     <TextView
                         android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Pork Back-bone Stew"
-                        android:textSize="10sp">
+                        android:text="보쌈"
+                        android:textSize="20sp">
                     </TextView>
                 </FrameLayout>
             </LinearLayout>
@@ -73,7 +74,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Guys, let's eat WRYYYY!!!!!"
-                            android:maxLength="30"
+                            android:maxLines="1"
                             android:layout_marginLeft="4dp"
                             android:textSize="12sp"
                             android:paddingTop="6dp"
@@ -107,7 +108,7 @@
                             android:id="@+id/tv_roomrestaurantname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Master of rice soup"
+                            android:text="대동집"
                             android:maxLength="30"
                             android:layout_marginLeft="4dp"
                             android:textSize="12sp"
@@ -125,11 +126,12 @@
                         android:id="@+id/tv_roomtag1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="# Come in five minutes # Don't be late\n # talkative friends # funny friends \n # regardless of gender!!"
-                        android:textSize="10sp"
-                        android:maxLines="3"
+                        android:text="# Come in five minutes # Don't be late # talkative friends # funny friends  # regardless of gender!!"
+                        android:textSize="12sp"
+                        android:maxLines="1"
                         android:ellipsize="end"
-                        android:padding="2dp">
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp">
                     </TextView>
                 </LinearLayout>
             </LinearLayout>

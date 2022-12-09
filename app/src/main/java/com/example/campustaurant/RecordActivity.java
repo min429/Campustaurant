@@ -124,7 +124,7 @@ public class RecordActivity extends AppCompatActivity {
 
 
 
-        recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").addValueEventListener(new ValueEventListener() {
+        recordRef.child("2022-12-09").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tvName.setText(dataSnapshot.child("name").getValue(String.class));

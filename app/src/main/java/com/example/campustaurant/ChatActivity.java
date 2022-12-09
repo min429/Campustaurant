@@ -48,12 +48,14 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
     DatabaseReference profileRef;
     DatabaseReference userRef;
     ArrayList<Chat> chatArrayList; // Chat 객체 배열
+    boolean mycheck = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        mycheck = false;
         database = FirebaseDatabase.getInstance();
         chatArrayList = new ArrayList<>();
         stUserId = getIntent().getStringExtra("email"); // intent를 호출한 MainActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
@@ -84,12 +86,16 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         roomRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onSuccess mycheck: ");
                 DataSnapshot childSnapshot = dataSnapshot.child("guest");
                 HashMap<String,String> guestMap = (HashMap<String,String>)childSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
                 if(guestMap == null){ // 채팅방에 아무도 입장하지 않은경우
                     roomRef.child("guest").child(stUserToken).setValue(""); // 입장한 유저 저장
+                    mycheck = true;
+                    Log.d(TAG, "stUserToken: "+stUserToken);
                 }
                 else{ // 이미 입장해있는 유저가 있는 경우
+                    mycheck = true;
                     for(String userToken: guestMap.keySet()){
                         if(userToken.equals(stUserToken)){ // guest에 본인이 이미 저장되어있는 경우
                             return;
@@ -98,6 +104,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                     // guest에 본인이 저장되어있지 않은 경우
                     roomRef.child("guest").child(stUserToken).setValue(""); // 입장한 유저 저장
                 }
+
             }
         });
 
@@ -122,14 +129,18 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                         }
                     }
                 }
-
+                Log.d(TAG, "mycheck: "+mycheck);
                 DataSnapshot snapshot = dataSnapshot.child("guest");
                 HashMap<String,String> guestMap = (HashMap<String,String>)snapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
-                if(guestMap != null){
+                Log.d(TAG, "guestMap: "+guestMap);
+                if(guestMap != null)
+                    Log.d(TAG, "guestMap.keyset(): "+guestMap.keySet());
+                if(guestMap != null && mycheck){
                     Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
                     SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
                     String datetime = dateformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
                     for(String guest : guestMap.keySet()){
+                        Log.d(TAG, "stUserName: "+stUserName);
                         if(!guestMap.get(guest).equals("check")){ // 만약 해당 유저 입장여부를 체크하지 않았다면
                             Hashtable<String, String> table // DB테이블에 넣을 해시테이블
                                     = new Hashtable<String, String>();
@@ -141,6 +152,8 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
 
                             ref.child(datetime).setValue(table); // 입력
                             roomRef.child("guest").child(guest).setValue("check"); // 유저 입장 체크 완료
+
+                            mycheck = false;
                         }
                     }
                 }
