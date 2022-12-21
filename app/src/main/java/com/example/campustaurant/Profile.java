@@ -1,6 +1,9 @@
 package com.example.campustaurant;
 
-public class Profile {
+import java.io.Serializable;
+
+public class Profile implements Serializable {
+    private String userToken;
     private String name = "익명";
     private String sex = "";
     private String introduce = "";
@@ -9,12 +12,21 @@ public class Profile {
 
     public Profile() {}
 
-    public Profile(String name, String sex, String introduce, String uri, int rating) {
+    public Profile(String userToken, String name, String sex, String introduce, String uri, int rating) {
+        this.userToken = userToken;
         this.name = name;
         this.sex = sex;
         this.introduce = introduce;
         this.uri = uri;
         this.rating = rating;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public String getName() {

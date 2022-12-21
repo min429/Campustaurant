@@ -66,7 +66,7 @@
 
         <!--recyclerview: 많은 수의 데이터 집합을, 제한된 영역 내에서 유연하게(flexible) 표시할 수 있도록 만들어주는 위젯-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
+            android:id="@+id/rv_notification"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarFadeDuration="0"

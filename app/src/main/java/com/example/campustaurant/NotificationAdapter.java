@@ -24,7 +24,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private ArrayList<Notification> notificationList;
 
     public NotificationAdapter(ArrayList<Notification> notificationList) { // Constructer(생성자)
-        this.notificationList = notificationList; // RestaurantActivity에서 생성된 restaurantList로 초기화
+        this.notificationList = notificationList;
     }
 
     @NonNull

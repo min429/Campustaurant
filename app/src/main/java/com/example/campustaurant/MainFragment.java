@@ -44,9 +44,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
-public class MainFragment extends Fragment{
+public class MainFragment extends Fragment implements ClickCallbackListener{
     private static final String TAG = "MainFragment";
 
     private final int GALLERY_CODE = 10;
@@ -60,10 +61,17 @@ public class MainFragment extends Fragment{
     DatabaseReference notificationRef;
     private ArrayList<Location> locaArrayList;
     ArrayList<String> foodArrayList;
+    // 알림
     ArrayList<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    // 최근기록
+    DatabaseReference historyRef;
+    ArrayList<History> historyArrayList;
+    private RecordListAdapter recordListAdapter;
+    private RecyclerView recyclerView2;
+    private LinearLayoutManager linearLayoutManager2;
     Profile profile;
     LinearLayout llRoom;
     Button btnEnter;
@@ -130,7 +138,8 @@ public class MainFragment extends Fragment{
         ivFood = rootView.findViewById(R.id.iv_foodimg);
         tvFood = rootView.findViewById(R.id.tv_foodName);
         locaArrayList = new ArrayList<>();
-        recyclerView = (RecyclerView)rootView.findViewById(R.id.rv);
+        // 알림
+        recyclerView = (RecyclerView)rootView.findViewById(R.id.rv_notification);
         linearLayoutManager = new LinearLayoutManager(mainActivity);
         // 리사이클러뷰 설정
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -139,6 +148,17 @@ public class MainFragment extends Fragment{
         notificationAdapter = new NotificationAdapter(notificationList); // restaurantList에 담긴 것들을 어댑터에 담아줌
         // this -> RestaurantActivity 객체
         recyclerView.setAdapter(notificationAdapter); // recyclerView에 restaurantAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
+        
+        // 최근기록
+        recyclerView2 = (RecyclerView)rootView.findViewById(R.id.rv_record);
+        linearLayoutManager2 = new LinearLayoutManager(mainActivity);
+        // 리사이클러뷰 설정
+        recyclerView2.setLayoutManager(linearLayoutManager2);
+        // LayoutManager 설정
+        historyArrayList = new ArrayList<>();
+        recordListAdapter = new RecordListAdapter(historyArrayList, this); // historyArrayList에 담긴 것들을 어댑터에 담아줌
+        // this -> RecordListActivity 객체
+        recyclerView2.setAdapter(recordListAdapter); // recyclerView에 recordListAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
 
         stUserId = mainActivity.getIntent().getStringExtra("email"); // intent를 호출한 LoginActivity에서 email이라는 이름으로 넘겨받은 값을 가져와서 저장
         foodArrayList = mainActivity.getIntent().getStringArrayListExtra("foodArrayList");
@@ -432,19 +452,16 @@ public class MainFragment extends Fragment{
             }
         });
 
-        notificationRef = database.getReference("Notification");
+        notificationRef = database.getReference("Notification").child(stUserToken);
         notificationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 notificationList.clear();
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     Notification notification = postSnapshot.getValue(Notification.class);
-                    Log.d(TAG, "notificationList: "+notificationList);
                     if(notification != null){
-                        if(stUserToken.equals(notification.getOtherToken()))
-                            notificationList.add(notification);
+                        notificationList.add(notification);
                     }
-
                 }
                 notificationAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
             }
@@ -454,8 +471,43 @@ public class MainFragment extends Fragment{
             }
         });
 
+        historyRef = database.getReference("History").child(stUserToken);
+        historyRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                historyArrayList.clear();
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    History history = postSnapshot.getValue(History.class);
+                    history.setDate(postSnapshot.getKey());
+                    historyArrayList.add(history);
+                }
+                recordListAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
         return rootView;
     }
+
+    @Override
+    public void onClick(int position) {
+        HashMap<String, String> userMap = historyArrayList.get(position).getUser();
+        String stRestaurant = historyArrayList.get(position).getRestaurant();
+        String stDate = historyArrayList.get(position).getDate();
+
+        Intent intent = new Intent(mainActivity, RecordActivity.class);
+        intent.putExtra("userMap", userMap);
+        intent.putExtra("date", stDate);
+        intent.putExtra("restaurant", stRestaurant);
+        startActivity(intent);
+    }
+
+    @Override
+    public void delete(int position) {}
+
+    @Override
+    public void remove(int position) {}
 
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -47,6 +47,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
     DatabaseReference roomRef;
     DatabaseReference profileRef;
     DatabaseReference userRef;
+    DatabaseReference historyRef;
     ArrayList<Chat> chatArrayList; // Chat 객체 배열
     boolean mycheck = false;
 
@@ -67,6 +68,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         etText = (EditText) findViewById(R.id.etText);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         userRef = database.getReference("User");
+        historyRef =database.getReference("History");
 
         profileRef = database.getReference("Profile").child(stUserToken);
         profileRef.addValueEventListener(new ValueEventListener() {
@@ -171,6 +173,29 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 finish(); // ChatActivity를 종료하면 다시 MainActivity로 돌아감
 
                 if(stUserId.equals(stOtherId)){ // 방장이 나가면
+                    // 최근기록 추가
+                    Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
+                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 포맷 설정
+                    String date = dateformat.format(c.getTime()); // date을 현재 날짜정보로 설정
+
+                    roomRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                        @Override
+                        public void onSuccess(DataSnapshot dataSnapshot) {
+                            HashMap<String,String> guestMap = (HashMap<String,String>)dataSnapshot.child("guest").getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
+                            if(guestMap.size() != 1){
+                                String restaurant = dataSnapshot.child("restaurant").getValue(String.class);
+                                for(String stUserToken: guestMap.keySet()){
+                                    historyRef.child(stUserToken).child(date).child("restaurant").setValue(restaurant);
+                                    for(String userToken : guestMap.keySet()){
+                                        if(!userToken.equals(stUserToken))
+                                            historyRef.child(stUserToken).child(date).child("user").child(userToken).setValue("");
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // 대기방 폭파
                     userRef.child(stUserToken).child("room").setValue(null); // 내가 들어간 대기방 정보 파기
                     roomRef.setValue(null); // 대기방을 폭파함
                     ref.setValue(null); // 채팅방을 폭파함
@@ -186,11 +211,12 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                     });
                 }
                 else{ // 방장외 유저가 나가면
+                    // 퇴장 메세지 입력
                     userRef.child(stUserToken).child("room").setValue(null); // 내가 들어간 대기방 정보 파기
 
                     Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
-                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
-                    String datetime = dateformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
+                    SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
+                    String datetime = datetimeformat.format(c.getTime()); // datetime을 현재 날짜정보로 설정
 
                     Hashtable<String, String> table // DB테이블에 넣을 해시테이블
                             = new Hashtable<String, String>();

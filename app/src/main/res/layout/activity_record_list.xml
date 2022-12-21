@@ -104,9 +104,15 @@
             android:backgroundTint="@color/black">
         </LinearLayout>
 
-        <!--리사이클러 뷰 들어갈 자리-->
-        <include layout="@layout/record_list"/>
-        <!--리사이클러 뷰 들어갈 자리-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@android:color/darker_gray"
+            android:scrollbars="vertical">
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 </LinearLayout>

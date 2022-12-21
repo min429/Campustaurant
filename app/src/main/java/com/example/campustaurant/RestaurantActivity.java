@@ -42,7 +42,6 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
     String stUserId;
     String stFood;
     String inputFood;
-    Button btnEnter;
     EditText etFood;
     LatLng latLng;
     //검색창
@@ -123,24 +122,6 @@ public class RestaurantActivity extends AppCompatActivity implements ClickCallba
                 });
             }
         });
-        
-//        btnEnter = findViewById(R.id.btn_enter);
-//        btnEnter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                inputFood = etFood.getText().toString();
-//
-//                // 새로고침
-//                finish();// 인텐트 종료
-//                overridePendingTransition(0, 0);// 인텐트 효과 없애기
-//                Intent intent = getIntent(); // 인텐트
-//                intent.putExtra("inputFood", inputFood);
-//                intent.putExtra("email", stUserId);
-//                intent.putExtra("locaArrayList", locaArrayList);
-//                startActivity(intent); // 액티비티 열기
-//                overridePendingTransition(0, 0);// 인텐트 효과 없애기
-//            }
-//        });
 
         ref = database.getReference("Food"); // Food하위에서 데이터를 읽기 위해
         ref.addValueEventListener(new ValueEventListener() {
