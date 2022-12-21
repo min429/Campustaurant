@@ -36,13 +36,8 @@ public class RecordActivity extends AppCompatActivity implements ClickCallbackLi
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-//    DatabaseReference recordRef = database.getReference("Record");
     DatabaseReference profileRef = database.getReference("Profile");
     HashMap<String, String> userMap;
-//    TextView tvName;
-//    TextView tvRating;
-//    ImageView ivProfile;
-//    Button btnRate;
     Button btnClose;
     TextView tvDate;
     TextView tvRestaurant;
@@ -65,14 +60,10 @@ public class RecordActivity extends AppCompatActivity implements ClickCallbackLi
         recordAdapter = new RecordAdapter(profileArrayList, this); // profileArrayList에 담긴 것들을 어댑터에 담아줌
         // this -> RecordActivity 객체
         recyclerView.setAdapter(recordAdapter); // recyclerView에 recordAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
-//        tvRating = findViewById(R.id.tv_rating);
         btnClose = findViewById(R.id.btn_close);
         tvDate = findViewById(R.id.tv_date);
         tvRestaurant = findViewById(R.id.tv_restaurant);
         tvPeopleNum = findViewById(R.id.tv_peopleNum);
-//        btnRate = findViewById(R.id.btn_rate);
-//        ivProfile = findViewById(R.id.iv_profile);
-//        tvName = findViewById(R.id.tv_name);
         userMap = (HashMap<String, String>) getIntent().getSerializableExtra("userMap");
         stDate = getIntent().getStringExtra("date");
         stRestaurant = getIntent().getStringExtra("restaurant");
@@ -118,20 +109,6 @@ public class RecordActivity extends AppCompatActivity implements ClickCallbackLi
                 finish();
             }
         });
-
-//        recordRef.child("2022-12-09").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                tvName.setText(dataSnapshot.child("name").getValue(String.class));
-//                tvRating.setText(Integer.toString(dataSnapshot.child("rating").getValue(Integer.class)));
-//                Glide.with(RecordActivity.this).load(dataSnapshot.child("uri").getValue(String.class)).into(ivProfile);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
         profileRef.addValueEventListener(new ValueEventListener() {
             @Override

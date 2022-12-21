@@ -66,11 +66,9 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
     String stUserToken;
     String stHostToken;
     String stUserId;
-    String stRestaurant = null;
     String inputRestaurant;
     EditText etRestaurant;
     FloatingActionButton btnCreate;
-    Button btnEnter;
     LatLng latLng;
     //검색창
     DrawerLayout MainScreen;
@@ -179,32 +177,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
             }
         });
 
-//        btnEnter = findViewById(R.id.btn_enter);
-//        btnEnter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                inputRestaurant = etRestaurant.getText().toString();
-//
-//                // locaArrayList에서 가져온 location으로 latLng 초기화
-//                for(Location location : locaArrayList){
-//                    if(location.getName().equals(inputRestaurant)){
-//                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//                        break;
-//                    }
-//                }
-//                // 인텐트 새로고침
-//                finish(); // 인텐트 종료
-//                overridePendingTransition(0, 0); // 인텐트 효과 없애기
-//                Intent intent = getIntent(); // 인텐트
-//                intent.putExtra("email", stUserId);
-//                intent.putExtra("inputRestaurant", inputRestaurant);
-//                intent.putExtra("locaArrayList", locaArrayList);
-//                intent.putExtra("latLng", latLng);
-//                startActivity(intent);
-//                overridePendingTransition(0, 0); // 인텐트 효과 없애기
-//            }
-//        });
-
         btnCreate = findViewById(R.id.btn_create);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,9 +200,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
                         Room room = postSnapshot.getValue(Room.class);
                         roomArrayList.add(room);
-//                        if (room.getHostId().equals(stUserId)) {
-//                            stRestaurant = room.getRestaurant();
-//                        }
                     }
                 } else {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // room1,2,3... 하나씩 가져옴
@@ -238,9 +207,6 @@ public class RoomListActivity extends AppCompatActivity implements ClickCallback
                         if (room.getRestaurant().equals(inputRestaurant)) {
                             roomArrayList.add(room);
                         }
-//                        if (room.getHostId().equals(stUserId)) {
-//                            stRestaurant = room.getRestaurant();
-//                        }
                     }
                 }
                 roomListAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함

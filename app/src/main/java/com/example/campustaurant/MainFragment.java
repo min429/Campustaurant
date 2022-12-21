@@ -50,7 +50,6 @@ import java.util.Random;
 public class MainFragment extends Fragment implements ClickCallbackListener{
     private static final String TAG = "MainFragment";
 
-    private final int GALLERY_CODE = 10;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     FirebaseStorage storage;
@@ -74,11 +73,12 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
     private LinearLayoutManager linearLayoutManager2;
     Profile profile;
     LinearLayout llRoom;
-    Button btnEnter;
+    Button btnClear;
     LinearLayout llRecommend;
     LinearLayout llRelate;
     EditText etFood;
     TextView tvFood;
+    TextView tvNotificationNum;
     ImageView ivFood;
     ImageView ivProfile;
     String inputFood;
@@ -131,8 +131,9 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
         storage = FirebaseStorage.getInstance();
         ivLogout = rootView.findViewById(R.id.iv_logout);
         llRoom = rootView.findViewById(R.id.ll_room);
-        //btnEnter = rootView.findViewById(R.id.btn_enter);
+        btnClear = rootView.findViewById(R.id.btn_clear);
         btnRecord = rootView.findViewById(R.id.btn_record);
+        tvNotificationNum = rootView.findViewById(R.id.tv_notificationNum);
         llRecommend = rootView.findViewById(R.id.ll_recommend);
         llRelate = rootView.findViewById(R.id.ll_relate);
         ivFood = rootView.findViewById(R.id.iv_foodimg);
@@ -273,14 +274,12 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
             }
         });
 
-
         ibSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, EditProfileActivity.class);
                 intent.putExtra("myToken", stUserToken);
                 startActivity(intent);
-                //startActivityForResult(intent, GALLERY_CODE);
             }
         });
 
@@ -305,29 +304,6 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
                 MainScreen.closeDrawers();
             }
         });
-
-//        //사이드바 기능
-//        DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
-//            @Override
-//            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-//
-//            }
-//
-//            @Override
-//            public void onDrawerOpened(@NonNull View drawerView) {
-//
-//            }
-//
-//            @Override
-//            public void onDrawerClosed(@NonNull View drawerView) {
-//
-//            }
-//
-//            @Override
-//            public void onDrawerStateChanged(int newState) {
-//
-//            }
-//        };
 
         llRecommend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,21 +337,6 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
             }
         });
 
-/*
-        btnEnter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                inputFood = etFood.getText().toString();
-
-                Intent intent = new Intent(mainActivity, RestaurantActivity.class);
-                intent.putExtra("email", stUserId); // stUserId값을 RestaurantActivity에 넘겨줌
-                intent.putExtra("inputFood", inputFood);
-                intent.putExtra("locaArrayList", locaArrayList);
-                startActivity(intent);
-            }
-        });
-*/
-
         llRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -395,6 +356,13 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
                 Intent intent = new Intent(mainActivity, LoginActivity.class);
                 startActivity(intent);
                 mainActivity.finish();
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notificationRef.setValue(null);
             }
         });
 
@@ -464,6 +432,12 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
                     }
                 }
                 notificationAdapter.notifyDataSetChanged(); // 데이터가 바뀐다는 것을 알게 해줘야 함
+                if(notificationList != null && notificationList.size() != 0){
+                    tvNotificationNum.setText(String.valueOf(notificationList.size()));
+                }
+                else{
+                    tvNotificationNum.setText("");
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -508,13 +482,4 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
 
     @Override
     public void remove(int position) {}
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == GALLERY_CODE){
-//            if(resultCode == RESULT_OK){
-//            }
-//        }
-//    }
 }

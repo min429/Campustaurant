@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,12 +37,14 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
     EditText etText;
     Button btnSend;
     Button btnFinish;
+    TextView tvGuestNum;
     String stUserId; // DB에 넣을 email값
     String stOtherId; // 방장 아이디
     String stHostToken; // 방장 토큰
     String stUserToken; // 유저 토큰
     String stUserName; // 유저 이름
     String stUri; // profile uri
+    int guestNum;
     FirebaseDatabase database;
     DatabaseReference ref;
     DatabaseReference roomRef;
@@ -66,6 +69,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         btnFinish = findViewById(R.id.btnFinish);
         btnSend = (Button)findViewById(R.id.btnSend);
         etText = (EditText) findViewById(R.id.etText);
+        tvGuestNum = findViewById(R.id.tv_guestNum);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         userRef = database.getReference("User");
         historyRef =database.getReference("History");
@@ -108,6 +112,20 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 }
 
             }
+        });
+
+        roomRef.child("guest").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String,String> guestMap = (HashMap<String,String>)dataSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
+                if(guestMap != null){
+                    // 게스트 수
+                    guestNum = guestMap.size();
+                    tvGuestNum.setText(String.valueOf(guestNum));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
         roomRef.addValueEventListener(new ValueEventListener() {

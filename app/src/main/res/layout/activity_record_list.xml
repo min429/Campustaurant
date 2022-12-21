@@ -92,7 +92,7 @@
                     android:text="Restaurant Name"
                     android:textSize="16dp"
                     android:textColor="@color/black"
-                    android:maxLength="12"/>
+                    android:maxLength="20"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

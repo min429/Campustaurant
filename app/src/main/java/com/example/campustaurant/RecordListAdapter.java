@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.CustomViewHolder> { // CustomViewHolder는 직접 만들어줘야함
     private static final String TAG = "RecordAdapter";
 
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
     private ArrayList<History> historyArrayList;
     private ClickCallbackListener mListener;
 
@@ -59,7 +63,8 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Cu
     public void remove(int position){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference historyRef = database.getReference("History");
-        historyRef.child(historyArrayList.get(position).getDate()).setValue(null);
+        String stMyToken = firebaseUser.getUid();
+        historyRef.child(stMyToken).child(historyArrayList.get(position).getDate()).setValue(null);
         try{
             historyArrayList.remove(position);
             notifyItemRemoved(position);

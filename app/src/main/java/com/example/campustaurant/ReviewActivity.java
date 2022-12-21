@@ -32,8 +32,6 @@ public class ReviewActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     FirebaseAuth mFirebaseAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-//    DatabaseReference recordRef = database.getReference("Record");
-    DatabaseReference historyRef = database.getReference("History");
     DatabaseReference profileRef = database.getReference("Profile");
     DatabaseReference notificationRef = database.getReference("Notification");
     ImageView ivGood;
@@ -67,17 +65,6 @@ public class ReviewActivity extends AppCompatActivity {
         etReview = findViewById(R.id.et_review);
         profile = (Profile) getIntent().getSerializableExtra("profile");
         stOtherToken = profile.getUserToken();
-
-//        profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                stOtherToken = dataSnapshot.getKey();
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
         profileRef.child(stMyToken).addValueEventListener(new ValueEventListener() {
             @Override
@@ -122,16 +109,6 @@ public class ReviewActivity extends AppCompatActivity {
                 if(good){
                     profileRef.child(stOtherToken).child("rating").setValue(profile.getRating()+1);
 
-//                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-//                        @Override
-//                        public void onSuccess(DataSnapshot dataSnapshot) {
-//                            int rating = dataSnapshot.getValue(Integer.class);
-//                            rating += 1;
-//                            profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
-//                            recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
-//                        }
-//                    });
-
                     /*
                     recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").child(stMyToken).setValue("");
                     */
@@ -139,16 +116,6 @@ public class ReviewActivity extends AppCompatActivity {
                 }
                 else if(bad){
                     profileRef.child(stOtherToken).child("rating").setValue(profile.getRating()-1);
-
-//                    recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-//                        @Override
-//                        public void onSuccess(DataSnapshot dataSnapshot) {
-//                            int rating = dataSnapshot.getValue(Integer.class);
-//                            rating -= 1;
-//                            profileRef.child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
-//                            recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rating").setValue(rating);
-//                        }
-//                    });
 
                     /*
                     recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").child(stMyToken).setValue("");

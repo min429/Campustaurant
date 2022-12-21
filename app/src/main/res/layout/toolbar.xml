@@ -46,12 +46,23 @@
                 android:layout_weight="0.5">
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/Ib_OpenNotification"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/notification"/>
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/Ib_OpenNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/notification"/>
+                <TextView
+                    android:id="@+id/tv_notificationNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_gravity="right" />
+            </FrameLayout>
+
         </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>

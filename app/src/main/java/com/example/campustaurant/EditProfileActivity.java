@@ -106,7 +106,6 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 권한 확인
-//                boolean hasCamPerm = checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
                 boolean hasWritePerm = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
                 if (!hasWritePerm){
                     // 권한 없을 시  권한설정 요청
@@ -134,7 +133,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(stUri != null)
                     dbRef.child("uri").setValue(stUri);
 
-                //setResult(RESULT_OK, getIntent());
                 finish();
             }
         });
@@ -175,7 +173,6 @@ public class EditProfileActivity extends AppCompatActivity {
             imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-//                    dbRef.child(stUserToken).child("uri").setValue(String.valueOf(uri));
                     stUri = String.valueOf(uri);
                 }
             });
