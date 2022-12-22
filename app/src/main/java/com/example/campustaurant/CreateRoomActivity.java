@@ -653,7 +653,6 @@ public class CreateRoomActivity extends AppCompatActivity implements OnMapReadyC
                         for(int i=0; i<tagArrayList.size(); i++){
                             myRef.child(stUserToken).child("tag").child("tag"+(i+1)).setValue(tagArrayList.get(i));
                         }
-                        myRef.child(stUserToken).child("ban").child("userToken").setValue("");
                         userRef.child("room").setValue(stUserToken); // 들어간 방 확정
 
                         chatRef = database.getReference("Chat").child(stUserToken);

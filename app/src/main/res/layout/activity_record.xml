@@ -73,6 +73,7 @@
                     android:ellipsize="end"
                     android:text="18/12/2022"
                     android:textSize="16dp"
+                    android:maxLength="10"
                     android:textColor="@color/black"/>
             </LinearLayout>
             <LinearLayout

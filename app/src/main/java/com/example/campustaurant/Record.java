@@ -1,17 +1,15 @@
 package com.example.campustaurant;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class History {
+public class Record {
     private String date;
     private String restaurant;
     private HashMap<String, String> user;
 
-    public History() {}
+    public Record() {}
 
-    public History(String date, String restaurant, HashMap<String, String> user) {
+    public Record(String date, String restaurant, HashMap<String, String> user) {
         this.date = date;
         this.restaurant = restaurant;
         this.user = user;

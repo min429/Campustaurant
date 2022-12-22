@@ -50,7 +50,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
     DatabaseReference roomRef;
     DatabaseReference profileRef;
     DatabaseReference userRef;
-    DatabaseReference historyRef;
+    DatabaseReference recordRef;
     ArrayList<Chat> chatArrayList; // Chat 객체 배열
     boolean mycheck = false;
 
@@ -72,7 +72,7 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
         tvGuestNum = findViewById(R.id.tv_guestNum);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         userRef = database.getReference("User");
-        historyRef =database.getReference("History");
+        recordRef =database.getReference("Record");
 
         profileRef = database.getReference("Profile").child(stUserToken);
         profileRef.addValueEventListener(new ValueEventListener() {
@@ -193,8 +193,8 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                 if(stUserId.equals(stOtherId)){ // 방장이 나가면
                     // 최근기록 추가
                     Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
-                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 포맷 설정
-                    String date = dateformat.format(c.getTime()); // date을 현재 날짜정보로 설정
+                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm"); // 날짜 포맷 설정
+                    String date = dateformat.format(c.getTime()); // date를 현재 날짜정보로 설정
 
                     roomRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
@@ -203,10 +203,10 @@ public class ChatActivity extends AppCompatActivity implements ClickCallbackList
                             if(guestMap.size() != 1){
                                 String restaurant = dataSnapshot.child("restaurant").getValue(String.class);
                                 for(String stUserToken: guestMap.keySet()){
-                                    historyRef.child(stUserToken).child(date).child("restaurant").setValue(restaurant);
+                                    recordRef.child(stUserToken).child(date).child("restaurant").setValue(restaurant);
                                     for(String userToken : guestMap.keySet()){
                                         if(!userToken.equals(stUserToken))
-                                            historyRef.child(stUserToken).child(date).child("user").child(userToken).setValue("");
+                                            recordRef.child(stUserToken).child(date).child("user").child(userToken).setValue("");
                                     }
                                 }
                             }

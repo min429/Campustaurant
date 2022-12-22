@@ -1,6 +1,5 @@
 package com.example.campustaurant;
 
-import static android.app.Activity.RESULT_OK;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 import android.content.Context;
@@ -18,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,8 +64,8 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     // 최근기록
-    DatabaseReference historyRef;
-    ArrayList<History> historyArrayList;
+    DatabaseReference recordRef;
+    ArrayList<Record> recordArrayList;
     private RecordListAdapter recordListAdapter;
     private RecyclerView recyclerView2;
     private LinearLayoutManager linearLayoutManager2;
@@ -156,8 +154,8 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
         // 리사이클러뷰 설정
         recyclerView2.setLayoutManager(linearLayoutManager2);
         // LayoutManager 설정
-        historyArrayList = new ArrayList<>();
-        recordListAdapter = new RecordListAdapter(historyArrayList, this); // historyArrayList에 담긴 것들을 어댑터에 담아줌
+        recordArrayList = new ArrayList<>();
+        recordListAdapter = new RecordListAdapter(recordArrayList, this); // recordArrayList에 담긴 것들을 어댑터에 담아줌
         // this -> RecordListActivity 객체
         recyclerView2.setAdapter(recordListAdapter); // recyclerView에 recordListAdapter를 세팅해 주면 recyclerView가 이 어댑터를 사용해서 화면에 데이터를 띄워줌
 
@@ -445,15 +443,15 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
             }
         });
 
-        historyRef = database.getReference("History").child(stUserToken);
-        historyRef.addValueEventListener(new ValueEventListener() {
+        recordRef = database.getReference("Record").child(stUserToken);
+        recordRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                historyArrayList.clear();
+                recordArrayList.clear();
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
-                    History history = postSnapshot.getValue(History.class);
-                    history.setDate(postSnapshot.getKey());
-                    historyArrayList.add(history);
+                    Record record = postSnapshot.getValue(Record.class);
+                    record.setDate(postSnapshot.getKey());
+                    recordArrayList.add(record);
                 }
                 recordListAdapter.notifyDataSetChanged();
             }
@@ -466,14 +464,15 @@ public class MainFragment extends Fragment implements ClickCallbackListener{
 
     @Override
     public void onClick(int position) {
-        HashMap<String, String> userMap = historyArrayList.get(position).getUser();
-        String stRestaurant = historyArrayList.get(position).getRestaurant();
-        String stDate = historyArrayList.get(position).getDate();
+        HashMap<String, String> userMap = recordArrayList.get(position).getUser();
+        String stRestaurant = recordArrayList.get(position).getRestaurant();
+        String stDate = recordArrayList.get(position).getDate();
 
         Intent intent = new Intent(mainActivity, RecordActivity.class);
         intent.putExtra("userMap", userMap);
         intent.putExtra("date", stDate);
         intent.putExtra("restaurant", stRestaurant);
+        intent.putExtra("myToken", stUserToken);
         startActivity(intent);
     }
 

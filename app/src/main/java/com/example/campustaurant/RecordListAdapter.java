@@ -20,11 +20,11 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Cu
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-    private ArrayList<History> historyArrayList;
+    private ArrayList<Record> recordArrayList;
     private ClickCallbackListener mListener;
 
-    public RecordListAdapter(ArrayList<History> historyArrayList, ClickCallbackListener mListener) { // Constructer(생성자)
-        this.historyArrayList = historyArrayList;
+    public RecordListAdapter(ArrayList<Record> recordArrayList, ClickCallbackListener mListener) { // Constructer(생성자)
+        this.recordArrayList = recordArrayList;
         this.mListener = mListener;
     }
 
@@ -41,8 +41,8 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Cu
 
     @Override
     public void onBindViewHolder(@NonNull RecordListAdapter.CustomViewHolder holder, int position) { // RecordAdapter.CustomViewHolder에서 생성된 holder를 받아옴
-        holder.tvDate.setText(historyArrayList.get(position).getDate());
-        holder.tvRestaurant.setText(historyArrayList.get(position).getRestaurant());
+        holder.tvDate.setText(recordArrayList.get(position).getDate());
+        holder.tvRestaurant.setText(recordArrayList.get(position).getRestaurant());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,11 +62,11 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Cu
 
     public void remove(int position){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference historyRef = database.getReference("History");
+        DatabaseReference recordRef = database.getReference("Record");
         String stMyToken = firebaseUser.getUid();
-        historyRef.child(stMyToken).child(historyArrayList.get(position).getDate()).setValue(null);
+        recordRef.child(stMyToken).child(recordArrayList.get(position).getDate()).setValue(null);
         try{
-            historyArrayList.remove(position);
+            recordArrayList.remove(position);
             notifyItemRemoved(position);
         }catch(IndexOutOfBoundsException e){
             e.printStackTrace();
@@ -75,7 +75,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Cu
 
     @Override
     public int getItemCount() {
-        return (null != historyArrayList ? historyArrayList.size() : 0);
+        return (null != recordArrayList ? recordArrayList.size() : 0);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {

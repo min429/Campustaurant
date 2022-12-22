@@ -37,6 +37,7 @@ public class RecordActivity extends AppCompatActivity implements ClickCallbackLi
     private LinearLayoutManager linearLayoutManager;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference profileRef = database.getReference("Profile");
+    DatabaseReference recordRef = database.getReference("Record");
     HashMap<String, String> userMap;
     Button btnClose;
     TextView tvDate;
@@ -44,8 +45,8 @@ public class RecordActivity extends AppCompatActivity implements ClickCallbackLi
     TextView tvPeopleNum;
     String stDate;
     String stRestaurant;
+    String stMyToken;
     int peopleNum;
-    boolean rate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,41 +68,12 @@ public class RecordActivity extends AppCompatActivity implements ClickCallbackLi
         userMap = (HashMap<String, String>) getIntent().getSerializableExtra("userMap");
         stDate = getIntent().getStringExtra("date");
         stRestaurant = getIntent().getStringExtra("restaurant");
+        stMyToken = getIntent().getStringExtra("myToken");
         peopleNum = userMap.size();
 
         tvDate.setText(stDate);
         tvRestaurant.setText(stRestaurant);
         tvPeopleNum.setText(String.valueOf(peopleNum));
-
-        /*
-        recordRef.child("2022-11-27").child("profile").child("GvzJKeUd8BSi9dQDCo0oYHtkhbJ3").child("rate").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String,String> map = (HashMap<String,String>)dataSnapshot.getValue(); // 파이어베이스 DB는 Map형태로 저장되어있기 때문에 HashMap/Map으로 불러와야함
-                if(map != null){
-                    for(String rateUser : map.keySet()){ // map객체의 key값 리스트에서 값을 하나씩 가져와서 rateUser에 저장
-                        if(rateUser.equals(stMyToken)) rate = true;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        */
-
-        /*
-        btnRate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RecordActivity.this, ReviewActivity.class);
-                intent.putExtra("myToken", stMyToken);
-                startActivity(intent);
-            }
-        });
-        */
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,10 +105,22 @@ public class RecordActivity extends AppCompatActivity implements ClickCallbackLi
 
     @Override
     public void onClick(int position) {
-        Profile profile = profileArrayList.get(position);
-        Intent intent = new Intent(RecordActivity.this, ReviewActivity.class);
-        intent.putExtra("profile", (Serializable) profile);
-        startActivity(intent);
+        // 이미 리뷰썼는지 확인
+        recordRef.child(stMyToken).child(stDate).child("user").child(profileArrayList.get(position).getUserToken()).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                String rate = dataSnapshot.getValue(String.class);
+                if(rate.equals("check")) // 이미 썼다면
+                    Toast.makeText(RecordActivity.this, "이미 리뷰를 남긴 유저입니다.", Toast.LENGTH_SHORT).show();
+                else { // 아직 쓰지 않았다면
+                    Profile profile = profileArrayList.get(position);
+                    Intent intent = new Intent(RecordActivity.this, ReviewActivity.class);
+                    intent.putExtra("profile", (Serializable) profile);
+                    intent.putExtra("date", stDate);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override

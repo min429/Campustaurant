@@ -93,8 +93,9 @@ public class ChatProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(stMyToken.equals(stHostToken) && !stUserToken.equals(stHostToken)){ // 방장일 경우, 방장이외의 유저를 강퇴할 수 있음
-                    roomRef.child("ban").child(stUserToken).setValue("");
-                    userRef.child("room").child(stHostToken).setValue(null);
+                    roomRef.child("ban").child(stUserToken).setValue(""); // ban처리
+                    userRef.child("room").child(stHostToken).setValue(null); // 들어간 방 목록에서 삭제
+                    roomRef.child("guest").child(stUserToken).setValue(null); // guest목록에서 삭제
 
                     Calendar c = Calendar.getInstance(); // 현재 날짜정보 가져옴
                     SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 날짜 포맷 설정
