@@ -46,7 +46,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.CustomView
         holder.tvRating.setText(Integer.toString(profileArrayList.get(position).getRating()));
         Glide.with(holder.itemView).load(profileArrayList.get(position).getUri()).into(holder.ivProfile);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        // 버튼을 클릭했을 때만 클릭을 감지하도록 findViewById(R.id.btn_rate) 추가
+        holder.itemView.findViewById(R.id.btn_rate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { // restaurant_list의 각 LinearLayout을 짧게 누르면 발생
                 mListener.onClick(holder.getAdapterPosition()); // 콜백함수

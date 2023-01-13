@@ -70,7 +70,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
         else{
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.all_text_view, parent, false); // v를 other_text_view로 적용
+                    .inflate(R.layout.all_text_view, parent, false); // v를 all_text_view로 적용
         }
 
         return new MyViewHolder(v);
@@ -98,12 +98,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             }
         }
         holder.itemView.setTag(position); // itemView의 position(위치)값을 가져옴
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { // room_list의 각 LinearLayout을 짧게 누르면 발생
-                mListener.onClick(holder.getAdapterPosition()); // 콜백함수
-            }
-        });
+        if(holder.itemView.findViewById(R.id.iv_profile) != null){ // 채팅에 프로필이 있는 경우에만
+            // 프로필을 눌렀을 때에만 클릭을 감지하도록 findViewById(R.id.iv_profile) 추가
+            holder.itemView.findViewById(R.id.iv_profile).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) { // room_list의 각 LinearLayout을 짧게 누르면 발생
+                    mListener.onClick(holder.getAdapterPosition()); // 콜백함수
+                }
+            });
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
