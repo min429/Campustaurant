@@ -142,7 +142,7 @@
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="zl4i2s3j2o" />
+            android:value="${MAP_API_KEY}" />
     </application>
 
 </manifest>
